@@ -139,15 +139,7 @@ function ProjectCard({ project, index }) {
   return (
     <article className={`project-card project-${project.visual}`}>
       <div className={`project-visual visual-${project.accent}`}>
-        <div className="visual-grid" />
         <ProjectVisual project={project} />
-        <span
-          className="visual-index"
-          data-reveal
-          data-direction="left"
-          data-distance="10">
-          CASE / {project.number}
-        </span>
       </div>
       <div className="project-info">
         <div className="project-meta" data-reveal data-distance="12">
