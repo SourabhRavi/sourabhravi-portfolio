@@ -294,7 +294,7 @@ export default function App() {
     <div className="app-shell" id="top" ref={rootRef}>
       <GradientBlinds
         className="site-gradient-blinds"
-        gradientColors={["#FF9FFC", "#5227FF"]}
+        gradientColors={["#10182a", "#39366d", "#8060a6", "#c7ff4a"]}
         angle={20}
         noise={0.3}
         blindCount={16}
@@ -311,11 +311,13 @@ export default function App() {
         perspective={-0.22}
         gradientSpeed={0}
         distortAmount={0}
+        lightColor="#c7ff4a"
+        lightMode={false}
         clickEffect="ripple"
         idle="drift"
         intro={true}
-        mixBlendMode="lighten"
-      />      <div className="ambient ambient-one" aria-hidden="true" />
+        mixBlendMode="screen"
+      />     <div className="ambient ambient-one" aria-hidden="true" />
       <div className="ambient ambient-two" aria-hidden="true" />
       <PortfolioGlowCursor />
       <Header />
