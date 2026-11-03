@@ -3,9 +3,9 @@ export const profile = {
   name: "Sourabh Ravi",
   role: "Product-minded Software Engineer",
   location: "India · Open to remote & relocation",
-  email: "",
-  github: "",
-  linkedin: "",
+  email: "sourabh.k.ravi@gmail.com",
+  github: "https://github.com/SourabhRavi",
+  linkedin: "https://www.linkedin.com/in/sourabh-k-ravi/",
   resume: "",
   upwork: "",
 };

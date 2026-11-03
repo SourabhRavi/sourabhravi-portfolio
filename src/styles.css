@@ -595,7 +595,7 @@ a:focus-visible {
   align-items: center;
   gap: 10px;
   color: #858c96;
-  font-size: 9px;
+  font-size: 10px;
   padding-bottom: 19px;
   border-bottom: 1px solid var(--line);
 }
@@ -664,7 +664,7 @@ a:focus-visible {
   display: flex;
   justify-content: space-between;
   color: #707781;
-  font: 8px var(--mono);
+  font: 9px var(--mono);
   letter-spacing: 0.08em;
 }
 .intro-signoff span {
@@ -1126,7 +1126,7 @@ a:focus-visible {
   justify-content: space-between;
   gap: 15px;
   color: #737b86;
-  font-size: 7px;
+  font-size: 9px;
   padding-bottom: 18px;
   border-bottom: 1px solid var(--line);
 }
@@ -1193,7 +1193,7 @@ a:focus-visible {
   padding: 7px 9px;
   border: 1px solid rgba(255, 255, 255, 0.11);
   color: #a7adb6;
-  font: 7px var(--mono);
+  font: 9px var(--mono);
   letter-spacing: 0.03em;
 }
 .project-foot {
@@ -1205,7 +1205,7 @@ a:focus-visible {
   padding-top: 16px;
   border-top: 1px solid var(--line);
   color: #646d78;
-  font-size: 7px;
+  font-size: 10px;
 }
 .project-foot a {
   display: inline-flex;
@@ -1232,7 +1232,7 @@ a:focus-visible {
 }
 .work-footnote > span {
   color: var(--lime);
-  font-size: 8px;
+  font-size: 9px;
 }
 .work-footnote p {
   color: #828a94;
@@ -1244,7 +1244,7 @@ a:focus-visible {
   align-items: center;
   gap: 8px;
   color: #e1e5dc;
-  font-size: 8px;
+  font-size: 9px;
 }
 
 .statement-section {
@@ -1350,7 +1350,7 @@ a:focus-visible {
 }
 .capability-tools {
   color: #777f8a;
-  font-size: 7px;
+  font-size: 8.5px;
   line-height: 1.8;
 }
 .capability-arrow {
@@ -1413,7 +1413,7 @@ a:focus-visible {
 }
 .experience-period {
   color: #747c87;
-  font-size: 8px;
+  font-size: 9.5px;
   padding-top: 6px;
 }
 .experience-company-row {
@@ -1429,11 +1429,11 @@ a:focus-visible {
 }
 .experience-role {
   color: var(--lime);
-  font-size: 7px;
+  font-size: 9px;
 }
 .experience-main > p {
   color: #9299a2;
-  font-size: 11px;
+  font-size: 13.5px;
   line-height: 1.85;
   max-width: 700px;
   margin: 13px 0 15px;
@@ -1445,6 +1445,7 @@ a:focus-visible {
 }
 .experience-arrow {
   color: #69717c;
+  display: none;
 }
 .experience-note {
   display: grid;
@@ -1542,7 +1543,7 @@ a:focus-visible {
   padding-top: 19px;
   margin-top: 30px;
   color: #737b85;
-  font-size: 7px;
+  font-size: 9px;
 }
 .about-signoff b {
   color: var(--lime);
@@ -1846,7 +1847,7 @@ a:focus-visible {
     padding: 88px 0;
   }
   .section-label {
-    font-size: 7px;
+    font-size: 9px;
     gap: 7px;
   }
   .section-label-right {
@@ -1904,7 +1905,7 @@ a:focus-visible {
     height: 76%;
   }
   .project-meta {
-    font-size: 6px;
+    font-size: 8px;
   }
   .project-heading-row h3 {
     font-size: 42px;
@@ -1916,7 +1917,7 @@ a:focus-visible {
     font-size: 11px;
   }
   .project-foot {
-    font-size: 6px;
+    font-size: 8px;
   }
   .work-footnote {
     grid-template-columns: 1fr;

@@ -367,7 +367,7 @@ function ExperienceItem({ item }) {
           ))}
         </div>
       </div>
-      <ArrowUpRight className="experience-arrow" size={18} />
+      {/* <ArrowUpRight className="experience-arrow" size={18} /> */}
     </article>
   );
 }
@@ -916,7 +916,8 @@ export default function App() {
                   className="about-signoff"
                   data-reveal
                   data-direction="right">
-                  THAT'S THE HUMAN BEHIND THE COMMITS. <b>— SOURABH</b>
+                  THAT'S THE HUMAN BEHIND THE COMMITS.
+                  {/* <b>— SOURABH</b> */}
                 </div>
               </div>
             </div>
