@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 const vertexShader = `
 attribute vec2 a_position;
@@ -133,9 +133,13 @@ function compileShader(gl, type, source) {
 
 function colorToRgb(color) {
   const value = color.replace("#", "").trim();
-  const normalized = value.length === 3
-    ? value.split("").map((part) => part + part).join("")
-    : value;
+  const normalized =
+    value.length === 3
+      ? value
+          .split("")
+          .map((part) => part + part)
+          .join("")
+      : value;
   const parsed = Number.parseInt(normalized, 16);
   if (!Number.isFinite(parsed)) return [1, 1, 1];
   return [
@@ -177,7 +181,9 @@ export default function PrismaticSlats({
     const canvas = canvasRef.current;
     if (!canvas) return undefined;
 
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
     const gl = canvas.getContext("webgl", {
       alpha: true,
       antialias: false,
@@ -290,8 +296,10 @@ export default function PrismaticSlats({
     const onPointerMove = (event) => {
       const bounds = canvas.getBoundingClientRect();
       if (
-        event.clientX < bounds.left || event.clientX > bounds.right ||
-        event.clientY < bounds.top || event.clientY > bounds.bottom
+        event.clientX < bounds.left ||
+        event.clientX > bounds.right ||
+        event.clientY < bounds.top ||
+        event.clientY > bounds.bottom
       ) {
         pointer.active = 0;
         return;

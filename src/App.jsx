@@ -123,7 +123,8 @@ function ProjectVisual({ project }) {
   if (!image) return null;
 
   return (
-    <div className={`project-art-inner project-image-visual ${project.visual}-screen`}>
+    <div
+      className={`project-art-inner project-image-visual ${project.visual}-screen`}>
       <img
         className="project-preview-image"
         src={image}
@@ -297,13 +298,13 @@ export default function App() {
         shape="dot"
         cellSize={45}
         lineWidth={1}
-        direction="none"
-        speed={0}
+        direction="up"
+        speed={0.3}
         lineColor="#2a2734"
         hoverColor="#ffffff"
         hoverFillColor="#ffffff"
         fillOpacity={0.05}
-        rainbow={true}
+        rainbow={false}
         tiltX={28}
         tiltY={-22}
         radius={2.1}
@@ -311,7 +312,7 @@ export default function App() {
         glow={0.5}
         twinkle={0}
         fade={1}
-        clickCascade={true}
+        clickCascade={false}
         intro={true}
         opacity={1}
         backgroundColor="transparent"
