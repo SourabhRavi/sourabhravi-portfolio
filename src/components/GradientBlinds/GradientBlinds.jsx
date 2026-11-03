@@ -593,9 +593,13 @@ const GradientBlinds = ({
         onPointerLeave,
       );
       document.removeEventListener("visibilitychange", onVisibility);
-      gl.deleteVertexArray(vao);
-      gl.deleteProgram(shader.program);
-      gl.getExtension("WEBGL_lose_context")?.loseContext();
+      // Keep the canvas WebGL context alive. React StrictMode replays effects
+      // in development; forcibly losing this context makes the second setup
+      // inherit a permanently lost context and leaves a blank background.
+      if (!gl.isContextLost()) {
+        gl.deleteVertexArray(vao);
+        gl.deleteProgram(shader.program);
+      }
     };
   }, []);
 
