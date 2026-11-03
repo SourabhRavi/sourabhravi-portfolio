@@ -131,6 +131,9 @@ function ProjectVisual({ project }) {
         loading="lazy"
         decoding="async"
         draggable={false}
+        onError={(event) => {
+          event.currentTarget.style.display = "none";
+        }}
       />
     </div>
   );
