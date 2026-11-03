@@ -292,24 +292,6 @@ export function usePortfolioMotion(rootRef) {
         }
 
         // -----------------------------------------
-        // PROJECT MOCKUP DEPTH
-        // -----------------------------------------
-
-        select(".project-art-inner").forEach((art, index) => {
-          gsap.to(art, {
-            y: index % 2 === 0 ? -24 : 24,
-            scale: 1.035,
-            ease: "none",
-            scrollTrigger: {
-              trigger: art.closest(".project-card"),
-              start: "top bottom",
-              end: "bottom top",
-              scrub: 0.9,
-            },
-          });
-        });
-
-        // -----------------------------------------
         // SMALL ACCENTS
         // -----------------------------------------
 
