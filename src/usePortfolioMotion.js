@@ -250,6 +250,34 @@ export function usePortfolioMotion(rootRef) {
         });
 
         // -----------------------------------------
+        // PROJECT IMAGE PARALLAX
+        // -----------------------------------------
+
+        select(".project-preview-image").forEach((image) => {
+          const travel = desktop ? 5 : 2.5;
+
+          gsap.fromTo(
+            image,
+            {
+              yPercent: travel,
+              scale: 1.07,
+            },
+            {
+              yPercent: -travel,
+              scale: 1.07,
+              ease: "none",
+              scrollTrigger: {
+                trigger: image.closest(".project-card"),
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 0.85,
+                invalidateOnRefresh: true,
+              },
+            },
+          );
+        });
+
+        // -----------------------------------------
         // SCROLL-LINKED DECORATIVE ELEMENTS
         // -----------------------------------------
 
