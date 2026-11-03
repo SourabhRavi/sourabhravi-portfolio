@@ -4381,7 +4381,12 @@ a:focus-visible {
 
 /* =========================================================
    SITE-WIDE REACT BITS GRADIENT BLINDS BACKGROUND
+   Keep the shader visible as a real page-wide layer.
    ========================================================= */
+
+.app-shell {
+  background: #090a0d;
+}
 
 .app-shell > .site-gradient-blinds {
   position: fixed;
@@ -4392,19 +4397,25 @@ a:focus-visible {
   height: 100dvh;
   overflow: hidden;
   pointer-events: none;
-  opacity: 0.44;
+  opacity: 0.94;
   background:
-    radial-gradient(ellipse at 50% 45%, rgba(69, 57, 116, 0.18), transparent 58%),
+    radial-gradient(ellipse at 50% 42%, rgba(82, 39, 255, 0.2), transparent 58%),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 159, 252, 0.09) 0,
+      rgba(255, 159, 252, 0.09) 1px,
+      transparent 1px,
+      transparent 60px
+    ),
     #090a0d;
 }
 
-.app-shell > .site-gradient-blinds .gradient-blinds-container {
+.app-shell > .site-gradient-blinds .gradient-blinds-canvas {
   position: absolute;
   inset: 0;
+  display: block;
   width: 100%;
   height: 100%;
-  mix-blend-mode: screen;
-  pointer-events: none;
 }
 
 .app-shell > main {
@@ -4412,81 +4423,68 @@ a:focus-visible {
   z-index: 1;
 }
 
-/* Let the animated blinds show softly through the existing dark surfaces. */
+/* The shader is the site background, so content sections must not paint
+   opaque dark panels over it. Readability comes from the type and cards. */
+.intro-section,
+.work-section,
+.capabilities-section,
+.experience-section,
+.about-section,
+.contact-section,
+.site-footer,
+.statement-section {
+  background: transparent;
+}
+
 .hero::before {
   background:
     radial-gradient(
       ellipse at 77% 44%,
-      rgba(113, 91, 255, 0.14),
-      transparent 35%
+      rgba(113, 91, 255, 0.13),
+      transparent 38%
     ),
     radial-gradient(
       ellipse at 12% 80%,
-      rgba(199, 255, 74, 0.055),
-      transparent 38%
+      rgba(199, 255, 74, 0.045),
+      transparent 40%
     ),
-    rgba(9, 10, 13, 0.48);
+    rgba(9, 10, 13, 0.12);
 }
 
-.intro-section {
-  background: linear-gradient(
-    180deg,
-    rgba(11, 13, 17, 0.78),
-    rgba(14, 17, 22, 0.74)
-  );
-}
-
-.work-section {
-  background: rgba(10, 12, 16, 0.76);
-}
-
-.capabilities-section {
-  background: rgba(11, 13, 17, 0.76);
-}
-
-.experience-section {
-  background: rgba(14, 17, 22, 0.76);
-}
-
-.about-section {
-  background: rgba(10, 12, 16, 0.76);
-}
-
-.statement-section {
-  background: rgba(17, 19, 27, 0.68);
-}
-
+/* Keep the statement area atmospheric without masking the animated bands. */
 .statement-section::before {
   background:
     radial-gradient(
       ellipse at 72% 40%,
-      rgba(165, 139, 255, 0.16),
-      transparent 42%
+      rgba(165, 139, 255, 0.12),
+      transparent 44%
     ),
     linear-gradient(
       120deg,
-      rgba(16, 18, 24, 0.72),
-      rgba(23, 19, 35, 0.58) 65%,
-      rgba(17, 19, 27, 0.72)
+      rgba(16, 18, 24, 0.16),
+      rgba(23, 19, 35, 0.12) 65%,
+      rgba(17, 19, 27, 0.16)
     );
-}
-
-.contact-section {
-  background: rgba(17, 21, 26, 0.78);
-}
-
-.site-footer {
-  background: rgba(9, 10, 13, 0.68);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .app-shell > .site-gradient-blinds {
-    opacity: 0.28;
-  }
 }
 
 @media (max-width: 640px) {
   .app-shell > .site-gradient-blinds {
-    opacity: 0.32;
+    opacity: 0.88;
+  }
+
+  .hero::before {
+    background:
+      radial-gradient(
+        ellipse at 77% 44%,
+        rgba(113, 91, 255, 0.12),
+        transparent 38%
+      ),
+      rgba(9, 10, 13, 0.2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-shell > .site-gradient-blinds {
+    opacity: 0.78;
   }
 }
