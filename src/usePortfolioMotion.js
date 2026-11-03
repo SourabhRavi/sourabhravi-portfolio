@@ -281,31 +281,41 @@ export function usePortfolioMotion(rootRef) {
         // PROJECT IMAGE PARALLAX
         // -----------------------------------------
 
-        select(".project-preview-image").forEach((image) => {
-          const travel = desktop ? 5 : 2.5;
+        select(".project-preview-image").forEach((image, index) => {
+          const direction = index % 2 === 0 ? 1 : -1;
+          const travel = desktop ? 18 : 11;
+          const zoom = desktop ? 1.22 : 1.14;
+          const tilt = desktop ? 2.4 : 1.2;
 
           gsap.fromTo(
             image,
             {
-              yPercent: travel,
-              scale: 1.07,
+              yPercent: direction * travel,
+              xPercent: direction * -2.2,
+              scale: zoom,
+              rotation: direction * -tilt,
+              rotationX: direction * 1.6,
+              transformPerspective: 1400,
+              force3D: true,
             },
             {
-              yPercent: -travel,
-              scale: 1.07,
+              yPercent: direction * -travel,
+              xPercent: direction * 2.2,
+              scale: zoom,
+              rotation: direction * tilt,
+              rotationX: direction * -1.6,
               ease: "none",
               scrollTrigger: {
                 trigger: image.closest(".project-card"),
-                start: "top bottom",
-                end: "bottom top",
-                scrub: 0.85,
+                start: "top 95%",
+                end: "bottom 5%",
+                scrub: 0.4,
                 invalidateOnRefresh: true,
               },
             },
           );
         });
 
-        // -----------------------------------------
         // SCROLL-LINKED DECORATIVE ELEMENTS
         // -----------------------------------------
 
