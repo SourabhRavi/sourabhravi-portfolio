@@ -4377,3 +4377,37 @@ a:focus-visible {
     display: none !important;
   }
 }
+
+/* React Bits Shape Grid background layer. The canvas is transparent and
+   blends softly over the original dark section surfaces. */
+.site-shape-grid {
+  position: fixed !important;
+  inset: 0;
+  z-index: 5;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0.52;
+  mix-blend-mode: screen;
+}
+
+.site-shape-grid .shape-grid-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .site-shape-grid {
+    opacity: 0.44;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-shape-grid {
+    opacity: 0.38;
+  }
+}
