@@ -16,6 +16,7 @@ import {
 import { capabilities, experience, profile, projects } from "./data";
 import { usePortfolioMotion } from "./usePortfolioMotion";
 import GlowCursor from "./components/GlowCursor/GlowCursor";
+import HalftoneReveal from "./components/HalftoneReveal/HalftoneReveal";
 
 function PortfolioGlowCursor() {
   const [isSupported, setIsSupported] = useState(false);
