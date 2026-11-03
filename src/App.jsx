@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowDownRight,
   ArrowRight,
@@ -16,6 +16,44 @@ import {
 } from "lucide-react";
 import { capabilities, experience, profile, projects } from "./data";
 import { usePortfolioMotion } from "./usePortfolioMotion";
+import GlowCursor from "./components/GlowCursor/GlowCursor";
+
+function PortfolioGlowCursor() {
+  const [isSupported, setIsSupported] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia(
+      "(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)",
+    );
+    const sync = () => setIsSupported(media.matches);
+
+    sync();
+    media.addEventListener("change", sync);
+    return () => media.removeEventListener("change", sync);
+  }, []);
+
+  if (!isSupported) return null;
+
+  return (
+    <GlowCursor
+      className="portfolio-glow-cursor"
+      color="#c7ff4a"
+      secondaryColor="#a58bff"
+      intensity={1.1}
+      trailWidth={3.2}
+      linger={1.25}
+      glow={1.35}
+      hotspot={0.85}
+      followSpeed={0.68}
+      quality="medium"
+      maxDevicePixelRatio={1.5}
+      clickBurst={false}
+      theme="dark"
+      blendMode="screen"
+      aria-hidden="true"
+    />
+  );
+}
 
 function SectionLabel({ index, children, right }) {
   return (
@@ -395,6 +433,7 @@ export default function App() {
     <div className="app-shell" id="top" ref={rootRef}>
       <div className="ambient ambient-one" aria-hidden="true" />
       <div className="ambient ambient-two" aria-hidden="true" />
+      <PortfolioGlowCursor />
       <Header />
       <main>
         <section className="hero" data-section>
