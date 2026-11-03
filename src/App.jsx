@@ -102,71 +102,6 @@ function Header() {
   );
 }
 
-// function ProjectVisual({ project }) {
-//   const imageModules = import.meta.glob(
-//     [
-//       "./images/*.{png,jpg,jpeg,webp,avif}",
-//       "./images/**/*.{png,jpg,jpeg,webp,avif}",
-//     ],
-//     {
-//       eager: true,
-//       query: "?url",
-//       import: "default",
-//     },
-//   );
-
-//   const projectKey = (project.visual || project.name)
-//     .toLowerCase()
-//     .replace(/[^a-z0-9]/g, "");
-
-//   const matchingImages = Object.entries(imageModules).filter(([path]) => {
-//     const filename = path
-//       .split("/")
-//       .pop()
-//       .replace(/\.[^.]+$/, "")
-//       .toLowerCase()
-//       .replace(/[^a-z0-9]/g, "");
-
-//     return filename.includes(projectKey);
-//   });
-
-//   // Prefer main screenshots and previews when multiple images exist.
-//   const image = matchingImages.sort(([a], [b]) => {
-//     const priority = (path) =>
-//       /main|hero|preview|screenshot|dashboard|home/i.test(path) ? 0 : 1;
-
-//     return priority(a) - priority(b);
-//   })[0]?.[1];
-
-//   return (
-//     <div
-//       className={`project-art-inner project-image-visual ${project.visual}-screen`}>
-//       {image ? (
-//         <img
-//           className="project-preview-image"
-//           src={image}
-//           alt={`${project.name} application preview`}
-//           loading="lazy"
-//           decoding="async"
-//           draggable={false}
-//         />
-//       ) : (
-//         <div className="project-image-fallback">
-//           <span>PROJECT / {project.number}</span>
-//           <h3>{project.name}</h3>
-//           <p>
-//             Add a matching project screenshot to <code>src/images</code>.
-//           </p>
-//         </div>
-//       )}
-
-//       <div className="project-image-overlay">
-//         <span>{project.type}</span>
-//         <span>CASE / {project.number}</span>
-//       </div>
-//     </div>
-//   );
-// }
 const projectImages = import.meta.glob(
   "./images/**/*.{png,jpg,jpeg,webp,avif}",
   {
@@ -202,10 +137,7 @@ function ProjectVisual({ project }) {
 
 function ProjectCard({ project, index }) {
   return (
-    <article
-      className={`project-card project-${project.visual}`}
-      data-reveal
-      data-distance="52">
+    <article className={`project-card project-${project.visual}`}>
       <div className={`project-visual visual-${project.accent}`}>
         <div className="visual-grid" />
         <ProjectVisual project={project} />
