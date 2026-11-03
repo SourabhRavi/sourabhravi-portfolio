@@ -16,7 +16,6 @@ import {
 import { capabilities, experience, profile, projects } from "./data";
 import { usePortfolioMotion } from "./usePortfolioMotion";
 import GlowCursor from "./components/GlowCursor/GlowCursor";
-import GradientBlinds from "./components/GradientBlinds/GradientBlinds";
 
 function PortfolioGlowCursor() {
   const [isSupported, setIsSupported] = useState(false);
@@ -131,9 +130,6 @@ function ProjectVisual({ project }) {
         loading="lazy"
         decoding="async"
         draggable={false}
-        onError={(event) => {
-          event.currentTarget.style.display = "none";
-        }}
       />
     </div>
   );
@@ -295,32 +291,7 @@ export default function App() {
 
   return (
     <div className="app-shell" id="top" ref={rootRef}>
-      <GradientBlinds
-        className="site-gradient-blinds"
-        gradientColors={["#10182a", "#39366d", "#8060a6", "#c7ff4a"]}
-        angle={20}
-        noise={0.3}
-        blindCount={16}
-        blindMinWidth={60}
-        mouseDampening={0.15}
-        mirrorGradient={true}
-        spotlightRadius={0.32}
-        shine={0.5}
-        relief={0.5}
-        glow={0.4}
-        sway={0.37}
-        speed={1}
-        hoverTilt={0.6}
-        perspective={-0.22}
-        gradientSpeed={0}
-        distortAmount={0}
-        lightColor="#c7ff4a"
-        lightMode={false}
-        clickEffect="ripple"
-        idle="drift"
-        intro={true}
-        mixBlendMode="screen"
-      />     <div className="ambient ambient-one" aria-hidden="true" />
+      <div className="ambient ambient-one" aria-hidden="true" />
       <div className="ambient ambient-two" aria-hidden="true" />
       <PortfolioGlowCursor />
       <Header />
