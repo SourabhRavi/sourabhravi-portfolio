@@ -4377,3 +4377,116 @@ a:focus-visible {
     display: none !important;
   }
 }
+
+
+/* =========================================================
+   SITE-WIDE REACT BITS GRADIENT BLINDS BACKGROUND
+   ========================================================= */
+
+.app-shell > .site-gradient-blinds {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0.44;
+  background:
+    radial-gradient(ellipse at 50% 45%, rgba(69, 57, 116, 0.18), transparent 58%),
+    #090a0d;
+}
+
+.app-shell > .site-gradient-blinds .gradient-blinds-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.app-shell > main {
+  position: relative;
+  z-index: 1;
+}
+
+/* Let the animated blinds show softly through the existing dark surfaces. */
+.hero::before {
+  background:
+    radial-gradient(
+      ellipse at 77% 44%,
+      rgba(113, 91, 255, 0.14),
+      transparent 35%
+    ),
+    radial-gradient(
+      ellipse at 12% 80%,
+      rgba(199, 255, 74, 0.055),
+      transparent 38%
+    ),
+    rgba(9, 10, 13, 0.48);
+}
+
+.intro-section {
+  background: linear-gradient(
+    180deg,
+    rgba(11, 13, 17, 0.78),
+    rgba(14, 17, 22, 0.74)
+  );
+}
+
+.work-section {
+  background: rgba(10, 12, 16, 0.76);
+}
+
+.capabilities-section {
+  background: rgba(11, 13, 17, 0.76);
+}
+
+.experience-section {
+  background: rgba(14, 17, 22, 0.76);
+}
+
+.about-section {
+  background: rgba(10, 12, 16, 0.76);
+}
+
+.statement-section {
+  background: rgba(17, 19, 27, 0.68);
+}
+
+.statement-section::before {
+  background:
+    radial-gradient(
+      ellipse at 72% 40%,
+      rgba(165, 139, 255, 0.16),
+      transparent 42%
+    ),
+    linear-gradient(
+      120deg,
+      rgba(16, 18, 24, 0.72),
+      rgba(23, 19, 35, 0.58) 65%,
+      rgba(17, 19, 27, 0.72)
+    );
+}
+
+.contact-section {
+  background: rgba(17, 21, 26, 0.78);
+}
+
+.site-footer {
+  background: rgba(9, 10, 13, 0.68);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-shell > .site-gradient-blinds {
+    opacity: 0.28;
+  }
+}
+
+@media (max-width: 640px) {
+  .app-shell > .site-gradient-blinds {
+    opacity: 0.32;
+  }
+}
