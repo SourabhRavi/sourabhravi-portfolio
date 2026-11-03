@@ -16,6 +16,7 @@ import {
 import { capabilities, experience, profile, projects } from "./data";
 import { usePortfolioMotion } from "./usePortfolioMotion";
 import GlowCursor from "./components/GlowCursor/GlowCursor";
+import ShapeGrid from "./components/ShapeGrid/ShapeGrid";
 
 function PortfolioGlowCursor() {
   const [isSupported, setIsSupported] = useState(false);
@@ -102,183 +103,45 @@ function Header() {
   );
 }
 
-function ProjectVisual({ project }) {
-  if (project.visual === "cote") {
-    return (
-      <div className="project-art-inner cote-screen">
-        <div
-          className="mock-topbar"
-          data-reveal
-          data-distance="12"
-          data-duration="0.45">
-          <div className="window-dots">
-            <i />
-            <i />
-            <i />
-          </div>
-          <span>cote / team-space</span>
-          <span className="mock-live">● LIVE</span>
-        </div>
-        <div className="cote-layout">
-          <aside className="cote-sidebar">
-            <b className="cote-symbol">c.</b>
-            <span className="sidebar-active">⌂</span>
-            <span>▦</span>
-            <span>◉</span>
-            <span>⚙</span>
-            <div className="sidebar-avatar">SR</div>
-          </aside>
-          <div className="cote-content">
-            <div className="mock-overline">GENERAL / TEAM ROOM</div>
-            <h3 data-reveal data-distance="18">
-              Good ideas
-              <br />
-              happen <em>here.</em>
-            </h3>
-            <div className="mock-message" data-reveal data-distance="14">
-              <div className="avatar avatar-lime">S</div>
-              <div>
-                <b>Sourabh</b>
-                <p>Shipped the new workspace flow ✳</p>
-              </div>
-              <small>now</small>
-            </div>
-            <div className="mock-message" data-reveal data-distance="14">
-              <div className="avatar avatar-purple">A</div>
-              <div>
-                <b>Alex</b>
-                <p>This feels so much better.</p>
-              </div>
-              <small>2m</small>
-            </div>
-            <div className="mock-compose" data-reveal data-distance="10">
-              Message the team... <ArrowUpRight size={14} />
-            </div>
-          </div>
-        </div>
-        <div
-          className="floating-note note-cote"
-          data-reveal
-          data-scale="0.65"
-          data-rotate="8">
-          less noise.
-          <br />
-          <b>more signal.</b>
-          <Asterisk size={17} />
-        </div>
-      </div>
-    );
-  }
+const projectImages = import.meta.glob(
+  "./images/**/*.{png,jpg,jpeg,webp,avif}",
+  {
+    eager: true,
+    query: "?url",
+    import: "default",
+  },
+);
 
-  if (project.visual === "skim") {
-    return (
-      <div className="project-art-inner skim-screen">
-        <div
-          className="mock-topbar"
-          data-reveal
-          data-distance="12"
-          data-duration="0.45">
-          <div className="window-dots">
-            <i />
-            <i />
-            <i />
-          </div>
-          <span>skim / knowledge-room</span>
-          <span className="mock-live">✳ AI READY</span>
-        </div>
-        <div className="skim-layout">
-          <aside className="skim-sidebar">
-            <b>
-              skim<span>.</span>
-            </b>
-            <div className="skim-nav-active">⌕ &nbsp; Ask anything</div>
-            <div>▤ &nbsp; My documents</div>
-            <small>YOUR FILES</small>
-            <div>◫ &nbsp; Product brief.pdf</div>
-            <div>◫ &nbsp; Research notes.pdf</div>
-          </aside>
-          <div className="skim-content">
-            <div className="mock-overline">YOUR AI READING ROOM</div>
-            <h3>
-              Less searching.
-              <br />
-              <em>More knowing.</em>
-            </h3>
-            <div className="skim-question">
-              What are the three key takeaways? <ArrowUpRight size={14} />
-            </div>
-            <div className="mock-overline answer-label">
-              ✳ ANSWER FROM YOUR DOCUMENTS
-            </div>
-            <div className="answer-bar answer-wide" />
-            <div className="answer-bar" />
-            <div className="answer-bar answer-short" />
-            <div className="source-pill">SOURCE 01 · PRODUCT BRIEF.PDF</div>
-          </div>
-        </div>
-        <div
-          className="floating-note note-skim"
-          data-reveal
-          data-scale="0.65"
-          data-rotate="-8">
-          grounded
-          <br />
-          <b>answers.</b>
-        </div>
-      </div>
-    );
-  }
+function ProjectVisual({ project }) {
+  const projectKey = (project.visual || project.name).toLowerCase();
+
+  const image = Object.entries(projectImages).find(([path]) => {
+    const filename = path.split("/").pop().toLowerCase();
+    return filename.includes(projectKey);
+  })?.[1];
+
+  if (!image) return null;
 
   return (
-    <div className="project-art-inner rag-screen">
-      <div className="rag-orbit orbit-a" />
-      <div className="rag-orbit orbit-b" />
-      <div className="rag-center">
-        <Sparkles size={28} />
-        <span>
-          ASK
-          <br />
-          YOUR PDFS
-        </span>
-      </div>
-      <div
-        className="rag-chip chip-a"
-        data-reveal
-        data-direction="left"
-        data-distance="16">
-        EMBEDDINGS
-      </div>
-      <div
-        className="rag-chip chip-b"
-        data-reveal
-        data-direction="right"
-        data-distance="16">
-        VECTOR SEARCH
-      </div>
-      <div className="rag-chip chip-c" data-reveal data-distance="16">
-        SOURCE CONTEXT
-      </div>
-      <div className="rag-caption">RETRIEVAL → RELEVANCE → RESPONSE</div>
+    <div
+      className={`project-art-inner project-image-visual ${project.visual}-screen`}>
+      <img
+        className="project-preview-image"
+        src={image}
+        alt={`${project.name} project screenshot`}
+        loading="lazy"
+        decoding="async"
+        draggable={false}
+      />
     </div>
   );
 }
 
 function ProjectCard({ project, index }) {
   return (
-    <article
-      className={`project-card project-${project.visual}`}
-      data-reveal
-      data-distance="52">
+    <article className={`project-card project-${project.visual}`}>
       <div className={`project-visual visual-${project.accent}`}>
-        <div className="visual-grid" />
         <ProjectVisual project={project} />
-        <span
-          className="visual-index"
-          data-reveal
-          data-direction="left"
-          data-distance="10">
-          CASE / {project.number}
-        </span>
       </div>
       <div className="project-info">
         <div className="project-meta" data-reveal data-distance="12">
@@ -367,7 +230,7 @@ function ExperienceItem({ item }) {
           ))}
         </div>
       </div>
-      <ArrowUpRight className="experience-arrow" size={18} />
+      {/* <ArrowUpRight className="experience-arrow" size={18} /> */}
     </article>
   );
 }
@@ -430,6 +293,30 @@ export default function App() {
 
   return (
     <div className="app-shell" id="top" ref={rootRef}>
+      <ShapeGrid
+        className="site-shape-grid"
+        shape="dot"
+        cellSize={45}
+        lineWidth={1}
+        direction="none"
+        speed={0.3}
+        lineColor="#2a2734"
+        hoverColor="#ffffff"
+        hoverFillColor="#ffffff"
+        fillOpacity={0.05}
+        rainbow={false}
+        tiltX={28}
+        tiltY={-22}
+        radius={2.1}
+        trail={0.6}
+        glow={0.5}
+        twinkle={0}
+        fade={1}
+        clickCascade={false}
+        intro={true}
+        opacity={0.5}
+        backgroundColor="transparent"
+      />
       <div className="ambient ambient-one" aria-hidden="true" />
       <div className="ambient ambient-two" aria-hidden="true" />
       <PortfolioGlowCursor />
@@ -916,7 +803,8 @@ export default function App() {
                   className="about-signoff"
                   data-reveal
                   data-direction="right">
-                  THAT'S THE HUMAN BEHIND THE COMMITS. <b>— SOURABH</b>
+                  THAT'S THE HUMAN BEHIND THE COMMITS.
+                  {/* <b>— SOURABH</b> */}
                 </div>
               </div>
             </div>

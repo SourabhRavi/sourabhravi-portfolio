@@ -1,3 +1,4 @@
+import Lenis from "lenis";
 import { useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -17,6 +18,33 @@ export function usePortfolioMotion(rootRef) {
   useLayoutEffect(() => {
     const root = rootRef.current;
     if (!root) return undefined;
+
+    // Smooth native scrolling, synchronized with GSAP ScrollTrigger.
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    let lenis = null;
+    let lenisTicker = null;
+
+    if (!prefersReducedMotion) {
+      lenis = new Lenis({
+        lerp: 0.085,
+        wheelMultiplier: 0.9,
+        smoothWheel: true,
+        syncTouch: false,
+        anchors: true,
+      });
+
+      lenis.on("scroll", ScrollTrigger.update);
+
+      lenisTicker = (time) => {
+        lenis.raf(time * 1000);
+      };
+
+      gsap.ticker.add(lenisTicker);
+      gsap.ticker.lagSmoothing(0);
+    }
 
     const mm = gsap.matchMedia(root);
     let active = true;
@@ -250,6 +278,44 @@ export function usePortfolioMotion(rootRef) {
         });
 
         // -----------------------------------------
+        // PROJECT IMAGE PARALLAX
+        // -----------------------------------------
+
+        select(".project-preview-image").forEach((image, index) => {
+          const direction = index % 2 === 0 ? 1 : -1;
+          const travel = desktop ? 18 : 11;
+          const zoom = desktop ? 1.22 : 1.14;
+          const tilt = desktop ? 2.4 : 1.2;
+
+          gsap.fromTo(
+            image,
+            {
+              yPercent: direction * travel,
+              xPercent: direction * -2.2,
+              scale: zoom,
+              rotation: direction * -tilt,
+              rotationX: direction * 1.6,
+              transformPerspective: 1400,
+              force3D: true,
+            },
+            {
+              yPercent: direction * -travel,
+              xPercent: direction * 2.2,
+              scale: zoom,
+              rotation: direction * tilt,
+              rotationX: direction * -1.6,
+              ease: "none",
+              scrollTrigger: {
+                trigger: image.closest(".project-card"),
+                start: "top 95%",
+                end: "bottom 5%",
+                scrub: 0.4,
+                invalidateOnRefresh: true,
+              },
+            },
+          );
+        });
+
         // SCROLL-LINKED DECORATIVE ELEMENTS
         // -----------------------------------------
 
@@ -290,24 +356,6 @@ export function usePortfolioMotion(rootRef) {
             },
           });
         }
-
-        // -----------------------------------------
-        // PROJECT MOCKUP DEPTH
-        // -----------------------------------------
-
-        select(".project-art-inner").forEach((art, index) => {
-          gsap.to(art, {
-            y: index % 2 === 0 ? -24 : 24,
-            scale: 1.035,
-            ease: "none",
-            scrollTrigger: {
-              trigger: art.closest(".project-card"),
-              start: "top bottom",
-              end: "bottom top",
-              scrub: 0.9,
-            },
-          });
-        });
 
         // -----------------------------------------
         // SMALL ACCENTS
@@ -357,6 +405,13 @@ export function usePortfolioMotion(rootRef) {
       active = false;
       window.removeEventListener("load", onLoad);
       mm.revert();
+
+      if (lenis && lenisTicker) {
+        lenis.off("scroll", ScrollTrigger.update);
+        gsap.ticker.remove(lenisTicker);
+        lenis.destroy();
+        gsap.ticker.lagSmoothing(500, 33);
+      }
     };
   }, [rootRef]);
 }
