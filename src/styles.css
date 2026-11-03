@@ -4378,12 +4378,11 @@ a:focus-visible {
   }
 }
 
-/* React Bits Shape Grid background layer.
-   Keep the original canvas colours and opacity from Background Studio. */
+/* React Bits Shape Grid: a true background layer, never a foreground overlay. */
 .site-shape-grid {
   position: fixed !important;
   inset: 0;
-  z-index: 5;
+  z-index: 0;
   width: 100vw;
   height: 100vh;
   height: 100dvh;
@@ -4396,4 +4395,80 @@ a:focus-visible {
   inset: 0;
   display: block;
   pointer-events: none;
+}
+
+/* Place all page content above the decorative canvas. The cursor effect
+   remains above the content as an independent pointer interaction. */
+.app-shell > main,
+.app-shell > .site-footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* Let the pattern read through the dark surfaces, without ever crossing
+   over text, buttons, cards, or navigation. */
+.hero::before {
+  background:
+    radial-gradient(
+      ellipse at 77% 44%,
+      rgba(113, 91, 255, 0.15),
+      transparent 35%
+    ),
+    radial-gradient(
+      ellipse at 12% 80%,
+      rgba(199, 255, 74, 0.06),
+      transparent 38%
+    ),
+    rgba(9, 10, 13, 0.2);
+}
+
+.intro-section {
+  background: linear-gradient(
+    180deg,
+    rgba(11, 13, 17, 0.86),
+    rgba(14, 17, 22, 0.86)
+  );
+}
+
+.work-section {
+  background: rgba(10, 12, 16, 0.86);
+}
+
+.capabilities-section {
+  background: rgba(11, 13, 17, 0.86);
+}
+
+.experience-section {
+  background: rgba(14, 17, 22, 0.86);
+}
+
+.about-section {
+  background: rgba(10, 12, 16, 0.86);
+}
+
+.statement-section {
+  background: rgba(17, 19, 27, 0.88);
+}
+
+.statement-section::before {
+  background:
+    radial-gradient(
+      ellipse at 72% 40%,
+      rgba(165, 139, 255, 0.16),
+      transparent 42%
+    ),
+    linear-gradient(
+      120deg,
+      rgba(16, 18, 24, 0.36),
+      rgba(23, 19, 35, 0.3) 65%,
+      rgba(17, 19, 27, 0.38)
+    );
+}
+
+.contact-section {
+  background: rgba(17, 21, 26, 0.88);
+}
+
+.site-footer {
+  background: rgba(9, 10, 13, 0.9);
 }
