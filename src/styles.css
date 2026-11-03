@@ -1737,6 +1737,8 @@ a:focus-visible {
   user-select: none;
   pointer-events: none;
   -webkit-user-drag: none;
+  transform-origin: center center;
+  will-change: transform;
 }
 
 @media (max-width: 1050px) {
