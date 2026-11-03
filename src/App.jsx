@@ -298,7 +298,7 @@ export default function App() {
         shape="dot"
         cellSize={45}
         lineWidth={1}
-        direction="up"
+        direction="none"
         speed={0.3}
         lineColor="#2a2734"
         hoverColor="#ffffff"
@@ -314,7 +314,7 @@ export default function App() {
         fade={1}
         clickCascade={false}
         intro={true}
-        opacity={1}
+        opacity={0.5}
         backgroundColor="transparent"
       />
       <div className="ambient ambient-one" aria-hidden="true" />
