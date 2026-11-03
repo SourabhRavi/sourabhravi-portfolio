@@ -294,28 +294,28 @@ export default function App() {
     <div className="app-shell" id="top" ref={rootRef}>
       <GradientBlinds
         className="site-gradient-blinds"
-        gradientColors={["#151d31", "#39366d", "#8c74b7", "#c7ff4a"]}
-        angle={-16}
-        noise={0.12}
-        blindCount={15}
-        blindMinWidth={70}
-        mouseDampening={0.12}
+        gradientColors={["#FF9FFC", "#5227FF"]}
+        angle={20}
+        noise={0.3}
+        blindCount={16}
+        blindMinWidth={60}
+        mouseDampening={0.15}
         mirrorGradient={true}
         spotlightRadius={0.32}
-        spotlightSoftness={1.1}
-        spotlightOpacity={0.82}
         shine={0.5}
+        relief={0.5}
+        glow={0.4}
         sway={0.37}
+        speed={1}
+        hoverTilt={0.6}
         perspective={-0.22}
-        lightColor="#c7ff4a"
-        speed={0.45}
-        idle="drift"
+        gradientSpeed={0}
+        distortAmount={0}
         clickEffect="ripple"
+        idle="drift"
         intro={true}
-        dpr={1.25}
-        mixBlendMode="screen"
-      />
-      <div className="ambient ambient-one" aria-hidden="true" />
+        mixBlendMode="lighten"
+      />      <div className="ambient ambient-one" aria-hidden="true" />
       <div className="ambient ambient-two" aria-hidden="true" />
       <PortfolioGlowCursor />
       <Header />
