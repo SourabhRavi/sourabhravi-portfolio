@@ -1,5 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <rect width="64" height="64" rx="18" fill="#c7ff4a"/>
-  <path d="M15 18h34v7H23v7h21v7H23v9h-8V18Z" fill="#090a0d"/>
-  <circle cx="48" cy="46" r="4" fill="#090a0d"/>
+  <text
+    x="32"
+    y="43"
+    text-anchor="middle"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="29"
+    font-weight="800"
+    letter-spacing="-2"
+    fill="#090a0d"
+  >SR</text>
 </svg>
