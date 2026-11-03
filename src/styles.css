@@ -748,6 +748,8 @@ a:focus-visible {
   background: #151a20;
   display: grid;
   place-items: center;
+  perspective: 1200px;
+  transform-style: preserve-3d;
 }
 .visual-grid {
   position: absolute;
@@ -1737,6 +1739,8 @@ a:focus-visible {
   pointer-events: none;
   -webkit-user-drag: none;
   transform-origin: center center;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
   will-change: transform;
 }
 
