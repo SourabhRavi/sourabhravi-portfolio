@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
-import './GradientBlinds.css';
+import React, { useEffect, useRef } from "react";
+import "./GradientBlinds.css";
 
 const MAX_COLORS = 8;
 const MAX_WAVES = 4;
@@ -208,7 +208,7 @@ const compile = (gl, type, source) => {
   return null;
 };
 
-const link = gl => {
+const link = (gl) => {
   const vertex = compile(gl, gl.VERTEX_SHADER, VERTEX);
   const fragment = compile(gl, gl.FRAGMENT_SHADER, FRAGMENT);
   const program = gl.createProgram();
@@ -227,24 +227,27 @@ const link = gl => {
   for (let i = 0; i < count; i++) {
     const info = gl.getActiveUniform(program, i);
     if (!info) continue;
-    const name = info.name.replace(/\[0\]$/, '');
+    const name = info.name.replace(/\[0\]$/, "");
     uniforms[name] = gl.getUniformLocation(program, name);
   }
   return { program, uniforms };
 };
 
-const hexToRGB = hex => {
-  const c = String(hex || '')
-    .replace('#', '')
-    .padEnd(6, '0');
+const hexToRGB = (hex) => {
+  const c = String(hex || "")
+    .replace("#", "")
+    .padEnd(6, "0");
   const r = parseInt(c.slice(0, 2), 16) / 255;
   const g = parseInt(c.slice(2, 4), 16) / 255;
   const b = parseInt(c.slice(4, 6), 16) / 255;
   return [r || 0, g || 0, b || 0];
 };
 
-const prepStops = stops => {
-  const base = (stops && stops.length ? stops : ['#FF9FFC', '#5227FF']).slice(0, MAX_COLORS);
+const prepStops = (stops) => {
+  const base = (stops && stops.length ? stops : ["#FF9FFC", "#5227FF"]).slice(
+    0,
+    MAX_COLORS,
+  );
   if (base.length === 1) base.push(base[0]);
   while (base.length < MAX_COLORS) base.push(base[base.length - 1]);
   const flat = new Float32Array(MAX_COLORS * 3);
@@ -254,7 +257,7 @@ const prepStops = stops => {
 };
 
 const GradientBlinds = ({
-  className = '',
+  className = "",
   style,
   dpr,
   paused = false,
@@ -269,8 +272,8 @@ const GradientBlinds = ({
   spotlightSoftness = 1,
   spotlightOpacity = 1,
   distortAmount = 0,
-  shineDirection = 'left',
-  lightColor = '#ffffff',
+  shineDirection = "left",
+  lightColor = "#ffffff",
   perspective = 0,
   gradientSpeed = 0,
   shine = 0.4,
@@ -279,16 +282,20 @@ const GradientBlinds = ({
   sway = 0.35,
   speed = 1,
   hoverTilt = 0.6,
-  clickEffect = 'ripple',
-  idle = 'drift',
+  clickEffect = "ripple",
+  idle = "drift",
   intro = true,
-  mixBlendMode = 'lighten',
-  lightMode = false
+  mixBlendMode = "lighten",
+  lightMode = false,
 }) => {
   const containerRef = useRef(null);
   const canvasRef = useRef(null);
   const wakeRef = useRef(null);
-  const colorKey = (gradientColors && gradientColors.length ? gradientColors : ['#FF9FFC', '#5227FF']).join(',');
+  const colorKey = (
+    gradientColors && gradientColors.length
+      ? gradientColors
+      : ["#FF9FFC", "#5227FF"]
+  ).join(",");
   const settings = {
     paused,
     colorKey,
@@ -317,7 +324,7 @@ const GradientBlinds = ({
     idle,
     intro,
     lightMode,
-    dpr
+    dpr,
   };
   const settingsRef = useRef(settings);
   settingsRef.current = settings;
@@ -325,12 +332,12 @@ const GradientBlinds = ({
   useEffect(() => {
     const container = containerRef.current;
     const canvas = canvasRef.current;
-    const gl = canvas?.getContext('webgl2', {
+    const gl = canvas?.getContext("webgl2", {
       alpha: false,
       antialias: false,
       depth: false,
       stencil: false,
-      premultipliedAlpha: false
+      premultipliedAlpha: false,
     });
     if (!container || !canvas || !gl) return undefined;
     const shader = link(gl);
@@ -338,7 +345,8 @@ const GradientBlinds = ({
     const u = shader.uniforms;
     const vao = gl.createVertexArray();
 
-    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+    const reduce =
+      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
     const view = { width: 1, height: 1, ratio: 1, count: 1 };
     const pointer = { x: 0, y: 0, inside: false };
     const light = { x: 0, y: 0, vx: 0, vy: 0, tx: 0, ty: 0, ready: false };
@@ -350,16 +358,19 @@ const GradientBlinds = ({
     let shift = 0;
     let grainTime = 0;
     let introClock = settingsRef.current.intro && !reduce ? 0 : 1;
-    let colorKeyCache = '';
+    let colorKeyCache = "";
     let colorStops = prepStops(settingsRef.current.gradientColors);
     let raf = 0;
     let last = 0;
     let visible = true;
 
-    const blindTotal = s => {
+    const blindTotal = (s) => {
       if (s.blindMinWidth && s.blindMinWidth > 0) {
         const byWidth = Math.max(1, Math.floor(view.width / s.blindMinWidth));
-        return Math.max(1, s.blindCount ? Math.min(s.blindCount, byWidth) : byWidth);
+        return Math.max(
+          1,
+          s.blindCount ? Math.min(s.blindCount, byWidth) : byWidth,
+        );
       }
       return Math.max(1, s.blindCount);
     };
@@ -375,7 +386,11 @@ const GradientBlinds = ({
       gl.bindVertexArray(vao);
       gl.uniform2f(u.uResolution, canvas.width, canvas.height);
       gl.uniform1f(u.uTime, time);
-      gl.uniform2f(u.uMouse, light.x * view.ratio, (view.height - light.y) * view.ratio);
+      gl.uniform2f(
+        u.uMouse,
+        light.x * view.ratio,
+        (view.height - light.y) * view.ratio,
+      );
       gl.uniform1f(u.uAngle, (s.angle * Math.PI) / 180);
       gl.uniform1f(u.uNoise, s.noise);
       gl.uniform1f(u.uBlindCount, blindTotal(s));
@@ -384,7 +399,7 @@ const GradientBlinds = ({
       gl.uniform1f(u.uSpotlightOpacity, s.spotlightOpacity);
       gl.uniform1f(u.uMirror, s.mirrorGradient ? 1 : 0);
       gl.uniform1f(u.uDistort, s.distortAmount);
-      gl.uniform1f(u.uShineFlip, s.shineDirection === 'right' ? 1 : 0);
+      gl.uniform1f(u.uShineFlip, s.shineDirection === "right" ? 1 : 0);
       gl.uniform3fv(u.uColors, colorStops.flat);
       gl.uniform1i(u.uColorCount, colorStops.count);
       gl.uniform1f(u.uLightMode, s.lightMode ? 1 : 0);
@@ -397,23 +412,31 @@ const GradientBlinds = ({
       gl.uniform4fv(u.uWaves, waves);
       gl.uniform1f(u.uIntro, introClock);
       gl.uniform1f(u.uGrainTime, grainTime);
-      gl.uniform3fv(u.uLightColor, hexToRGB(s.lightColor || '#ffffff'));
+      gl.uniform3fv(u.uLightColor, hexToRGB(s.lightColor || "#ffffff"));
       gl.uniform1f(u.uPerspective, s.perspective);
       gl.uniform1f(u.uGradientShift, shift);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
       gl.bindVertexArray(null);
     };
 
-    const aim = s => {
+    const aim = (s) => {
       if (pointer.inside) {
         light.tx = pointer.x;
         light.ty = pointer.y;
-      } else if (s.idle === 'center') {
+      } else if (s.idle === "center") {
         light.tx = view.width / 2;
         light.ty = view.height / 2;
-      } else if (s.idle === 'drift' && !reduce) {
-        light.tx = view.width * (0.5 + 0.22 * Math.sin(swayTime * 0.23) + 0.05 * Math.sin(swayTime * 0.61 + 1.3));
-        light.ty = view.height * (0.5 + 0.16 * Math.sin(swayTime * 0.31 + 0.7) + 0.04 * Math.sin(swayTime * 0.83));
+      } else if (s.idle === "drift" && !reduce) {
+        light.tx =
+          view.width *
+          (0.5 +
+            0.22 * Math.sin(swayTime * 0.23) +
+            0.05 * Math.sin(swayTime * 0.61 + 1.3));
+        light.ty =
+          view.height *
+          (0.5 +
+            0.16 * Math.sin(swayTime * 0.31 + 0.7) +
+            0.04 * Math.sin(swayTime * 0.83));
       }
     };
 
@@ -455,7 +478,7 @@ const GradientBlinds = ({
       wake();
     };
 
-    const frame = now => {
+    const frame = (now) => {
       raf = 0;
       if (!visible || document.hidden) return;
       const s = settingsRef.current;
@@ -468,12 +491,14 @@ const GradientBlinds = ({
         shift = (shift + dt * s.gradientSpeed * 0.06) % 2;
       }
       grainTime = Math.floor(time * 24) * 17.13;
-      if (introClock < 1) introClock = Math.min(1, introClock + dt / INTRO_SECONDS);
+      if (introClock < 1)
+        introClock = Math.min(1, introClock + dt / INTRO_SECONDS);
       hover += ((pointer.inside ? 1 : 0) - hover) * (1 - Math.exp(-dt / 0.35));
       aim(s);
       follow(s, dt);
       for (let i = 0; i < MAX_WAVES; i++) {
-        if (waves[i * 4 + 3] > 0 && time - waves[i * 4 + 2] > RIPPLE_SECONDS) waves[i * 4 + 3] = 0;
+        if (waves[i * 4 + 3] > 0 && time - waves[i * 4 + 2] > RIPPLE_SECONDS)
+          waves[i * 4 + 3] = 0;
       }
       draw();
       const settling =
@@ -489,7 +514,7 @@ const GradientBlinds = ({
           (s.noise > 0 ||
             s.gradientSpeed !== 0 ||
             (s.sway > 0 && s.speed > 0) ||
-            (s.idle === 'drift' && !pointer.inside)));
+            (s.idle === "drift" && !pointer.inside)));
       if (active) raf = requestAnimationFrame(frame);
     };
 
@@ -500,14 +525,18 @@ const GradientBlinds = ({
       }
     }
 
-    const locate = event => {
+    const locate = (event) => {
       const rect = container.getBoundingClientRect();
       const x = event.clientX - rect.left;
       const y = event.clientY - rect.top;
-      return { x, y, inside: x >= 0 && y >= 0 && x <= rect.width && y <= rect.height };
+      return {
+        x,
+        y,
+        inside: x >= 0 && y >= 0 && x <= rect.width && y <= rect.height,
+      };
     };
 
-    const onPointerMove = event => {
+    const onPointerMove = (event) => {
       const { x, y, inside } = locate(event);
       pointer.x = x;
       pointer.y = y;
@@ -515,10 +544,10 @@ const GradientBlinds = ({
       if (inside) wake();
     };
 
-    const onPointerDown = event => {
+    const onPointerDown = (event) => {
       const s = settingsRef.current;
       const { x, y, inside } = locate(event);
-      if (!inside || reduce || s.clickEffect !== 'ripple') return;
+      if (!inside || reduce || s.clickEffect !== "ripple") return;
       const o = waveIndex * 4;
       waves[o] = x * view.ratio;
       waves[o + 1] = (view.height - y) * view.ratio;
@@ -540,15 +569,15 @@ const GradientBlinds = ({
 
     const resizeObserver = new ResizeObserver(resize);
     resizeObserver.observe(container);
-    const intersection = new IntersectionObserver(entries => {
-      visible = entries.some(entry => entry.isIntersecting);
+    const intersection = new IntersectionObserver((entries) => {
+      visible = entries.some((entry) => entry.isIntersecting);
       if (visible) wake();
     });
     intersection.observe(container);
-    window.addEventListener('pointermove', onPointerMove, { passive: true });
-    window.addEventListener('pointerdown', onPointerDown, { passive: true });
-    document.documentElement.addEventListener('pointerleave', onPointerLeave);
-    document.addEventListener('visibilitychange', onVisibility);
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
+    window.addEventListener("pointerdown", onPointerDown, { passive: true });
+    document.documentElement.addEventListener("pointerleave", onPointerLeave);
+    document.addEventListener("visibilitychange", onVisibility);
     resize();
     wakeRef.current = wake;
 
@@ -557,13 +586,16 @@ const GradientBlinds = ({
       wakeRef.current = null;
       resizeObserver.disconnect();
       intersection.disconnect();
-      window.removeEventListener('pointermove', onPointerMove);
-      window.removeEventListener('pointerdown', onPointerDown);
-      document.documentElement.removeEventListener('pointerleave', onPointerLeave);
-      document.removeEventListener('visibilitychange', onVisibility);
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointerdown", onPointerDown);
+      document.documentElement.removeEventListener(
+        "pointerleave",
+        onPointerLeave,
+      );
+      document.removeEventListener("visibilitychange", onVisibility);
       gl.deleteVertexArray(vao);
       gl.deleteProgram(shader.program);
-      gl.getExtension('WEBGL_lose_context')?.loseContext();
+      gl.getExtension("WEBGL_lose_context")?.loseContext();
     };
   }, []);
 
@@ -574,11 +606,17 @@ const GradientBlinds = ({
   return (
     <div
       ref={containerRef}
-      className={`gradient-blinds-container${className ? ` ${className}` : ''}`}
+      className={`gradient-blinds-container${className ? ` ${className}` : ""}`}
       aria-hidden="true"
-      style={{ ...(!lightMode && mixBlendMode ? { mixBlendMode } : null), ...style }}
-    >
-      <canvas ref={canvasRef} className="gradient-blinds-canvas" aria-hidden="true" />
+      style={{
+        ...(!lightMode && mixBlendMode ? { mixBlendMode } : null),
+        ...style,
+      }}>
+      <canvas
+        ref={canvasRef}
+        className="gradient-blinds-canvas"
+        aria-hidden="true"
+      />
     </div>
   );
 };
