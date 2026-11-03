@@ -16,7 +16,6 @@ import {
 import { capabilities, experience, profile, projects } from "./data";
 import { usePortfolioMotion } from "./usePortfolioMotion";
 import GlowCursor from "./components/GlowCursor/GlowCursor";
-import HalftoneReveal from "./components/HalftoneReveal/HalftoneReveal";
 
 function PortfolioGlowCursor() {
   const [isSupported, setIsSupported] = useState(false);
@@ -177,68 +176,25 @@ const projectImages = import.meta.glob(
   },
 );
 
-// function ProjectVisual({ project }) {
-//   const image = Object.entries(projectImages).find(([path]) => {
-//     const filename = path.split("/").pop().toLowerCase();
-
-//     return filename.includes(project.visual.toLowerCase());
-//   })?.[1];
-
-//   return (
-//     <div
-//       className={`project-art-inner project-image-visual ${project.visual}-screen`}>
-//       {image && (
-//         <img
-//           src={image}
-//           alt={`${project.name} project screenshot`}
-//           className="project-preview-image"
-//           loading="lazy"
-//           decoding="async"
-//           draggable={false}
-//         />
-//       )}
-//     </div>
-//   );
-// }
-
 function ProjectVisual({ project }) {
+  const projectKey = (project.visual || project.name).toLowerCase();
+
   const image = Object.entries(projectImages).find(([path]) => {
     const filename = path.split("/").pop().toLowerCase();
-    return filename.includes(project.visual.toLowerCase());
+    return filename.includes(projectKey);
   })?.[1];
 
   if (!image) return null;
 
   return (
-    <div
-      className={`project-art-inner project-image-visual ${project.visual}-screen`}>
-      <HalftoneReveal
+    <div className={`project-art-inner project-image-visual ${project.visual}-screen`}>
+      <img
+        className="project-preview-image"
         src={image}
-        alt={`${project.name} project preview`}
-        className="project-halftone"
-        // Image rendering
-        fit="contain"
-        // Halftone appearance
-        mode="duotone"
-        shape="dot"
-        cellSize={5}
-        angle={45}
-        dotScale={1}
-        inkColor="#c7ff4a"
-        accentColor="#a58bff"
-        paperColor="#090a0d"
-        contrast={1.25}
-        brightness={0.02}
-        roughness={0.12}
-        misregistration={0.16}
-        // Reveal interaction
-        revealRadius={170}
-        softness={0.68}
-        linger={1.3}
-        clickBurst={true}
-        reverse={false}
-        intro={true}
-        wander={false}
+        alt={`${project.name} project screenshot`}
+        loading="lazy"
+        decoding="async"
+        draggable={false}
       />
     </div>
   );
