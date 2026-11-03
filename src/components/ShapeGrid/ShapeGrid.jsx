@@ -747,6 +747,7 @@ export default function ShapeGrid({
     <div
       ref={containerRef}
       className={`shape-grid ${className}`.trim()}
+      aria-hidden="true"
       style={{
         opacity: clamp(opacity, 0, 1),
         backgroundColor,
