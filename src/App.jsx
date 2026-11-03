@@ -176,26 +176,69 @@ const projectImages = import.meta.glob(
   },
 );
 
+// function ProjectVisual({ project }) {
+//   const image = Object.entries(projectImages).find(([path]) => {
+//     const filename = path.split("/").pop().toLowerCase();
+
+//     return filename.includes(project.visual.toLowerCase());
+//   })?.[1];
+
+//   return (
+//     <div
+//       className={`project-art-inner project-image-visual ${project.visual}-screen`}>
+//       {image && (
+//         <img
+//           src={image}
+//           alt={`${project.name} project screenshot`}
+//           className="project-preview-image"
+//           loading="lazy"
+//           decoding="async"
+//           draggable={false}
+//         />
+//       )}
+//     </div>
+//   );
+// }
+
 function ProjectVisual({ project }) {
   const image = Object.entries(projectImages).find(([path]) => {
     const filename = path.split("/").pop().toLowerCase();
-
     return filename.includes(project.visual.toLowerCase());
   })?.[1];
+
+  if (!image) return null;
 
   return (
     <div
       className={`project-art-inner project-image-visual ${project.visual}-screen`}>
-      {image && (
-        <img
-          src={image}
-          alt={`${project.name} project screenshot`}
-          className="project-preview-image"
-          loading="lazy"
-          decoding="async"
-          draggable={false}
-        />
-      )}
+      <HalftoneReveal
+        src={image}
+        alt={`${project.name} project preview`}
+        className="project-halftone"
+        // Image rendering
+        fit="contain"
+        // Halftone appearance
+        mode="duotone"
+        shape="dot"
+        cellSize={5}
+        angle={45}
+        dotScale={1}
+        inkColor="#c7ff4a"
+        accentColor="#a58bff"
+        paperColor="#090a0d"
+        contrast={1.25}
+        brightness={0.02}
+        roughness={0.12}
+        misregistration={0.16}
+        // Reveal interaction
+        revealRadius={170}
+        softness={0.68}
+        linger={1.3}
+        clickBurst={true}
+        reverse={false}
+        intro={true}
+        wander={false}
+      />
     </div>
   );
 }
