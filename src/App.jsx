@@ -12,6 +12,7 @@ import {
   MoveUpRight,
   Sparkles,
   X,
+  Zap,
 } from "lucide-react";
 import { capabilities, experience, profile, projects } from "./data";
 import { usePortfolioMotion } from "./usePortfolioMotion";
@@ -474,7 +475,7 @@ export default function App() {
               </h2>
               <div className="intro-copy">
                 <div className="intro-marker" data-reveal data-scale="0.6">
-                  <Sparkles size={18} /> THE SHORT VERSION
+                  <Zap size={18} strokeWidth={2.2} /> THE SHORT VERSION
                 </div>
                 <p className="intro-lead" data-reveal data-distance="28">
                   I work at the intersection of{" "}
