@@ -297,8 +297,8 @@ export default function App() {
         shape="dot"
         cellSize={45}
         lineWidth={1}
-        direction="up"
-        speed={0.3}
+        direction="none"
+        speed={0}
         lineColor="#2a2734"
         hoverColor="#ffffff"
         hoverFillColor="#ffffff"
