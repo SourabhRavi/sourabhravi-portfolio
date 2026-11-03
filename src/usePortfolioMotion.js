@@ -1,3 +1,4 @@
+import Lenis from "lenis";
 import { useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -17,6 +18,33 @@ export function usePortfolioMotion(rootRef) {
   useLayoutEffect(() => {
     const root = rootRef.current;
     if (!root) return undefined;
+
+    // Smooth native scrolling, synchronized with GSAP ScrollTrigger.
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    let lenis = null;
+    let lenisTicker = null;
+
+    if (!prefersReducedMotion) {
+      lenis = new Lenis({
+        lerp: 0.085,
+        wheelMultiplier: 0.9,
+        smoothWheel: true,
+        syncTouch: false,
+        anchors: true,
+      });
+
+      lenis.on("scroll", ScrollTrigger.update);
+
+      lenisTicker = (time) => {
+        lenis.raf(time * 1000);
+      };
+
+      gsap.ticker.add(lenisTicker);
+      gsap.ticker.lagSmoothing(0);
+    }
 
     const mm = gsap.matchMedia(root);
     let active = true;
@@ -367,6 +395,13 @@ export function usePortfolioMotion(rootRef) {
       active = false;
       window.removeEventListener("load", onLoad);
       mm.revert();
+
+      if (lenis && lenisTicker) {
+        lenis.off("scroll", ScrollTrigger.update);
+        gsap.ticker.remove(lenisTicker);
+        lenis.destroy();
+        gsap.ticker.lagSmoothing(500, 33);
+      }
     };
   }, [rootRef]);
 }
