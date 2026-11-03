@@ -37,19 +37,19 @@ export const projects = [
     visual: "skim",
     accent: "violet",
   },
-  {
-    number: "03",
-    name: "RAG PDF CHAT",
-    type: "GENERATIVE AI · KNOWLEDGE RETRIEVAL",
-    tagline: "A practical interface for asking better questions.",
-    description:
-      "An end-to-end retrieval-augmented generation application combining a React interface, an Express backend, embeddings and vector search to make private PDF knowledge easier to explore.",
-    contribution: "Frontend · API integration · Retrieval workflow",
-    stack: ["React", "Vite", "Express", "Gemini Embeddings", "Qdrant"],
-    url: "",
-    visual: "rag",
-    accent: "cyan",
-  },
+  // {
+  //   number: "03",
+  //   name: "RAG PDF CHAT",
+  //   type: "GENERATIVE AI · KNOWLEDGE RETRIEVAL",
+  //   tagline: "A practical interface for asking better questions.",
+  //   description:
+  //     "An end-to-end retrieval-augmented generation application combining a React interface, an Express backend, embeddings and vector search to make private PDF knowledge easier to explore.",
+  //   contribution: "Frontend · API integration · Retrieval workflow",
+  //   stack: ["React", "Vite", "Express", "Gemini Embeddings", "Qdrant"],
+  //   url: "",
+  //   visual: "rag",
+  //   accent: "cyan",
+  // },
 ];
 
 export const experience = [
