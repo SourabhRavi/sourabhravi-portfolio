@@ -16,6 +16,7 @@ import {
 import { capabilities, experience, profile, projects } from "./data";
 import { usePortfolioMotion } from "./usePortfolioMotion";
 import GlowCursor from "./components/GlowCursor/GlowCursor";
+import ShapeGrid from "./components/ShapeGrid/ShapeGrid";
 
 function PortfolioGlowCursor() {
   const [isSupported, setIsSupported] = useState(false);
@@ -291,6 +292,30 @@ export default function App() {
 
   return (
     <div className="app-shell" id="top" ref={rootRef}>
+      <ShapeGrid
+        className="site-shape-grid"
+        shape="dot"
+        cellSize={45}
+        lineWidth={1}
+        direction="up"
+        speed={0.3}
+        lineColor="#2a2734"
+        hoverColor="#ffffff"
+        hoverFillColor="#ffffff"
+        fillOpacity={0.05}
+        rainbow={true}
+        tiltX={28}
+        tiltY={-22}
+        radius={2.1}
+        trail={0.6}
+        glow={0.5}
+        twinkle={0}
+        fade={1}
+        clickCascade={true}
+        intro={true}
+        opacity={1}
+        backgroundColor="transparent"
+      />
       <div className="ambient ambient-one" aria-hidden="true" />
       <div className="ambient ambient-two" aria-hidden="true" />
       <PortfolioGlowCursor />
