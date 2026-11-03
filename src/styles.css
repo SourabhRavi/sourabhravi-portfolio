@@ -2121,7 +2121,7 @@ a:focus-visible {
   transform: translateY(-50%);
   --pointer-x: 0;
   --pointer-y: 0;
-  cursor: crosshair;
+  /* cursor: crosshair; */
   touch-action: pan-y;
 }
 
@@ -2437,7 +2437,7 @@ a:focus-visible {
   --pointer-x: 0;
   --pointer-y: 0;
   isolation: isolate;
-  cursor: crosshair;
+  /* cursor: crosshair; */
 }
 
 .hero-art::before {
@@ -4299,7 +4299,6 @@ a:focus-visible {
     transition-duration: 0.01ms !important;
   }
 }
-
 
 /* Portfolio-wide React Bits Glow Cursor layer. */
 .portfolio-glow-cursor {
