@@ -4299,3 +4299,27 @@ a:focus-visible {
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* Portfolio-wide React Bits Glow Cursor layer. */
+.portfolio-glow-cursor {
+  position: fixed;
+  inset: 0;
+  z-index: 15;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  pointer-events: none;
+  isolation: isolate;
+}
+
+.portfolio-glow-cursor .glow-cursor__canvas {
+  opacity: 0.86;
+}
+
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .portfolio-glow-cursor {
+    display: none !important;
+  }
+}
