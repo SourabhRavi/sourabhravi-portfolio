@@ -7,6 +7,7 @@ import {
   Asterisk,
   Github,
   Linkedin,
+  FileText,
   Mail,
   Menu,
   MoveUpRight,
@@ -243,6 +244,13 @@ function ContactLinks() {
           label: "EMAIL",
           href: `mailto:${profile.email}`,
           icon: <Mail size={15} />,
+        }
+      : null,
+    profile.resume
+      ? {
+          label: "RESUME",
+          href: profile.resume,
+          icon: <FileText size={15} />,
         }
       : null,
     profile.linkedin
