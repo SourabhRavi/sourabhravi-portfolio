@@ -1890,8 +1890,8 @@ a:focus-visible {
     transform: none;
   }
   .hero-resume-float {
-    left: 0;
-    top: 62%;
+    left: -2%;
+    top: 54%;
     min-width: 178px;
     padding: 9px 10px;
     gap: 8px;
@@ -2566,8 +2566,8 @@ a:focus-visible {
 .hero-resume-float {
   position: absolute;
   z-index: 12;
-  left: 1%;
-  top: 66%;
+  left: -4%;
+  top: 44%;
   display: inline-flex;
   align-items: center;
   gap: 11px;
