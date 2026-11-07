@@ -6,7 +6,7 @@ export const profile = {
   email: "sourabh.k.ravi@gmail.com",
   github: "https://github.com/SourabhRavi",
   linkedin: "https://www.linkedin.com/in/sourabh-k-ravi/",
-  resume: "https://github.com/SourabhRavi/cote-v2/blob/main/server/public/resume.pdf",
+  resume: "/api/resume",
   upwork: "",
 };
 
