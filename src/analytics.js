@@ -127,15 +127,6 @@ function trackClick(event) {
     return;
   }
 
-  if (anchor?.getAttribute("href")?.startsWith("#")) {
-    pushAnalyticsEvent("navigation_click", {
-      navigation_label: label,
-      destination: href,
-      section_id: sectionId,
-    });
-    return;
-  }
-
   if (
     control.matches(".button, .nav-cta, .contact-big-link, .text-link") ||
     control.closest(".hero-actions")
@@ -144,6 +135,15 @@ function trackClick(event) {
       cta_text: label,
       cta_location: sectionId,
       destination: href || "button",
+    });
+    return;
+  }
+
+  if (anchor?.getAttribute("href")?.startsWith("#")) {
+    pushAnalyticsEvent("navigation_click", {
+      navigation_label: label,
+      destination: href,
+      section_id: sectionId,
     });
     return;
   }
