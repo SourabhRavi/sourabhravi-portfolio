@@ -92,6 +92,16 @@ function Header() {
         {open ? <X size={20} /> : <Menu size={20} />}
       </button>
       <nav className={open ? "main-nav is-open" : "main-nav"}>
+        {profile.resume && (
+          <a
+            className="nav-resume"
+            href={profile.resume}
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => setOpen(false)}>
+            <FileText size={15} /> Resume <ArrowUpRight size={13} />
+          </a>
+        )}
         {links.map(([label, href]) => (
           <a key={href} href={href} onClick={() => setOpen(false)}>
             {label}
@@ -399,6 +409,21 @@ export default function App() {
                 event.currentTarget.style.setProperty("--pointer-x", "0");
                 event.currentTarget.style.setProperty("--pointer-y", "0");
               }}>
+              {profile.resume && (
+                <a
+                  className="hero-resume-float"
+                  href={profile.resume}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="View resume in a new tab">
+                  <span className="hero-resume-icon"><FileText size={17} /></span>
+                  <span className="hero-resume-copy">
+                    <strong>VIEW RESUME</strong>
+                    <small>EXPERIENCE · SKILLS · WORK</small>
+                  </span>
+                  <ArrowUpRight className="hero-resume-arrow" size={15} />
+                </a>
+              )}
               <div className="hero-art-kicker">
                 <span className="engine-live-dot" /> THE CREATIVE ENGINE{" "}
                 <span>01 — 03</span>
