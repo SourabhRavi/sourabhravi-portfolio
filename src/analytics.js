@@ -2,6 +2,7 @@ const CLARITY_ID = import.meta.env.VITE_CLARITY_PROJECT_ID;
 
 let initialized = false;
 const viewedSections = new Set();
+const viewedProjects = new Set();
 const scrollMilestones = new Set();
 
 function pushAnalyticsEvent(eventName, parameters = {}) {
@@ -48,9 +49,17 @@ function getSafeUrl(href) {
 function getControlLabel(control) {
   return (
     control.getAttribute("aria-label") ||
-    control.textContent?.replace(/\s+/g, " ").trim().slice(0, 80) ||
+    control.textContent?.replace(/\\s+/g, " ").trim().slice(0, 80) ||
     control.getAttribute("title") ||
     "unlabelled"
+  );
+}
+
+function getSectionId(control) {
+  const section = control.closest("section");
+  return (
+    section?.id ||
+    (section?.classList.contains("hero") ? "hero" : "global")
   );
 }
 
@@ -62,19 +71,23 @@ function trackClick(event) {
   const anchor = control instanceof HTMLAnchorElement ? control : null;
   const href = anchor?.getAttribute("href") || "";
   const label = getControlLabel(control);
-  const sectionElement = control.closest("section");
-  const sectionId =
-    sectionElement?.id ||
-    (sectionElement?.classList.contains("hero") ? "hero" : "global");
+  const sectionId = getSectionId(control);
   const projectCard = control.closest(".project-card");
-  const projectName = projectCard?.querySelector("h3")?.textContent?.trim();
+  const projectName = projectCard?.querySelector("h3")?.textContent?.replace(/\\s+/g, " ").trim();
   const destination = href ? getSafeUrl(anchor.href) : null;
+  const lowerLabel = label.toLowerCase();
+  const isResumeLink =
+    lowerLabel.includes("resume") ||
+    lowerLabel.includes("cv") ||
+    destination?.url.includes("/api/resume") ||
+    /\\.(pdf|docx?)(?:$|\\?)/i.test(href);
 
-  if (anchor?.hasAttribute("download")) {
-    pushAnalyticsEvent("resume_download", {
-      file_name: anchor.getAttribute("download") || destination?.url.split("/").pop() || "download",
-      download_url: destination?.url || "",
-      section_id: sectionId,
+  if (isResumeLink) {
+    pushAnalyticsEvent("resume_open", {
+      link_text: label,
+      link_url: destination?.url || "",
+      link_location: sectionId,
+      open_in_new_tab: anchor?.target === "_blank",
     });
     return;
   }
@@ -83,8 +96,8 @@ function trackClick(event) {
     pushAnalyticsEvent("project_click", {
       project_name: projectName,
       project_url: destination?.url || "",
-      click_text: label,
-      section_id: sectionId,
+      link_text: label,
+      link_location: sectionId,
     });
     return;
   }
@@ -92,36 +105,38 @@ function trackClick(event) {
   if (href.startsWith("mailto:") || href.startsWith("tel:")) {
     pushAnalyticsEvent("contact_click", {
       contact_method: href.startsWith("mailto:") ? "email" : "phone",
-      click_text: label,
-      section_id: sectionId,
+      link_text: label,
+      link_location: sectionId,
     });
     return;
   }
 
   if (destination?.isExternal) {
+    const host = destination.domain.replace(/^www\\./, "");
     const socialPlatforms = {
       "linkedin.com": "linkedin",
-      "www.linkedin.com": "linkedin",
       "github.com": "github",
-      "www.github.com": "github",
       "upwork.com": "upwork",
-      "www.upwork.com": "upwork",
+      "x.com": "x",
+      "twitter.com": "x",
+      "behance.net": "behance",
+      "dribbble.com": "dribbble",
     };
-    const platform = socialPlatforms[destination.domain];
+    const platform = socialPlatforms[host];
 
     if (platform) {
       pushAnalyticsEvent("social_click", {
         platform,
         link_url: destination.url,
-        click_text: label,
-        section_id: sectionId,
+        link_text: label,
+        link_location: sectionId,
       });
     } else {
       pushAnalyticsEvent("outbound_click", {
         link_url: destination.url,
-        link_domain: destination.domain,
-        click_text: label,
-        section_id: sectionId,
+        link_domain: host,
+        link_text: label,
+        link_location: sectionId,
       });
     }
     return;
@@ -139,7 +154,7 @@ function trackClick(event) {
     return;
   }
 
-  if (anchor?.getAttribute("href")?.startsWith("#")) {
+  if (href.startsWith("#")) {
     pushAnalyticsEvent("navigation_click", {
       navigation_label: label,
       destination: href,
@@ -156,7 +171,6 @@ function trackClick(event) {
 }
 
 function trackSectionViews() {
-  const sections = document.querySelectorAll("main section[data-section]");
   if (!("IntersectionObserver" in window)) return;
 
   const observer = new IntersectionObserver(
@@ -175,7 +189,7 @@ function trackSectionViews() {
         pushAnalyticsEvent("section_view", {
           section_id: sectionId,
           section_name:
-            section.querySelector("h1, h2")?.textContent?.replace(/\s+/g, " ").trim().slice(0, 100) ||
+            section.querySelector("h1, h2")?.textContent?.replace(/\\s+/g, " ").trim().slice(0, 100) ||
             sectionId,
         });
       });
@@ -183,7 +197,40 @@ function trackSectionViews() {
     { threshold: 0.35 },
   );
 
-  sections.forEach((section) => observer.observe(section));
+  document.querySelectorAll("main section[data-section]").forEach((section) => {
+    observer.observe(section);
+  });
+}
+
+function trackProjectViews() {
+  if (!("IntersectionObserver" in window)) return;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        const card = entry.target;
+        const projectName = card.querySelector("h3")?.textContent?.replace(/\\s+/g, " ").trim();
+        if (!projectName || viewedProjects.has(projectName)) return;
+
+        viewedProjects.add(projectName);
+        const projectUrl = card.querySelector('a[href]')?.href || "";
+
+        pushAnalyticsEvent("project_view", {
+          project_name: projectName,
+          project_url: projectUrl ? getSafeUrl(projectUrl).url : "",
+        });
+
+        observer.unobserve(card);
+      });
+    },
+    { threshold: 0.5 },
+  );
+
+  document.querySelectorAll(".project-card").forEach((card) => {
+    observer.observe(card);
+  });
 }
 
 function trackScrollDepth() {
@@ -210,8 +257,8 @@ export function initAnalytics() {
   if (initialized || typeof window === "undefined") return;
   initialized = true;
 
-  // GTM is installed in index.html. Custom events are sent to its dataLayer
-  // and forwarded to GA4 by the Google Tag Manager event tag.
+  // GTM is installed in index.html. A GA4 Event tag in GTM must forward
+  // the custom dataLayer events listed in ANALYTICS_SETUP.md to GA4.
   window.dataLayer = window.dataLayer || [];
 
   loadMicrosoftClarity();
@@ -219,9 +266,14 @@ export function initAnalytics() {
   document.addEventListener("click", trackClick, true);
   window.addEventListener("scroll", trackScrollDepth, { passive: true });
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", trackSectionViews, { once: true });
-  } else {
+  const initObservers = () => {
     trackSectionViews();
+    trackProjectViews();
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initObservers, { once: true });
+  } else {
+    initObservers();
   }
 }
