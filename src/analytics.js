@@ -80,7 +80,7 @@ function trackClick(event) {
     lowerLabel.includes("resume") ||
     lowerLabel.includes("cv") ||
     destination?.url.includes("/api/resume") ||
-    /\.(pdf|docx?)(?:$|\\?)/i.test(href);
+    /\.(pdf|docx?)(?:$|\?)/i.test(href);
 
   if (isResumeLink) {
     pushAnalyticsEvent("resume_open", {
