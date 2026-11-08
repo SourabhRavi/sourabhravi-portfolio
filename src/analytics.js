@@ -49,7 +49,7 @@ function getSafeUrl(href) {
 function getControlLabel(control) {
   return (
     control.getAttribute("aria-label") ||
-    control.textContent?.replace(/\\s+/g, " ").trim().slice(0, 80) ||
+    control.textContent?.replace(/\s+/g, " ").trim().slice(0, 80) ||
     control.getAttribute("title") ||
     "unlabelled"
   );
@@ -73,14 +73,14 @@ function trackClick(event) {
   const label = getControlLabel(control);
   const sectionId = getSectionId(control);
   const projectCard = control.closest(".project-card");
-  const projectName = projectCard?.querySelector("h3")?.textContent?.replace(/\\s+/g, " ").trim();
+  const projectName = projectCard?.querySelector("h3")?.textContent?.replace(/\s+/g, " ").trim();
   const destination = href ? getSafeUrl(anchor.href) : null;
   const lowerLabel = label.toLowerCase();
   const isResumeLink =
     lowerLabel.includes("resume") ||
     lowerLabel.includes("cv") ||
     destination?.url.includes("/api/resume") ||
-    /\\.(pdf|docx?)(?:$|\\?)/i.test(href);
+    /\.(pdf|docx?)(?:$|\\?)/i.test(href);
 
   if (isResumeLink) {
     pushAnalyticsEvent("resume_open", {
@@ -112,7 +112,7 @@ function trackClick(event) {
   }
 
   if (destination?.isExternal) {
-    const host = destination.domain.replace(/^www\\./, "");
+    const host = destination.domain.replace(/^www\./, "");
     const socialPlatforms = {
       "linkedin.com": "linkedin",
       "github.com": "github",
@@ -189,7 +189,7 @@ function trackSectionViews() {
         pushAnalyticsEvent("section_view", {
           section_id: sectionId,
           section_name:
-            section.querySelector("h1, h2")?.textContent?.replace(/\\s+/g, " ").trim().slice(0, 100) ||
+            section.querySelector("h1, h2")?.textContent?.replace(/\s+/g, " ").trim().slice(0, 100) ||
             sectionId,
         });
       });
@@ -211,7 +211,7 @@ function trackProjectViews() {
         if (!entry.isIntersecting) return;
 
         const card = entry.target;
-        const projectName = card.querySelector("h3")?.textContent?.replace(/\\s+/g, " ").trim();
+        const projectName = card.querySelector("h3")?.textContent?.replace(/\s+/g, " ").trim();
         if (!projectName || viewedProjects.has(projectName)) return;
 
         viewedProjects.add(projectName);
