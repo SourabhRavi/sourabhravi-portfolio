@@ -66,6 +66,7 @@ export default function ReactLaunchpadPage() {
           { autoAlpha: 0, y: 34, scale: 0.985 },
           { autoAlpha: 1, y: 0, scale: 1, duration: 0.78, ease: "power3.out",
             delay: (index % 4) * 0.055,
+            onComplete: () => gsap.set(node, { clearProps: "opacity,visibility,transform" }),
             scrollTrigger: { trigger: node, start: "top 88%", toggleActions: "play none none none" }
           }
         );
@@ -75,9 +76,17 @@ export default function ReactLaunchpadPage() {
         { autoAlpha: 0, y: 22 },
         { autoAlpha: 1, y: 0, duration: 0.8, stagger: 0.09, ease: "power3.out", delay: 0.12 }
       );
-      gsap.to(".rl-hero-art", {
-        yPercent: -16, rotate: 1.8, ease: "none",
+      gsap.to(".rl-hero-glow", {
+        yPercent: 24, xPercent: 7, ease: "none",
         scrollTrigger: { trigger: ".rl-hero", start: "top top", end: "bottom top", scrub: 1.1 }
+      });
+      gsap.to(".rl-pane-side", {
+        y: 62, rotate: 4, ease: "none",
+        scrollTrigger: { trigger: ".rl-hero", start: "top top", end: "bottom top", scrub: 1.25 }
+      });
+      gsap.to(".rl-chip-a", {
+        y: -48, x: 24, ease: "none",
+        scrollTrigger: { trigger: ".rl-hero", start: "top top", end: "bottom top", scrub: 1 }
       });
       gsap.fromTo(".rl-intro-layout h2",
         { x: -28, autoAlpha: 0 },
@@ -91,6 +100,14 @@ export default function ReactLaunchpadPage() {
           scrollTrigger: { trigger: ".rl-outcomes-heading", start: "top 85%", end: "top 42%", scrub: 0.8 }
         }
       );
+      gsap.to(".rl-series-orb", {
+        rotate: 95, scale: 1.12, ease: "none",
+        scrollTrigger: { trigger: ".rl-series", start: "top bottom", end: "bottom top", scrub: 1 }
+      });
+      gsap.to(".rl-outcomes-stamp", {
+        y: -20, rotate: -4, ease: "none",
+        scrollTrigger: { trigger: ".rl-outcomes", start: "top bottom", end: "bottom top", scrub: 0.8 }
+      });
       gsap.fromTo(".rl-close-orb",
         { yPercent: -10, scale: 0.85 },
         { yPercent: 22, scale: 1.12, ease: "none",
