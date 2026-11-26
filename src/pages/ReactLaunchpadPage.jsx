@@ -123,6 +123,42 @@ export default function ReactLaunchpadPage() {
     art.addEventListener("pointerleave", onLeave);
     return () => { art.removeEventListener("pointermove", onMove); art.removeEventListener("pointerleave", onLeave); };
   }, []);
+  useEffect(() => {
+    const root = pageRef.current;
+    if (!root || !("IntersectionObserver" in window)) return;
+    const links = [...root.querySelectorAll(".rl-header nav a[href^='#']")];
+    const sections = links.map(link => root.querySelector(link.getAttribute("href"))).filter(Boolean);
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        links.forEach(link => link.classList.toggle("rl-nav-active", link.getAttribute("href") === "#" + entry.target.id));
+      });
+    }, { rootMargin: "-22% 0px -68% 0px", threshold: 0 });
+    sections.forEach(section => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+  useEffect(() => {
+    const root = pageRef.current;
+    if (!root || window.matchMedia("(hover: none), (prefers-reduced-motion: reduce)").matches) return;
+    const cards = [...root.querySelectorAll(".rl-tilt-card")];
+    const cleanups = cards.map(card => {
+      const move = event => {
+        const rect = card.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - .5;
+        const y = (event.clientY - rect.top) / rect.height - .5;
+        card.style.setProperty("--rl-tilt-x", (x * 3.5) + "deg");
+        card.style.setProperty("--rl-tilt-y", (-y * 3.5) + "deg");
+      };
+      const reset = () => {
+        card.style.setProperty("--rl-tilt-x", "0deg");
+        card.style.setProperty("--rl-tilt-y", "0deg");
+      };
+      card.addEventListener("pointermove", move, { passive: true });
+      card.addEventListener("pointerleave", reset);
+      return () => { card.removeEventListener("pointermove", move); card.removeEventListener("pointerleave", reset); };
+    });
+    return () => cleanups.forEach(cleanup => cleanup());
+  }, []);
   return <div className="react-launchpad-page" ref={pageRef}>
     <div className="rl-scroll-progress" ref={progressRef} aria-hidden="true"/>
     <WorkshopHeader mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen}/>
