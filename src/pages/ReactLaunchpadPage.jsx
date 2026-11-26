@@ -30,88 +30,6 @@ const series = [
   ["06", "Ship with confidence", "Testing, accessibility, security and deployment."],
 ];
 
-const columns = [
-  { id: "todo", label: "To do", tone: "lavender" },
-  { id: "progress", label: "In progress", tone: "peach" },
-  { id: "done", label: "Done", tone: "mint" },
-];
-
-function BoardDemo() {
-  const [tasks, setTasks] = useState(initialTasks);
-  const [query, setQuery] = useState("");
-  const [newTask, setNewTask] = useState("");
-  const [filter, setFilter] = useState("All");
-  const [showComposer, setShowComposer] = useState(false);
-
-  const visibleTasks = useMemo(() => tasks.filter((task) => {
-    const matchesText = task.title.toLowerCase().includes(query.toLowerCase());
-    const matchesPriority = filter === "All" || task.priority === filter;
-    return matchesText && matchesPriority;
-  }), [tasks, query, filter]);
-
-  const addTask = (event) => {
-    event.preventDefault();
-    const title = newTask.trim();
-    if (!title) return;
-    setTasks((current) => [...current, {
-      id: Date.now(),
-      title,
-      detail: "A fresh idea for the team",
-      priority: "Medium",
-      status: "todo",
-    }]);
-    setNewTask("");
-    setShowComposer(false);
-  };
-
-  const moveTask = (id, direction) => {
-    const order = columns.map((column) => column.id);
-    setTasks((current) => current.map((task) => {
-      if (task.id !== id) return task;
-      const nextIndex = Math.max(0, Math.min(order.length - 1, order.indexOf(task.status) + direction));
-      return { ...task, status: order[nextIndex] };
-    }));
-  };
-
-  const removeTask = (id) => setTasks((current) => current.filter((task) => task.id !== id));
-
-  return (
-    <div className="rl-board-shell">
-      <div className="rl-board-top">
-        <div className="rl-board-brand"><span className="rl-board-mark">B.</span><span>buildboard</span><i>STUDENT WORKSPACE</i></div>
-        <span className="rl-board-live"><i /> LIVE PREVIEW</span>
-      </div>
-      <div className="rl-board-toolbar">
-        <div><span className="rl-board-eyebrow">YOUR TEAM SPACE</span><strong>Launch project</strong><small>Keep the good ideas moving.</small></div>
-        <div className="rl-board-tools">
-          <label className="rl-board-search"><Search size={14}/><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Find a task…" aria-label="Search tasks"/></label>
-          <select value={filter} onChange={(e) => setFilter(e.target.value)} aria-label="Filter tasks by priority"><option>All</option><option>High</option><option>Medium</option><option>Low</option></select>
-          <button className="rl-add-task" onClick={() => setShowComposer((v) => !v)}><Plus size={15}/> Add task</button>
-        </div>
-      </div>
-      {showComposer && <form className="rl-composer" onSubmit={addTask}><input autoFocus value={newTask} onChange={(e) => setNewTask(e.target.value)} placeholder="What needs to get done?" aria-label="New task title"/><button type="submit" disabled={!newTask.trim()}>Add to board <ArrowUpRight size={14}/></button><button type="button" className="rl-composer-close" aria-label="Close task form" onClick={() => setShowComposer(false)}><X size={15}/></button></form>}
-      <div className="rl-board-columns">
-        {columns.map((column) => {
-          const items = visibleTasks.filter((task) => task.status === column.id);
-          return <section className={`rl-column rl-${column.tone}`} key={column.id}>
-            <div className="rl-column-head"><span><i/>{column.label}</span><b>{items.length.toString().padStart(2, "0")}</b></div>
-            <div className="rl-task-list">
-              {items.map((task) => <article className="rl-task" key={task.id}>
-                <div className="rl-task-title">{task.title}</div>
-                <p>{task.detail}</p>
-                <div className="rl-task-foot"><span className={`rl-priority rl-priority-${task.priority.toLowerCase()}`}>{task.priority}</span><div className="rl-task-actions"><button onClick={() => moveTask(task.id, -1)} aria-label={`Move ${task.title} left`} title="Move back"><ArrowLeft size={12}/></button><button onClick={() => moveTask(task.id, 1)} aria-label={`Move ${task.title} right`} title="Move forward"><ArrowRight size={12}/></button><button onClick={() => removeTask(task.id)} aria-label={`Delete ${task.title}`} title="Delete task"><X size={12}/></button></div></div>
-              </article>)}
-              {items.length === 0 && <div className="rl-empty">Nothing here yet.</div>}
-            </div>
-            {column.id === "todo" && <button className="rl-column-add" onClick={() => setShowComposer(true)}><Plus size={13}/> Add a task</button>}
-          </section>;
-        })}
-      </div>
-      <div className="rl-board-foot"><span><span className="rl-save-dot"/> Changes are local to this preview</span><span>{tasks.length} tasks <b>·</b> {tasks.filter(t => t.status === "done").length} completed</span></div>
-    </div>
-  );
-}
-
 function WorkshopHeader({ mobileMenuOpen, setMobileMenuOpen }) {
   return <header className="rl-header">
     <a href="/" className="rl-monogram" aria-label="Back to Sourabh's portfolio">SR<span>✳</span></a>
@@ -129,6 +47,46 @@ export default function ReactLaunchpadPage() {
   const heroArtRef = useRef(null);
   const [expandedSeries, setExpandedSeries] = useState(0);
 
+  useEffect(() => {
+    const root = pageRef.current;
+    if (!root) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    root.classList.add("rl-motion-ready");
+    const nodes = root.querySelectorAll(".rl-section-wrap > *, .rl-outcome-card, .rl-bento > article, .rl-agenda-item, .rl-series-item");
+    if (reduced || !("IntersectionObserver" in window)) { nodes.forEach(node => node.classList.add("rl-in-view")); return; }
+    const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+      if (entry.isIntersecting) { entry.target.classList.add("rl-in-view"); observer.unobserve(entry.target); }
+    }), { threshold: 0.12, rootMargin: "0px 0px -32px 0px" });
+    nodes.forEach(node => { node.classList.add("rl-reveal"); observer.observe(node); });
+    return () => observer.disconnect();
+  }, []);
+  useEffect(() => {
+    let frame = 0;
+    const onScroll = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(() => {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        if (progressRef.current) progressRef.current.style.transform = "scaleX(" + (max > 0 ? window.scrollY / max : 0) + ")";
+        frame = 0;
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => { window.removeEventListener("scroll", onScroll); if (frame) cancelAnimationFrame(frame); };
+  }, []);
+  useEffect(() => {
+    const art = heroArtRef.current;
+    if (!art || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const onMove = event => {
+      const rect = art.getBoundingClientRect();
+      art.style.setProperty("--rl-pointer-x", ((event.clientX - rect.left) / rect.width - 0.5) * 10 + "px");
+      art.style.setProperty("--rl-pointer-y", ((event.clientY - rect.top) / rect.height - 0.5) * 10 + "px");
+    };
+    const onLeave = () => { art.style.setProperty("--rl-pointer-x", "0px"); art.style.setProperty("--rl-pointer-y", "0px"); };
+    art.addEventListener("pointermove", onMove, { passive: true });
+    art.addEventListener("pointerleave", onLeave);
+    return () => { art.removeEventListener("pointermove", onMove); art.removeEventListener("pointerleave", onLeave); };
+  }, []);
   return <div className="react-launchpad-page" ref={pageRef}>
     <div className="rl-scroll-progress" ref={progressRef} aria-hidden="true"/>
     <WorkshopHeader mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen}/>
@@ -143,7 +101,7 @@ export default function ReactLaunchpadPage() {
               <h1>Make ideas<br/><em>interactive.</em></h1>
               <p className="rl-hero-subtitle">Build your first project board with React.</p>
               <p className="rl-hero-description">A hands-on, three-hour workshop where you go from React fundamentals to a working interface you can make your own.</p>
-              <div className="rl-hero-actions"><a className="rl-button-primary" href="#build">Explore the build <ArrowUpRight size={16}/></a><a className="rl-text-cta" href="#agenda">See the session <ArrowDown size={15}/></a></div>
+              <div className="rl-hero-actions"><a className="rl-button-primary" href="#outcomes">Explore the workshop <ArrowUpRight size={16}/></a><a className="rl-text-cta" href="#agenda">See the session <ArrowDown size={15}/></a></div>
               <div className="rl-hero-facts"><span><b>180</b> minutes</span><i/><span><b>01</b> product</span><i/><span><b>Zero</b> React required</span></div>
             </div>
             <div className="rl-hero-art" ref={heroArtRef}>
