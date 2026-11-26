@@ -52,7 +52,7 @@ export default function ReactLaunchpadPage() {
 
   useEffect(() => {
     const root = pageRef.current;
-    if (!root) return;
+    if (!root || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const ctx = gsap.context(() => {
       const reveal = [
         ".rl-intro-layout", ".rl-bento > article", ".rl-outcomes-heading",
@@ -63,8 +63,8 @@ export default function ReactLaunchpadPage() {
       ].flatMap(selector => [...root.querySelectorAll(selector)]);
       reveal.forEach((node, index) => {
         gsap.fromTo(node,
-          { autoAlpha: 0, y: 34, scale: 0.985 },
-          { autoAlpha: 1, y: 0, scale: 1, duration: 0.78, ease: "power3.out",
+          { autoAlpha: 0, y: 72, scale: 0.94, filter: "blur(5px)" },
+          { autoAlpha: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 1.05, ease: "power3.out",
             delay: (index % 4) * 0.055,
             onComplete: () => gsap.set(node, { clearProps: "opacity,visibility,transform" }),
             scrollTrigger: { trigger: node, start: "top 88%", toggleActions: "play none none none" }
@@ -81,7 +81,7 @@ export default function ReactLaunchpadPage() {
         scrollTrigger: { trigger: ".rl-hero", start: "top top", end: "bottom top", scrub: 1.1 }
       });
       gsap.to(".rl-pane-side", {
-        y: 62, rotate: 4, ease: "none",
+        y: 105, rotate: 7, ease: "none",
         scrollTrigger: { trigger: ".rl-hero", start: "top top", end: "bottom top", scrub: 1.25 }
       });
       gsap.to(".rl-chip-a", {
@@ -89,11 +89,19 @@ export default function ReactLaunchpadPage() {
         scrollTrigger: { trigger: ".rl-hero", start: "top top", end: "bottom top", scrub: 1 }
       });
       gsap.fromTo(".rl-intro-layout h2",
-        { x: -28, autoAlpha: 0 },
+        { x: -70, autoAlpha: 0 },
         { x: 0, autoAlpha: 1, ease: "none",
           scrollTrigger: { trigger: ".rl-intro", start: "top 72%", end: "top 28%", scrub: 0.8 }
         }
       );
+      gsap.to(".rl-bento-product", {
+        y: -58, rotate: 2.5, ease: "none",
+        scrollTrigger: { trigger: ".rl-bento", start: "top bottom", end: "bottom top", scrub: 1 }
+      });
+      gsap.to(".rl-bento-method", {
+        y: 34, rotate: -1.5, ease: "none",
+        scrollTrigger: { trigger: ".rl-bento", start: "top bottom", end: "bottom top", scrub: 1 }
+      });
       gsap.fromTo(".rl-outcomes-heading h2",
         { clipPath: "inset(0 0 100% 0)", y: 24 },
         { clipPath: "inset(0 0 0% 0)", y: 0, ease: "none",
