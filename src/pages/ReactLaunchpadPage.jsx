@@ -1,0 +1,232 @@
+import { useMemo, useState } from "react";
+import {
+  ArrowDown,
+  ArrowLeft,
+  ArrowRight,
+  ArrowUpRight,
+  Check,
+  ChevronDown,
+  Clock3,
+  Code2,
+  Layers3,
+  MousePointer2,
+  Plus,
+  Search,
+  Sparkles,
+  X,
+  Zap,
+} from "lucide-react";
+import "./react-launchpad.css";
+
+const initialTasks = [
+  { id: 1, title: "Sketch the project flow", detail: "Map the first experience", priority: "High", status: "todo" },
+  { id: 2, title: "Build the task card", detail: "Reusable component", priority: "Medium", status: "progress" },
+  { id: 3, title: "Set up the Vite app", detail: "React project shell", priority: "Low", status: "done" },
+  { id: 4, title: "Polish the empty state", detail: "Make the details feel right", priority: "Medium", status: "todo" },
+];
+
+const agenda = [
+  { time: "00:00", duration: "15 min", title: "Welcome + product demo", detail: "See the product first, then understand the React mental model." },
+  { time: "00:15", duration: "25 min", title: "JSX, components + props", detail: "Turn the interface into reusable pieces." },
+  { time: "00:40", duration: "25 min", title: "State + events", detail: "Create, update and remove tasks with interaction-driven state." },
+  { time: "01:05", duration: "10 min", title: "Break", detail: "Reset, stretch and ask questions." },
+  { time: "01:15", duration: "30 min", title: "Forms + task workflow", detail: "Controlled inputs and changing task status." },
+  { time: "01:45", duration: "25 min", title: "Search + derived state", detail: "Filter the board without duplicating state." },
+  { time: "02:10", duration: "25 min", title: "Persistence", detail: "Keep the board alive with localStorage." },
+  { time: "02:35", duration: "15 min", title: "Independent mini-challenge", detail: "Choose a small feature and build it yourself." },
+  { time: "02:50", duration: "10 min", title: "Showcase + recap", detail: "Share what you built and preview what's next." },
+];
+
+const series = [
+  ["01", "React foundations", "Components, state, events and local persistence.", "YOU ARE HERE"],
+  ["02", "App architecture", "Routing, custom hooks and API loading states."],
+  ["03", "Full-stack workflow", "Node.js, Express, PostgreSQL and authentication."],
+  ["04", "Real-time collaboration", "Shared updates and presence with Socket.IO."],
+  ["05", "AI-powered workflows", "Secure AI integration for smarter task planning."],
+  ["06", "Ship with confidence", "Testing, accessibility, security and deployment."],
+];
+
+const columns = [
+  { id: "todo", label: "To do", tone: "lavender" },
+  { id: "progress", label: "In progress", tone: "peach" },
+  { id: "done", label: "Done", tone: "mint" },
+];
+
+function BoardDemo() {
+  const [tasks, setTasks] = useState(initialTasks);
+  const [query, setQuery] = useState("");
+  const [newTask, setNewTask] = useState("");
+  const [filter, setFilter] = useState("All");
+  const [showComposer, setShowComposer] = useState(false);
+
+  const visibleTasks = useMemo(() => tasks.filter((task) => {
+    const matchesText = task.title.toLowerCase().includes(query.toLowerCase());
+    const matchesPriority = filter === "All" || task.priority === filter;
+    return matchesText && matchesPriority;
+  }), [tasks, query, filter]);
+
+  const addTask = (event) => {
+    event.preventDefault();
+    const title = newTask.trim();
+    if (!title) return;
+    setTasks((current) => [...current, {
+      id: Date.now(),
+      title,
+      detail: "A fresh idea for the team",
+      priority: "Medium",
+      status: "todo",
+    }]);
+    setNewTask("");
+    setShowComposer(false);
+  };
+
+  const moveTask = (id, direction) => {
+    const order = columns.map((column) => column.id);
+    setTasks((current) => current.map((task) => {
+      if (task.id !== id) return task;
+      const nextIndex = Math.max(0, Math.min(order.length - 1, order.indexOf(task.status) + direction));
+      return { ...task, status: order[nextIndex] };
+    }));
+  };
+
+  const removeTask = (id) => setTasks((current) => current.filter((task) => task.id !== id));
+
+  return (
+    <div className="rl-board-shell">
+      <div className="rl-board-top">
+        <div className="rl-board-brand"><span className="rl-board-mark">B.</span><span>buildboard</span><i>STUDENT WORKSPACE</i></div>
+        <span className="rl-board-live"><i /> LIVE PREVIEW</span>
+      </div>
+      <div className="rl-board-toolbar">
+        <div><span className="rl-board-eyebrow">YOUR TEAM SPACE</span><strong>Launch project</strong><small>Keep the good ideas moving.</small></div>
+        <div className="rl-board-tools">
+          <label className="rl-board-search"><Search size={14}/><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Find a task…" aria-label="Search tasks"/></label>
+          <select value={filter} onChange={(e) => setFilter(e.target.value)} aria-label="Filter tasks by priority"><option>All</option><option>High</option><option>Medium</option><option>Low</option></select>
+          <button className="rl-add-task" onClick={() => setShowComposer((v) => !v)}><Plus size={15}/> Add task</button>
+        </div>
+      </div>
+      {showComposer && <form className="rl-composer" onSubmit={addTask}><input autoFocus value={newTask} onChange={(e) => setNewTask(e.target.value)} placeholder="What needs to get done?" aria-label="New task title"/><button type="submit" disabled={!newTask.trim()}>Add to board <ArrowUpRight size={14}/></button><button type="button" className="rl-composer-close" aria-label="Close task form" onClick={() => setShowComposer(false)}><X size={15}/></button></form>}
+      <div className="rl-board-columns">
+        {columns.map((column) => {
+          const items = visibleTasks.filter((task) => task.status === column.id);
+          return <section className={`rl-column rl-${column.tone}`} key={column.id}>
+            <div className="rl-column-head"><span><i/>{column.label}</span><b>{items.length.toString().padStart(2, "0")}</b></div>
+            <div className="rl-task-list">
+              {items.map((task) => <article className="rl-task" key={task.id}>
+                <div className="rl-task-title">{task.title}</div>
+                <p>{task.detail}</p>
+                <div className="rl-task-foot"><span className={`rl-priority rl-priority-${task.priority.toLowerCase()}`}>{task.priority}</span><div className="rl-task-actions"><button onClick={() => moveTask(task.id, -1)} aria-label={`Move ${task.title} left`} title="Move back"><ArrowLeft size={12}/></button><button onClick={() => moveTask(task.id, 1)} aria-label={`Move ${task.title} right`} title="Move forward"><ArrowRight size={12}/></button><button onClick={() => removeTask(task.id)} aria-label={`Delete ${task.title}`} title="Delete task"><X size={12}/></button></div></div>
+              </article>)}
+              {items.length === 0 && <div className="rl-empty">Nothing here yet.</div>}
+            </div>
+            {column.id === "todo" && <button className="rl-column-add" onClick={() => setShowComposer(true)}><Plus size={13}/> Add a task</button>}
+          </section>;
+        })}
+      </div>
+      <div className="rl-board-foot"><span><span className="rl-save-dot"/> Changes are local to this preview</span><span>{tasks.length} tasks <b>·</b> {tasks.filter(t => t.status === "done").length} completed</span></div>
+    </div>
+  );
+}
+
+function WorkshopHeader() {
+  return <header className="rl-header">
+    <a href="/" className="rl-monogram" aria-label="Back to Sourabh's portfolio">SR<span>✳</span></a>
+    <nav><a href="#experience">The experience</a><a href="#build">BuildBoard</a><a href="#agenda">Agenda</a><a href="#series">The series</a></nav>
+    <a className="rl-header-cta" href="mailto:sourabh.k.ravi@gmail.com?subject=RVS%20React%20Launchpad">Discuss the workshop <ArrowUpRight size={15}/></a>
+  </header>;
+}
+
+export default function ReactLaunchpadPage() {
+  const [activeAgenda, setActiveAgenda] = useState(0);
+  const [expandedSeries, setExpandedSeries] = useState(0);
+
+  return <div className="react-launchpad-page">
+    <WorkshopHeader/>
+    <main>
+      <section className="rl-hero" id="top">
+        <div className="rl-hero-glow rl-glow-one"/><div className="rl-hero-glow rl-glow-two"/>
+        <div className="rl-hero-content">
+          <div className="rl-kicker"><span className="rl-kicker-dot"/> RVS COLLEGE OF ENGINEERING & TECHNOLOGY <span className="rl-kicker-line"/> WORKSHOP SERIES / 2026</div>
+          <div className="rl-hero-grid">
+            <div className="rl-hero-copy">
+              <p className="rl-overline">THE FIRST RELEASE · REACT EDITION</p>
+              <h1>Make ideas<br/><em>interactive.</em></h1>
+              <p className="rl-hero-subtitle">Build your first project board with React.</p>
+              <p className="rl-hero-description">A hands-on, three-hour workshop where you go from React fundamentals to a working interface you can make your own.</p>
+              <div className="rl-hero-actions"><a className="rl-button-primary" href="#build">Explore the build <ArrowUpRight size={16}/></a><a className="rl-text-cta" href="#agenda">See the session <ArrowDown size={15}/></a></div>
+              <div className="rl-hero-facts"><span><b>180</b> minutes</span><i/><span><b>01</b> product</span><i/><span><b>Zero</b> React required</span></div>
+            </div>
+            <div className="rl-hero-art">
+              <div className="rl-gradient-pane rl-pane-main"><span className="rl-pane-no">01 / MAKE</span><div className="rl-glass-orb"/><div className="rl-pane-caption"><b>BuildBoard</b><span>Ideas into action.</span></div></div>
+              <div className="rl-gradient-pane rl-pane-side"><span>02 / MOVE</span><div className="rl-side-streak"/></div>
+              <div className="rl-floating-chip rl-chip-a"><Sparkles size={14}/> Learn by building</div><div className="rl-floating-chip rl-chip-b"><Zap size={14}/> React foundations</div>
+            </div>
+          </div>
+          <div className="rl-hero-bottom"><span>DESIGNED FOR CURIOUS BEGINNERS</span><a href="#experience">SCROLL TO EXPLORE <ArrowDown size={13}/></a></div>
+        </div>
+      </section>
+
+      <section className="rl-intro" id="experience">
+        <div className="rl-section-wrap">
+          <div className="rl-section-eyebrow"><span>01</span> THE EXPERIENCE <i> / </i> A PROJECT-FIRST INTRODUCTION</div>
+          <div className="rl-intro-layout"><h2>Less watching.<br/><em>More building.</em></h2><div><p className="rl-intro-lead">What if your first React lesson ended with something you could actually use?</p><p>Meet BuildBoard: a lightweight project board for student teams. We'll build it in small, understandable steps, with every concept introduced right before it becomes useful.</p></div></div>
+          <div className="rl-bento">
+            <article className="rl-bento-product"><span className="rl-card-index">01 / THE OUTCOME</span><div className="rl-bento-number">01</div><h3>A working<br/>project board.</h3><p>Create tasks, move work, search and save progress.</p><div className="rl-bento-card-orbit">✳</div></article>
+            <article className="rl-bento-method"><span className="rl-card-index">02 / THE METHOD</span><h3>See it.<br/>Build it.<br/><em>Make it yours.</em></h3><div className="rl-method-steps"><span>LIVE DEMO</span><b>→</b><span>GUIDED BUILD</span><b>→</b><span>MINI CHALLENGE</span></div></article>
+            <article className="rl-bento-concepts"><span className="rl-card-index">03 / THE TOOLKIT</span><div className="rl-concept-pills">{["JSX","Components","Props","useState","Events","Forms","Lists","localStorage"].map(x=><span key={x}>{x}</span>)}</div><h3>Small concepts.<br/>Visible payoff.</h3></article>
+            <article className="rl-bento-time"><span className="rl-card-index">04 / THE FORMAT</span><strong>180<span>min</span></strong><p>One focused, hands-on session.</p><div className="rl-time-ring">3<br/><small>HOURS</small></div></article>
+          </div>
+        </div>
+      </section>
+
+      <section className="rl-build" id="build">
+        <div className="rl-section-wrap">
+          <div className="rl-section-eyebrow"><span>02</span> THE PRODUCT <i> / </i> TRY THE INTERFACE</div>
+          <div className="rl-build-heading"><div><h2>BuildBoard<span>.</span></h2><p>A tiny taste of what you'll build together.</p></div><span className="rl-interactive-label"><MousePointer2 size={14}/> INTERACTIVE PREVIEW · TRY IT</span></div>
+          <BoardDemo/>
+          <div className="rl-build-caption"><span>LIVE SANDBOX</span><p>Add a task, filter by priority, and move work between columns. This is a browser-only demonstration of the workshop's first project.</p></div>
+          <div className="rl-feature-grid">
+            <article><span>01</span><b>Task workflow</b><p>Create, edit and delete tasks across three stages.</p></article>
+            <article><span>02</span><b>Clear priorities</b><p>Give important work a visible signal.</p></article>
+            <article><span>03</span><b>Instant search</b><p>Find a task without losing the board context.</p></article>
+            <article><span>04</span><b>Saved progress</b><p>Learn how localStorage keeps a small app persistent.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section className="rl-agenda" id="agenda">
+        <div className="rl-section-wrap">
+          <div className="rl-section-eyebrow"><span>03</span> THE SESSION <i> / </i> 180 MINUTES</div>
+          <div className="rl-agenda-heading"><h2>A clear path<br/><em>to the build.</em></h2><p>Open any session stop to see what happens inside that block.</p></div>
+          <div className="rl-agenda-layout">
+            <div className="rl-agenda-list">{agenda.map((item,index)=><button key={item.time} className={activeAgenda===index?"rl-agenda-item is-active":"rl-agenda-item"} onClick={()=>setActiveAgenda(index)}><span className="rl-agenda-time">{item.time}</span><span className="rl-agenda-title">{item.title}</span><span className="rl-agenda-duration">{item.duration}</span><ChevronDown size={15}/></button>)}</div>
+            <article className="rl-agenda-detail"><span>SESSION BLOCK / {String(activeAgenda+1).padStart(2,"0")}</span><div className="rl-agenda-detail-time">{agenda[activeAgenda].time}</div><h3>{agenda[activeAgenda].title}</h3><p>{agenda[activeAgenda].detail}</p><div className="rl-agenda-progress"><i style={{width:`${((activeAgenda+1)/agenda.length)*100}%`}}/></div><div className="rl-agenda-detail-foot"><span>WORKSHOP 01</span><span>{agenda[activeAgenda].duration}</span></div></article>
+          </div>
+        </div>
+      </section>
+
+      <section className="rl-series" id="series">
+        <div className="rl-section-wrap">
+          <div className="rl-section-eyebrow"><span>04</span> THE ROAD AHEAD <i> / </i> ONE PRODUCT, MORE CAPABILITY</div>
+          <div className="rl-series-heading"><h2>Start with a board.<br/><em>Grow into a product.</em></h2><p>BuildBoard evolves as the workshops progress. Each session is a milestone, not a prerequisite trap.</p></div>
+          <div className="rl-series-layout">
+            <div className="rl-series-list">{series.map((item,index)=><button key={item[0]} className={expandedSeries===index?"rl-series-item is-active":"rl-series-item"} onClick={()=>setExpandedSeries(index)}><span>{item[0]}</span><b>{item[1]}</b>{item[3]&&<i>{item[3]}</i>}<ArrowUpRight size={16}/></button>)}</div>
+            <article className="rl-series-detail"><div className="rl-series-orb">0{expandedSeries+1}</div><span>THE NEXT MILESTONE</span><h3>{series[expandedSeries][1]}</h3><p>{series[expandedSeries][2]}</p><div>RVS REACT LAUNCHPAD <i>·</i> WORKSHOP SERIES</div></article>
+          </div>
+        </div>
+      </section>
+
+      <section className="rl-logistics">
+        <div className="rl-section-wrap rl-logistics-grid">
+          <div><div className="rl-section-eyebrow"><span>05</span> GETTING READY</div><h2>Bring your<br/><em>curiosity.</em></h2><p>Basic HTML, CSS and JavaScript are enough to get started. No prior React experience is expected.</p><div className="rl-setup-list"><span><Check/> Laptop + browser</span><span><Check/> VS Code</span><span><Check/> Node.js + npm</span><span><Check/> Basic HTML/CSS/JavaScript</span></div></div>
+          <div className="rl-facilitator"><span>YOUR FACILITATOR</span><h3>Sourabh Kumar Ravi</h3><p>Software engineer working across frontend engineering, full-stack applications and AI-powered products.</p><div className="rl-facilitator-links"><a href="https://sourabhravi.site" target="_blank" rel="noreferrer">Portfolio <ArrowUpRight size={14}/></a><a href="https://www.linkedin.com/in/sourabh-k-ravi/" target="_blank" rel="noreferrer">LinkedIn <ArrowUpRight size={14}/></a></div></div>
+        </div>
+      </section>
+
+      <section className="rl-close">
+        <div className="rl-close-orb"/><div className="rl-section-wrap"><span>RVS REACT LAUNCHPAD / WORKSHOP 01</span><h2>Let's make<br/><em>something useful.</em></h2><p>A first React project, built together.</p><a href="mailto:sourabh.k.ravi@gmail.com?subject=RVS%20React%20Launchpad%20at%20RVS%20College">Discuss the workshop <ArrowUpRight size={17}/></a><a className="rl-back" href="/">← Back to portfolio</a></div>
+      </section>
+    </main>
+    <footer className="rl-footer"><a href="/">SR✳</a><span>RVS REACT LAUNCHPAD · DESIGNED TO BUILD</span><a href="#top">BACK TO TOP ↑</a></footer>
+  </div>;
+}
