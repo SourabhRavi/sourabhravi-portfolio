@@ -100,7 +100,7 @@ export default function ReactLaunchpadPage() {
               <p className="rl-overline">THE FIRST RELEASE · REACT EDITION</p>
               <h1>Make ideas<br/><em>interactive.</em></h1>
               <p className="rl-hero-subtitle">Build your first project board with React.</p>
-              <p className="rl-hero-description">A hands-on, three-hour workshop where you go from React fundamentals to a working interface you can make your own.</p>
+              <p className="rl-hero-description">A hands-on, three-hour workshop where React fundamentals become a product you can make your own.</p>
               <div className="rl-hero-actions"><a className="rl-button-primary" href="#outcomes">Explore the workshop <ArrowUpRight size={16}/></a><a className="rl-text-cta" href="#agenda">See the session <ArrowDown size={15}/></a></div>
               <div className="rl-hero-facts"><span><b>180</b> minutes</span><i/><span><b>01</b> product</span><i/><span><b>Zero</b> React required</span></div>
             </div>
@@ -120,7 +120,7 @@ export default function ReactLaunchpadPage() {
           <div className="rl-intro-layout"><h2>Less watching.<br/><em>More building.</em></h2><div><p className="rl-intro-lead">What if your first React lesson ended with something you could actually use?</p><p>Meet BuildBoard: a lightweight project board for student teams. We'll build it in small, understandable steps, with every concept introduced right before it becomes useful.</p></div></div>
           <div className="rl-bento">
             <article className="rl-bento-product rl-tilt-card"><span className="rl-card-index">01 / THE OUTCOME</span><div className="rl-bento-number">01</div><h3>A working<br/>project board.</h3><p>Create tasks, move work, search and save progress.</p><div className="rl-bento-card-orbit">✳</div></article>
-            <article className="rl-bento-method rl-tilt-card"><span className="rl-card-index">02 / THE METHOD</span><h3>See it.<br/>Build it.<br/><em>Make it yours.</em></h3><div className="rl-method-steps"><span>LIVE DEMO</span><b>→</b><span>GUIDED BUILD</span><b>→</b><span>MINI CHALLENGE</span></div></article>
+            <article className="rl-bento-method rl-tilt-card"><span className="rl-card-index">02 / THE METHOD</span><h3>See it.<br/>Build it.<br/><em>Make it yours.</em></h3><div className="rl-method-steps"><span>PRODUCT WALKTHROUGH</span><b>→</b><span>GUIDED BUILD</span><b>→</b><span>MINI CHALLENGE</span></div></article>
             <article className="rl-bento-concepts rl-tilt-card"><span className="rl-card-index">03 / THE TOOLKIT</span><div className="rl-concept-pills">{["JSX","Components","Props","useState","Events","Forms","Lists","localStorage"].map(x=><span key={x}>{x}</span>)}</div><h3>Small concepts.<br/>Visible payoff.</h3></article>
             <article className="rl-bento-time rl-tilt-card"><span className="rl-card-index">04 / THE FORMAT</span><strong>180<span>min</span></strong><p>One focused, hands-on session.</p><div className="rl-time-ring">3<br/><small>HOURS</small></div></article>
           </div>
