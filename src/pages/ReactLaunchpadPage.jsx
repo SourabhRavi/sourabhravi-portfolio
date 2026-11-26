@@ -1,32 +1,16 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   ArrowDown,
-  ArrowLeft,
-  ArrowRight,
   ArrowUpRight,
   Check,
   ChevronDown,
-  Clock3,
-  Code2,
-  Layers3,
-  MousePointer2,
-  Plus,
-  Search,
   Sparkles,
-  X,
   Zap,
 } from "lucide-react";
 import "./react-launchpad.css";
 
-const initialTasks = [
-  { id: 1, title: "Sketch the project flow", detail: "Map the first experience", priority: "High", status: "todo" },
-  { id: 2, title: "Build the task card", detail: "Reusable component", priority: "Medium", status: "progress" },
-  { id: 3, title: "Set up the Vite app", detail: "React project shell", priority: "Low", status: "done" },
-  { id: 4, title: "Polish the empty state", detail: "Make the details feel right", priority: "Medium", status: "todo" },
-];
-
 const agenda = [
-  { time: "00:00", duration: "15 min", title: "Welcome + product demo", detail: "See the product first, then understand the React mental model." },
+  { time: "00:00", duration: "15 min", title: "Welcome + product walkthrough", detail: "Explore the product concept, then understand the React mental model." },
   { time: "00:15", duration: "25 min", title: "JSX, components + props", detail: "Turn the interface into reusable pieces." },
   { time: "00:40", duration: "25 min", title: "State + events", detail: "Create, update and remove tasks with interaction-driven state." },
   { time: "01:05", duration: "10 min", title: "Break", detail: "Reset, stretch and ask questions." },
@@ -128,20 +112,26 @@ function BoardDemo() {
   );
 }
 
-function WorkshopHeader() {
+function WorkshopHeader({ mobileMenuOpen, setMobileMenuOpen }) {
   return <header className="rl-header">
     <a href="/" className="rl-monogram" aria-label="Back to Sourabh's portfolio">SR<span>✳</span></a>
-    <nav><a href="#experience">The experience</a><a href="#build">BuildBoard</a><a href="#agenda">Agenda</a><a href="#series">The series</a></nav>
+    <button className="rl-menu-toggle" aria-label={mobileMenuOpen ? "Close navigation" : "Open navigation"} aria-expanded={mobileMenuOpen} onClick={()=>setMobileMenuOpen(v=>!v)}>{mobileMenuOpen ? "CLOSE" : "MENU"} <span>{mobileMenuOpen ? "×" : "＋"}</span></button><nav className={mobileMenuOpen?"is-open":""} onClick={()=>setMobileMenuOpen(false)}><a href="#experience">The experience</a><a href="#outcomes">Outcomes</a><a href="#agenda">Agenda</a><a href="#series">The series</a></nav>
     <a className="rl-header-cta" href="mailto:sourabh.k.ravi@gmail.com?subject=RVS%20React%20Launchpad">Discuss the workshop <ArrowUpRight size={15}/></a>
   </header>;
 }
 
 export default function ReactLaunchpadPage() {
   const [activeAgenda, setActiveAgenda] = useState(0);
+  const [activeOutcome, setActiveOutcome] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pageRef = useRef(null);
+  const progressRef = useRef(null);
+  const heroArtRef = useRef(null);
   const [expandedSeries, setExpandedSeries] = useState(0);
 
-  return <div className="react-launchpad-page">
-    <WorkshopHeader/>
+  return <div className="react-launchpad-page" ref={pageRef}>
+    <div className="rl-scroll-progress" ref={progressRef} aria-hidden="true"/>
+    <WorkshopHeader mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen}/>
     <main>
       <section className="rl-hero" id="top">
         <div className="rl-hero-glow rl-glow-one"/><div className="rl-hero-glow rl-glow-two"/>
@@ -156,7 +146,7 @@ export default function ReactLaunchpadPage() {
               <div className="rl-hero-actions"><a className="rl-button-primary" href="#build">Explore the build <ArrowUpRight size={16}/></a><a className="rl-text-cta" href="#agenda">See the session <ArrowDown size={15}/></a></div>
               <div className="rl-hero-facts"><span><b>180</b> minutes</span><i/><span><b>01</b> product</span><i/><span><b>Zero</b> React required</span></div>
             </div>
-            <div className="rl-hero-art">
+            <div className="rl-hero-art" ref={heroArtRef}>
               <div className="rl-gradient-pane rl-pane-main"><span className="rl-pane-no">01 / MAKE</span><div className="rl-glass-orb"/><div className="rl-pane-caption"><b>BuildBoard</b><span>Ideas into action.</span></div></div>
               <div className="rl-gradient-pane rl-pane-side"><span>02 / MOVE</span><div className="rl-side-streak"/></div>
               <div className="rl-floating-chip rl-chip-a"><Sparkles size={14}/> Learn by building</div><div className="rl-floating-chip rl-chip-b"><Zap size={14}/> React foundations</div>
@@ -171,26 +161,30 @@ export default function ReactLaunchpadPage() {
           <div className="rl-section-eyebrow"><span>01</span> THE EXPERIENCE <i> / </i> A PROJECT-FIRST INTRODUCTION</div>
           <div className="rl-intro-layout"><h2>Less watching.<br/><em>More building.</em></h2><div><p className="rl-intro-lead">What if your first React lesson ended with something you could actually use?</p><p>Meet BuildBoard: a lightweight project board for student teams. We'll build it in small, understandable steps, with every concept introduced right before it becomes useful.</p></div></div>
           <div className="rl-bento">
-            <article className="rl-bento-product"><span className="rl-card-index">01 / THE OUTCOME</span><div className="rl-bento-number">01</div><h3>A working<br/>project board.</h3><p>Create tasks, move work, search and save progress.</p><div className="rl-bento-card-orbit">✳</div></article>
-            <article className="rl-bento-method"><span className="rl-card-index">02 / THE METHOD</span><h3>See it.<br/>Build it.<br/><em>Make it yours.</em></h3><div className="rl-method-steps"><span>LIVE DEMO</span><b>→</b><span>GUIDED BUILD</span><b>→</b><span>MINI CHALLENGE</span></div></article>
-            <article className="rl-bento-concepts"><span className="rl-card-index">03 / THE TOOLKIT</span><div className="rl-concept-pills">{["JSX","Components","Props","useState","Events","Forms","Lists","localStorage"].map(x=><span key={x}>{x}</span>)}</div><h3>Small concepts.<br/>Visible payoff.</h3></article>
-            <article className="rl-bento-time"><span className="rl-card-index">04 / THE FORMAT</span><strong>180<span>min</span></strong><p>One focused, hands-on session.</p><div className="rl-time-ring">3<br/><small>HOURS</small></div></article>
+            <article className="rl-bento-product rl-tilt-card"><span className="rl-card-index">01 / THE OUTCOME</span><div className="rl-bento-number">01</div><h3>A working<br/>project board.</h3><p>Create tasks, move work, search and save progress.</p><div className="rl-bento-card-orbit">✳</div></article>
+            <article className="rl-bento-method rl-tilt-card"><span className="rl-card-index">02 / THE METHOD</span><h3>See it.<br/>Build it.<br/><em>Make it yours.</em></h3><div className="rl-method-steps"><span>LIVE DEMO</span><b>→</b><span>GUIDED BUILD</span><b>→</b><span>MINI CHALLENGE</span></div></article>
+            <article className="rl-bento-concepts rl-tilt-card"><span className="rl-card-index">03 / THE TOOLKIT</span><div className="rl-concept-pills">{["JSX","Components","Props","useState","Events","Forms","Lists","localStorage"].map(x=><span key={x}>{x}</span>)}</div><h3>Small concepts.<br/>Visible payoff.</h3></article>
+            <article className="rl-bento-time rl-tilt-card"><span className="rl-card-index">04 / THE FORMAT</span><strong>180<span>min</span></strong><p>One focused, hands-on session.</p><div className="rl-time-ring">3<br/><small>HOURS</small></div></article>
           </div>
         </div>
       </section>
 
-      <section className="rl-build" id="build">
+
+      <section className="rl-outcomes" id="outcomes">
         <div className="rl-section-wrap">
-          <div className="rl-section-eyebrow"><span>02</span> THE PRODUCT <i> / </i> TRY THE INTERFACE</div>
-          <div className="rl-build-heading"><div><h2>BuildBoard<span>.</span></h2><p>A tiny taste of what you'll build together.</p></div><span className="rl-interactive-label"><MousePointer2 size={14}/> INTERACTIVE PREVIEW · TRY IT</span></div>
-          <BoardDemo/>
-          <div className="rl-build-caption"><span>LIVE SANDBOX</span><p>Add a task, filter by priority, and move work between columns. This is a browser-only demonstration of the workshop's first project.</p></div>
-          <div className="rl-feature-grid">
-            <article><span>01</span><b>Task workflow</b><p>Create, edit and delete tasks across three stages.</p></article>
-            <article><span>02</span><b>Clear priorities</b><p>Give important work a visible signal.</p></article>
-            <article><span>03</span><b>Instant search</b><p>Find a task without losing the board context.</p></article>
-            <article><span>04</span><b>Saved progress</b><p>Learn how localStorage keeps a small app persistent.</p></article>
+          <div className="rl-section-eyebrow"><span>02</span> THE TAKEAWAY <i> / </i> YOUR FIRST REACT MILESTONE</div>
+          <div className="rl-outcomes-heading"><div><h2>From blank canvas<br/><em>to your first product.</em></h2><p>A guided build, a creative challenge, and a foundation you can keep extending.</p></div><span className="rl-outcomes-stamp"><Sparkles size={16}/> MADE BY YOU</span></div>
+          <div className="rl-outcomes-grid">
+            {["A real interface","UI that responds","A product that remembers","Your own feature"].map((title,index)=>{
+              const content=[["COMPONENTS","Break a useful product into clear React components, then compose them into a coherent interface.","JSX, component boundaries and props. Every piece has a visible job."],["STATE + EVENTS","Make buttons, forms and status changes feel immediate and intentional.","Use state and event handlers to make the interface respond to user choices."],["PERSISTENCE","Keep your work after a refresh and understand where browser storage fits.","Save a small amount of app state with localStorage, without needing a backend."],["CREATIVE SPRINT","Choose a mini-challenge, make a small design decision and show what you changed.","Add a due date, priority filter, task counter or another achievable improvement."]][index];
+              return <article className={activeOutcome===index?"rl-outcome-card is-active":"rl-outcome-card"} key={title}>
+                <button className="rl-outcome-trigger" onClick={()=>setActiveOutcome(activeOutcome===index?-1:index)} aria-expanded={activeOutcome===index}>
+                  <span className="rl-outcome-index">0{index+1} <i>{content[0]}</i></span><span className="rl-outcome-symbol" aria-hidden="true">{["◫","↗","◌","✳"][index]}</span><h3>{title}</h3><p>{content[1]}</p><span className="rl-outcome-toggle">{activeOutcome===index?"Close details":"Explore outcome"} <ArrowUpRight size={14}/></span>
+                </button>{activeOutcome===index&&<div className="rl-outcome-detail"><span>YOU WILL LEARN</span><p>{content[2]}</p></div>}
+              </article>;
+            })}
           </div>
+          <div className="rl-outcomes-note"><span className="rl-note-mark">✳</span><p><b>One product. Every concept has a purpose.</b><br/>React + Vite + JavaScript + CSS + localStorage. No backend setup or advanced state libraries in session one.</p></div>
         </div>
       </section>
 
