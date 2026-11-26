@@ -4579,3 +4579,8 @@ a:focus-visible {
 .site-footer {
   background: rgba(9, 10, 13, 0.9);
 }
+
+
+/* Workshop route is a light-first editorial microsite within the portfolio. */
+body:has(.react-launchpad-page), html:has(.react-launchpad-page) { background: #f6f6f3; color: #151521; }
+body:has(.react-launchpad-page) { color-scheme: light; }
