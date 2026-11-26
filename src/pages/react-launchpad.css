@@ -4,7 +4,7 @@
   --rl-line:rgba(21,21,33,.12); --rl-display:"Space Grotesk","Manrope",sans-serif;
   --rl-body:"Manrope",system-ui,sans-serif; --rl-mono:"DM Mono",monospace;
   color:var(--rl-ink); background:var(--rl-paper); font-family:var(--rl-body);
-  min-height:100vh; overflow:hidden; isolation:isolate;
+  min-height:100vh; overflow:clip; isolation:isolate;
 }
 .react-launchpad-page *{box-sizing:border-box}
 .react-launchpad-page a{color:inherit;text-decoration:none}
@@ -21,9 +21,9 @@
 .rl-glow-one{width:420px;height:420px;right:-80px;top:115px;background:radial-gradient(circle,#f8bdad 0%,rgba(249,202,190,.42) 40%,transparent 70%)}
 .rl-glow-two{width:360px;height:360px;left:-150px;bottom:0;background:radial-gradient(circle,rgba(155,146,255,.22),transparent 70%)}
 .rl-hero-content,.rl-section-wrap{width:min(1200px,calc(100% - 104px));margin:0 auto;position:relative;z-index:1}
-.rl-kicker,.rl-overline,.rl-section-eyebrow,.rl-card-index,.rl-pane-no,.rl-hero-bottom,.rl-board-brand i,.rl-board-live,.rl-board-eyebrow,.rl-column-head,.rl-board-foot,.rl-build-caption>span,.rl-interactive-label,.rl-agenda-detail>span,.rl-agenda-detail-foot,.rl-series-detail>span,.rl-series-detail>div:last-child,.rl-facilitator>span,.rl-close .rl-section-wrap>span,.rl-footer,.rl-setup-list,.rl-hero-facts{font-family:var(--rl-mono);letter-spacing:.09em;text-transform:uppercase}
+.rl-kicker,.rl-overline,.rl-section-eyebrow,.rl-card-index,.rl-pane-no,.rl-hero-bottom,.rl-agenda-detail>span,.rl-agenda-detail-foot,.rl-series-detail>span,.rl-series-detail>div:last-child,.rl-facilitator>span,.rl-close .rl-section-wrap>span,.rl-footer,.rl-setup-list,.rl-hero-facts{font-family:var(--rl-mono);letter-spacing:.09em;text-transform:uppercase}
 .rl-kicker{font-size:8px;color:#666575;display:flex;align-items:center;gap:10px}
-.rl-kicker-dot,.rl-board-live i{width:7px;height:7px;border-radius:50%;background:#7dcf9f;box-shadow:0 0 0 4px rgba(125,207,159,.16)}
+.rl-kicker-dot{width:7px;height:7px;border-radius:50%;background:#7dcf9f;box-shadow:0 0 0 4px rgba(125,207,159,.16)}
 .rl-kicker-line{width:36px;height:1px;background:var(--rl-violet);margin-left:5px}
 .rl-hero-grid{display:grid;grid-template-columns:1.06fr .94fr;align-items:center;gap:40px;margin-top:60px}
 .rl-overline{font-size:8px;color:var(--rl-violet);margin:0 0 20px}
