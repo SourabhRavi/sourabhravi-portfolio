@@ -119,7 +119,7 @@ function Header() {
 
 
 function AppRouter() {
-  const path = window.location.pathname.replace(/\\/+$/, "") || "/";
+  const path = window.location.pathname.replace(/\/+$/, "") || "/";
   if (path === "/workshops/react-launchpad") return <ReactLaunchpadPage />;
   return <PortfolioHome />;
 }
