@@ -305,3 +305,5 @@
 @keyframes rl-progress-spectrum{0%{background-position:0 0}100%{background-position:200% 0}}
 @media(hover:none){.rl-tilt-card:hover{transform:none}.rl-agenda-item:before,.rl-series-item:before{display:none}}
 @media(prefers-reduced-motion:reduce){.rl-motion-ready .rl-reveal{opacity:1;transform:none;transition:none;will-change:auto}.rl-header nav a:after,.rl-agenda-item:before,.rl-series-item:before{transition:none}.rl-scroll-progress{animation:none}}
+
+.rl-bento>article.rl-tilt-card:hover{transform:perspective(900px) rotateX(var(--rl-tilt-y,0deg)) rotateY(var(--rl-tilt-x,0deg)) translateY(-4px)}
