@@ -51,14 +51,50 @@ export default function ReactLaunchpadPage() {
     const root = pageRef.current;
     if (!root) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const targets = root.querySelectorAll([
+      ".rl-intro-layout", ".rl-bento > article", ".rl-outcomes-heading",
+      ".rl-outcome-card", ".rl-outcomes-note", ".rl-agenda-heading",
+      ".rl-agenda-item", ".rl-agenda-detail", ".rl-series-heading",
+      ".rl-series-item", ".rl-series-detail", ".rl-logistics-grid > div",
+      ".rl-close .rl-section-wrap > *"
+    ].join(","));
+    if (reduced || !("IntersectionObserver" in window)) {
+      targets.forEach(node => node.classList.add("rl-in-view"));
+      return;
+    }
     root.classList.add("rl-motion-ready");
-    const nodes = root.querySelectorAll(".rl-section-wrap > *, .rl-outcome-card, .rl-bento > article, .rl-agenda-item, .rl-series-item");
-    if (reduced || !("IntersectionObserver" in window)) { nodes.forEach(node => node.classList.add("rl-in-view")); return; }
-    const observer = new IntersectionObserver(entries => entries.forEach(entry => {
-      if (entry.isIntersecting) { entry.target.classList.add("rl-in-view"); observer.unobserve(entry.target); }
-    }), { threshold: 0.12, rootMargin: "0px 0px -32px 0px" });
-    nodes.forEach(node => { node.classList.add("rl-reveal"); observer.observe(node); });
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("rl-in-view");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.01, rootMargin: "0px 0px -6% 0px" });
+    targets.forEach((node, index) => {
+      node.style.setProperty("--rl-reveal-order", index % 6);
+      node.classList.add("rl-reveal");
+      observer.observe(node);
+    });
     return () => observer.disconnect();
+  }, []);
+  useEffect(() => {
+    const root = pageRef.current;
+    if (!root) return;
+    const onAnchorClick = event => {
+      const link = event.target.closest("a[href^='#']");
+      if (!link) return;
+      const id = link.getAttribute("href");
+      if (!id || id === "#") return;
+      const target = root.querySelector(id);
+      if (!target) return;
+      event.preventDefault();
+      if (window.location.hash !== id) window.history.pushState(null, "", id);
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      target.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+    };
+    root.addEventListener("click", onAnchorClick);
+    return () => root.removeEventListener("click", onAnchorClick);
   }, []);
   useEffect(() => {
     let frame = 0;
