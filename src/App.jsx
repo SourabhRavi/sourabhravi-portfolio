@@ -117,11 +117,195 @@ function Header() {
   );
 }
 
+const projectImages = import.meta.glob(
+  "./images/**/*.{png,jpg,jpeg,webp,avif}",
+  {
+    eager: true,
+    query: "?url",
+    import: "default",
+  },
+);
 
-function AppRouter() {
-  const path = window.location.pathname.replace(/\/+$/, "") || "/";
-  if (path === "/workshops/react-launchpad") return <ReactLaunchpadPage />;
-  return <PortfolioHome />;
+function ProjectVisual({ project }) {
+  const projectKey = (project.visual || project.name).toLowerCase();
+
+  const image = Object.entries(projectImages).find(([path]) => {
+    const filename = path.split("/").pop().toLowerCase();
+    return filename.includes(projectKey);
+  })?.[1];
+
+  if (!image) return null;
+
+  return (
+    <div
+      className={`project-art-inner project-image-visual ${project.visual}-screen`}>
+      <img
+        className="project-preview-image"
+        src={image}
+        alt={`${project.name} project screenshot`}
+        loading="lazy"
+        decoding="async"
+        draggable={false}
+      />
+    </div>
+  );
+}
+
+function ProjectCard({ project, index }) {
+  return (
+    <article className={`project-card project-${project.visual}`}>
+      <div className={`project-visual visual-${project.accent}`}>
+        <ProjectVisual project={project} />
+      </div>
+      <div className="project-info">
+        <div className="project-meta" data-reveal data-distance="12">
+          <span>{project.type}</span>
+          <span>{project.contribution}</span>
+        </div>
+        <div className="project-heading-row" data-reveal data-distance="18">
+          <div>
+            <h3>
+              {project.name}
+              <span className="project-period">.</span>
+            </h3>
+            <p className="project-tagline">{project.tagline}</p>
+          </div>
+          {project.url ? (
+            <a
+              className="project-open"
+              href={project.url}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`Open ${project.name}`}>
+              <ArrowUpRight size={21} />
+            </a>
+          ) : (
+            <span
+              className="project-open project-open-muted"
+              aria-label="Project details available on request">
+              <ArrowUpRight size={21} />
+            </span>
+          )}
+        </div>
+        <p className="project-description" data-reveal data-distance="18">
+          {project.description}
+        </p>
+        <div className="project-stack" data-stagger>
+          {project.stack.map((item) => (
+            <span data-stagger-item key={item}>
+              {item}
+            </span>
+          ))}
+        </div>
+        <div className="project-foot" data-reveal data-distance="12">
+          <span>SELECTED WORK · {project.number}</span>
+          {project.url ? (
+            <a href={project.url} target="_blank" rel="noreferrer">
+              EXPLORE PROJECT <ArrowUpRight size={14} />
+            </a>
+          ) : (
+            <span className="case-study-note">
+              CASE STUDY AVAILABLE ON REQUEST
+            </span>
+          )}
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function CapabilityRow({ item }) {
+  return (
+    <article className="capability-row" data-stagger-item>
+      <span className="capability-index">{item.index}</span>
+      <div className="capability-copy">
+        <h3>{item.title}</h3>
+        <p>{item.description}</p>
+      </div>
+      <div className="capability-tools">{item.tools}</div>
+      <ArrowUpRight className="capability-arrow" size={20} />
+    </article>
+  );
+}
+
+function ExperienceItem({ item }) {
+  return (
+    <article className="experience-item" data-stagger-item>
+      <div className="experience-period">{item.period}</div>
+      <div className="experience-main">
+        <div className="experience-company-row">
+          <h3>{item.company}</h3>
+          <span className="experience-role">{item.role}</span>
+        </div>
+        <p>{item.detail}</p>
+        <div className="experience-tags">
+          {item.tags.map((tag) => (
+            <span key={tag}>{tag}</span>
+          ))}
+        </div>
+      </div>
+      {/* <ArrowUpRight className="experience-arrow" size={18} /> */}
+    </article>
+  );
+}
+
+function ContactLinks() {
+  const links = [
+    profile.email
+      ? {
+          label: "EMAIL",
+          href: `mailto:${profile.email}`,
+          icon: <Mail size={15} />,
+        }
+      : null,
+    profile.resume
+      ? {
+          label: "RESUME",
+          href: profile.resume,
+          icon: <FileText size={15} />,
+        }
+      : null,
+    profile.linkedin
+      ? {
+          label: "LINKEDIN",
+          href: profile.linkedin,
+          icon: <Linkedin size={15} />,
+        }
+      : null,
+    profile.github
+      ? { label: "GITHUB", href: profile.github, icon: <Github size={15} /> }
+      : null,
+    profile.upwork
+      ? {
+          label: "UPWORK",
+          href: profile.upwork,
+          icon: <ArrowUpRight size={15} />,
+        }
+      : null,
+  ].filter(Boolean);
+
+  return (
+    <div className="contact-links">
+      {links.length ? (
+        links.map((link) => (
+          <a
+            key={link.label}
+            href={link.href}
+            target={link.href.startsWith("mailto:") ? undefined : "_blank"}
+            rel="noreferrer">
+            {link.icon}
+            {link.label}
+            <ArrowUpRight size={13} />
+          </a>
+        ))
+      ) : (
+        <span className="contact-config-note">
+          Add your email and profile URLs in <code>src/data.js</code> before
+          publishing.
+        </span>
+      )}
+    </div>
+  );
 }
 
 function PortfolioHome() {
@@ -707,6 +891,14 @@ function PortfolioHome() {
       </footer>
     </div>
   );
+}
+
+function AppRouter() {
+  const path = window.location.pathname.replace(/\/+$/, "") || "/";
+  if (path === "/workshops/react-launchpad") {
+    return <ReactLaunchpadPage />;
+  }
+  return <PortfolioHome />;
 }
 
 export default AppRouter;
