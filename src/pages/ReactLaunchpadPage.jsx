@@ -1,4 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger);
 import {
   ArrowDown,
   ArrowUpRight,
@@ -40,7 +43,7 @@ function WorkshopHeader({ mobileMenuOpen, setMobileMenuOpen }) {
 
 export default function ReactLaunchpadPage() {
   const [activeAgenda, setActiveAgenda] = useState(0);
-  const [activeOutcome, setActiveOutcome] = useState(0);
+  const [activeOutcome, setActiveOutcome] = useState(-1);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pageRef = useRef(null);
   const progressRef = useRef(null);
@@ -50,33 +53,52 @@ export default function ReactLaunchpadPage() {
   useEffect(() => {
     const root = pageRef.current;
     if (!root) return;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const targets = root.querySelectorAll([
-      ".rl-intro-layout", ".rl-bento > article", ".rl-outcomes-heading",
-      ".rl-outcome-card", ".rl-outcomes-note", ".rl-agenda-heading",
-      ".rl-agenda-item", ".rl-agenda-detail", ".rl-series-heading",
-      ".rl-series-item", ".rl-series-detail", ".rl-logistics-grid > div",
-      ".rl-close .rl-section-wrap > *"
-    ].join(","));
-    if (reduced || !("IntersectionObserver" in window)) {
-      targets.forEach(node => node.classList.add("rl-in-view"));
-      return;
-    }
-    root.classList.add("rl-motion-ready");
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("rl-in-view");
-          observer.unobserve(entry.target);
-        }
+    const ctx = gsap.context(() => {
+      const reveal = [
+        ".rl-intro-layout", ".rl-bento > article", ".rl-outcomes-heading",
+        ".rl-outcome-card", ".rl-outcomes-note", ".rl-agenda-heading",
+        ".rl-agenda-item", ".rl-agenda-detail", ".rl-series-heading",
+        ".rl-series-item", ".rl-series-detail", ".rl-logistics-grid > div",
+        ".rl-close .rl-section-wrap > *"
+      ].flatMap(selector => [...root.querySelectorAll(selector)]);
+      reveal.forEach((node, index) => {
+        gsap.fromTo(node,
+          { autoAlpha: 0, y: 34, scale: 0.985 },
+          { autoAlpha: 1, y: 0, scale: 1, duration: 0.78, ease: "power3.out",
+            delay: (index % 4) * 0.055,
+            scrollTrigger: { trigger: node, start: "top 88%", toggleActions: "play none none none" }
+          }
+        );
       });
-    }, { threshold: 0.01, rootMargin: "0px 0px -6% 0px" });
-    targets.forEach((node, index) => {
-      node.style.setProperty("--rl-reveal-order", index % 6);
-      node.classList.add("rl-reveal");
-      observer.observe(node);
-    });
-    return () => observer.disconnect();
+
+      gsap.fromTo(".rl-hero-copy > *",
+        { autoAlpha: 0, y: 22 },
+        { autoAlpha: 1, y: 0, duration: 0.8, stagger: 0.09, ease: "power3.out", delay: 0.12 }
+      );
+      gsap.to(".rl-hero-art", {
+        yPercent: -16, rotate: 1.8, ease: "none",
+        scrollTrigger: { trigger: ".rl-hero", start: "top top", end: "bottom top", scrub: 1.1 }
+      });
+      gsap.fromTo(".rl-intro-layout h2",
+        { x: -28, autoAlpha: 0 },
+        { x: 0, autoAlpha: 1, ease: "none",
+          scrollTrigger: { trigger: ".rl-intro", start: "top 72%", end: "top 28%", scrub: 0.8 }
+        }
+      );
+      gsap.fromTo(".rl-outcomes-heading h2",
+        { clipPath: "inset(0 0 100% 0)", y: 24 },
+        { clipPath: "inset(0 0 0% 0)", y: 0, ease: "none",
+          scrollTrigger: { trigger: ".rl-outcomes-heading", start: "top 85%", end: "top 42%", scrub: 0.8 }
+        }
+      );
+      gsap.fromTo(".rl-close-orb",
+        { yPercent: -10, scale: 0.85 },
+        { yPercent: 22, scale: 1.12, ease: "none",
+          scrollTrigger: { trigger: ".rl-close", start: "top bottom", end: "bottom top", scrub: 1 }
+        }
+      );
+    }, root);
+    return () => ctx.revert();
   }, []);
   useEffect(() => {
     const root = pageRef.current;
@@ -208,9 +230,17 @@ export default function ReactLaunchpadPage() {
             {["A real interface","UI that responds","A product that remembers","Your own feature"].map((title,index)=>{
               const content=[["COMPONENTS","Break a useful product into clear React components, then compose them into a coherent interface.","JSX, component boundaries and props. Every piece has a visible job."],["STATE + EVENTS","Make buttons, forms and status changes feel immediate and intentional.","Use state and event handlers to make the interface respond to user choices."],["PERSISTENCE","Keep your work after a refresh and understand where browser storage fits.","Save a small amount of app state with localStorage, without needing a backend."],["CREATIVE SPRINT","Choose a mini-challenge, make a small design decision and show what you changed.","Add a due date, priority filter, task counter or another achievable improvement."]][index];
               return <article className={activeOutcome===index?"rl-outcome-card is-active":"rl-outcome-card"} key={title}>
-                <button className="rl-outcome-trigger" onClick={()=>setActiveOutcome(activeOutcome===index?-1:index)} aria-expanded={activeOutcome===index}>
-                  <span className="rl-outcome-index">0{index+1} <i>{content[0]}</i></span><span className="rl-outcome-symbol" aria-hidden="true">{["◫","↗","◌","✳"][index]}</span><h3>{title}</h3><p>{content[1]}</p><span className="rl-outcome-toggle">{activeOutcome===index?"Close details":"Explore outcome"} <ArrowUpRight size={14}/></span>
-                </button>{activeOutcome===index&&<div className="rl-outcome-detail"><span>YOU WILL LEARN</span><p>{content[2]}</p></div>}
+                <button className="rl-outcome-trigger" aria-controls={`rl-outcome-detail-${index}`} onClick={()=>setActiveOutcome(activeOutcome===index?-1:index)} aria-expanded={activeOutcome===index}>
+                  <span className="rl-outcome-index">0{index+1} <i>{content[0]}</i></span>
+                  <span className="rl-outcome-symbol" aria-hidden="true">{["◫","↗","◌","✳"][index]}</span>
+                  <h3>{title}</h3><p>{content[1]}</p>
+                  <span className="rl-outcome-toggle">{activeOutcome===index?"Hide outcome":"Explore outcome"} <ArrowUpRight size={14}/></span>
+                </button>
+                {activeOutcome===index&&<div className="rl-outcome-detail" id={`rl-outcome-detail-${index}`}>
+                  <span className="rl-outcome-detail-label"><Sparkles size={12}/> SKILL UNLOCKED</span>
+                  <p>{content[2]}</p>
+                  <div className="rl-outcome-proof"><span>YOU’LL WALK AWAY WITH</span><b>{["A component-based interface you understand.","A task flow that reacts to every click.","A board that survives a browser refresh.","A personal feature you designed and shipped."][index]}</b></div>
+                </div>}
               </article>;
             })}
           </div>
