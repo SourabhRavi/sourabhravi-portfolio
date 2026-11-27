@@ -33,6 +33,14 @@ const series = [
   ["06", "Ship with confidence", "Testing, accessibility, security and deployment."],
 ];
 
+const outcomes = [
+ {number:"01",title:"A real interface",tag:"COMPONENTS",summary:"Break a useful product into clear React components, then compose them into a coherent interface.",detail:"JSX, component boundaries and props. Every piece has a visible job.",takeaway:"A component-based interface you understand.",symbols:["▥","JSX","PROPS"],skills:["JSX","Components","Props"]},
+ {number:"02",title:"UI that responds",tag:"STATE + EVENTS",summary:"Make buttons, forms and status changes feel immediate and intentional.",detail:"Use state and event handlers to make the interface respond to user choices.",takeaway:"A task flow that reacts to every click.",symbols:["↗","STATE","EVENTS"],skills:["useState","Events","Forms"]},
+ {number:"03",title:"A product that remembers",tag:"PERSISTENCE",summary:"Keep your work after a refresh and understand where browser storage fits.",detail:"Save a small amount of app state with localStorage, without needing a backend.",takeaway:"A board that survives a browser refresh.",symbols:["◌","SAVE","RESTORE"],skills:["localStorage","JSON","Effects"]},
+ {number:"04",title:"Your own feature",tag:"CREATIVE SPRINT",summary:"Choose a mini-challenge, make a small design decision and show what you changed.",detail:"Add a due date, priority filter, task counter or another achievable improvement.",takeaway:"A personal feature you designed and shipped.",symbols:["✳","IDEA","SHIP"],skills:["Explore","Design","Build"]}
+];
+
+
 function WorkshopHeader({ mobileMenuOpen, setMobileMenuOpen }) {
   return <header className="rl-header">
     <a href="/" className="rl-monogram" aria-label="Back to Sourabh's portfolio">SR<span>✳</span></a>
@@ -43,89 +51,78 @@ function WorkshopHeader({ mobileMenuOpen, setMobileMenuOpen }) {
 
 export default function ReactLaunchpadPage() {
   const [activeAgenda, setActiveAgenda] = useState(0);
-  const [activeOutcome, setActiveOutcome] = useState(-1);
+  const [activeOutcome, setActiveOutcome] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pageRef = useRef(null);
   const progressRef = useRef(null);
   const heroArtRef = useRef(null);
   const [expandedSeries, setExpandedSeries] = useState(0);
 
+  // Coordinated motion: scrub composited transforms only, never layout geometry.
   useEffect(() => {
     const root = pageRef.current;
-    if (!root || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!root) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const ctx = gsap.context(() => {
-      const reveal = [
-        ".rl-intro-layout", ".rl-bento > article", ".rl-outcomes-heading",
-        ".rl-outcome-card", ".rl-outcomes-note", ".rl-agenda-heading",
-        ".rl-agenda-item", ".rl-agenda-detail", ".rl-series-heading",
-        ".rl-series-item", ".rl-series-detail", ".rl-logistics-grid > div",
-        ".rl-close .rl-section-wrap > *"
-      ].flatMap(selector => [...root.querySelectorAll(selector)]);
-      reveal.forEach((node, index) => {
-        gsap.fromTo(node,
-          { autoAlpha: 0, y: 72, scale: 0.94, filter: "blur(5px)" },
-          { autoAlpha: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 1.05, ease: "power3.out",
-            delay: (index % 4) * 0.055,
-            onComplete: () => gsap.set(node, { clearProps: "opacity,visibility,transform" }),
-            scrollTrigger: { trigger: node, start: "top 88%", toggleActions: "play none none none" }
-          }
-        );
-      });
+      if (reduced) return;
+      const hero = root.querySelector(".rl-hero");
+      const scene = root.querySelector(".rl-hero-grid");
+      const opening = gsap.timeline({defaults:{ease:"power4.out"},delay:.1});
+      opening
+        .from(".rl-kicker",{y:18,autoAlpha:0,duration:.6})
+        .from(".rl-overline",{y:20,autoAlpha:0,duration:.5},"-=.35")
+        .from(".rl-hero h1",{y:52,autoAlpha:0,filter:"blur(12px)",duration:1.05},"-=.2")
+        .from(".rl-hero-subtitle,.rl-hero-description",{y:18,autoAlpha:0,stagger:.12,duration:.65},"-=.45")
+        .from(".rl-hero-actions>*",{y:14,autoAlpha:0,stagger:.1,duration:.55},"-=.3")
+        .from(".rl-hero-facts>*",{y:10,autoAlpha:0,stagger:.06,duration:.4},"-=.2")
+        .fromTo(".rl-pane-main",{clipPath:"inset(14% 18% 14% 18% round 28px)",scale:.82,rotate:-8},{clipPath:"inset(0% 0% 0% 0% round 5px)",scale:1,rotate:0,duration:1.15,ease:"expo.out"},.25)
+        .from(".rl-pane-side",{x:95,y:52,rotate:16,autoAlpha:0,duration:1.05,ease:"back.out(1.2)"},"-=.8")
+        .from(".rl-floating-chip",{scale:.65,autoAlpha:0,y:20,stagger:.14,duration:.65,ease:"back.out(1.7)"},"-=.6")
+        .from(".rl-hero-bottom",{y:12,autoAlpha:0,duration:.45},"-=.2");
 
-      gsap.fromTo(".rl-hero-copy > *",
-        { autoAlpha: 0, y: 22 },
-        { autoAlpha: 1, y: 0, duration: 0.8, stagger: 0.09, ease: "power3.out", delay: 0.12 }
-      );
-      gsap.to(".rl-hero-glow", {
-        yPercent: 24, xPercent: 7, ease: "none",
-        scrollTrigger: { trigger: ".rl-hero", start: "top top", end: "bottom top", scrub: 1.1 }
-      });
-      gsap.to(".rl-pane-side", {
-        y: 105, rotate: 7, ease: "none",
-        scrollTrigger: { trigger: ".rl-hero", start: "top top", end: "bottom top", scrub: 1.25 }
-      });
-      gsap.to(".rl-chip-a", {
-        y: -48, x: 24, ease: "none",
-        scrollTrigger: { trigger: ".rl-hero", start: "top top", end: "bottom top", scrub: 1 }
-      });
-      gsap.fromTo(".rl-intro-layout h2",
-        { x: -70, autoAlpha: 0 },
-        { x: 0, autoAlpha: 1, ease: "none",
-          scrollTrigger: { trigger: ".rl-intro", start: "top 72%", end: "top 28%", scrub: 0.8 }
-        }
-      );
-      gsap.to(".rl-bento-product", {
-        y: -58, rotate: 2.5, ease: "none",
-        scrollTrigger: { trigger: ".rl-bento", start: "top bottom", end: "bottom top", scrub: 1 }
-      });
-      gsap.to(".rl-bento-method", {
-        y: 34, rotate: -1.5, ease: "none",
-        scrollTrigger: { trigger: ".rl-bento", start: "top bottom", end: "bottom top", scrub: 1 }
-      });
-      gsap.fromTo(".rl-outcomes-heading h2",
-        { clipPath: "inset(0 0 100% 0)", y: 24 },
-        { clipPath: "inset(0 0 0% 0)", y: 0, ease: "none",
-          scrollTrigger: { trigger: ".rl-outcomes-heading", start: "top 85%", end: "top 42%", scrub: 0.8 }
-        }
-      );
-      gsap.to(".rl-series-orb", {
-        rotate: 95, scale: 1.12, ease: "none",
-        scrollTrigger: { trigger: ".rl-series", start: "top bottom", end: "bottom top", scrub: 1 }
-      });
-      gsap.to(".rl-outcomes-stamp", {
-        y: -20, rotate: -4, ease: "none",
-        scrollTrigger: { trigger: ".rl-outcomes", start: "top bottom", end: "bottom top", scrub: 0.8 }
-      });
-      gsap.fromTo(".rl-close-orb",
-        { yPercent: -10, scale: 0.85 },
-        { yPercent: 22, scale: 1.12, ease: "none",
-          scrollTrigger: { trigger: ".rl-close", start: "top bottom", end: "bottom top", scrub: 1 }
-        }
-      );
-    }, root);
-    return () => ctx.revert();
+      if(hero&&scene){
+        const mm=gsap.matchMedia();
+        mm.add("(min-width: 900px) and (prefers-reduced-motion: no-preference)",()=>{
+          const story=gsap.timeline({scrollTrigger:{trigger:hero,pin:scene,start:"top top+=76",end:"+=700",scrub:1,anticipatePin:1,invalidateOnRefresh:true}});
+          story.to(".rl-hero-copy",{xPercent:-14,autoAlpha:.16,filter:"blur(3px)",ease:"none"},0)
+            .to(".rl-pane-main",{scale:1.1,rotate:1.5,xPercent:-4,ease:"none"},0)
+            .to(".rl-pane-side",{xPercent:120,yPercent:12,rotate:18,autoAlpha:.35,ease:"none"},0)
+            .to(".rl-glass-orb",{scale:1.4,xPercent:-8,yPercent:8,ease:"none"},0)
+            .to(".rl-chip-a",{x:-35,y:-65,rotate:-8,ease:"none"},0)
+            .to(".rl-chip-b",{x:45,y:55,rotate:9,ease:"none"},0)
+            .to(".rl-hero-art",{scale:1.04,xPercent:4,ease:"none"},0);
+          return ()=>story.scrollTrigger?.kill();
+        });
+      }
+      const bento=root.querySelector(".rl-bento");
+      if(bento)gsap.fromTo(gsap.utils.toArray(".rl-bento>article",bento),
+        {y:75,rotateX:-14,rotateY:5,scale:.88,autoAlpha:0},
+        {y:0,rotateX:0,rotateY:0,scale:1,autoAlpha:1,stagger:.12,ease:"power3.out",
+         scrollTrigger:{trigger:bento,start:"top 78%",end:"top 30%",scrub:.85,invalidateOnRefresh:true}});
+      gsap.utils.toArray(".rl-section-eyebrow,.rl-intro-layout,.rl-agenda-heading,.rl-series-heading,.rl-logistics-grid,.rl-outcomes-heading,.rl-outcomes-note,.rl-close .rl-section-wrap>*",root)
+        .forEach((node,i)=>gsap.fromTo(node,{y:26,autoAlpha:0},{y:0,autoAlpha:1,duration:.7,delay:(i%3)*.04,ease:"power3.out",scrollTrigger:{trigger:node,start:"top 88%",toggleActions:"play none none reverse"}}));
+      gsap.utils.toArray(".rl-agenda-item,.rl-series-item",root).forEach((node,i)=>gsap.fromTo(node,{x:i%2?16:-16,autoAlpha:0},{x:0,autoAlpha:1,duration:.5,ease:"power3.out",scrollTrigger:{trigger:node,start:"top 92%",toggleActions:"play none none reverse"}}));
+      gsap.to(".rl-series-orb",{rotate:110,scale:1.1,ease:"none",scrollTrigger:{trigger:".rl-series",start:"top bottom",end:"bottom top",scrub:1}});
+      gsap.to(".rl-close-orb",{yPercent:20,scale:1.12,ease:"none",scrollTrigger:{trigger:".rl-close",start:"top bottom",end:"bottom top",scrub:1}});
+      requestAnimationFrame(()=>ScrollTrigger.refresh());
+    },root);
+    return()=>ctx.revert();
   }, []);
+
   useEffect(() => {
+    const root=pageRef.current, stage=root?.querySelector(".rl-outcome-stage");
+    if(!stage||window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+    const ctx=gsap.context(()=>{
+      gsap.fromTo(".rl-stage-content>*",{y:20,autoAlpha:0},{y:0,autoAlpha:1,duration:.52,stagger:.065,ease:"power3.out"});
+      gsap.fromTo(".rl-stage-core",{scale:.68,rotate:-18},{scale:1,rotate:0,duration:.75,ease:"back.out(1.5)"});
+      gsap.fromTo(".rl-stage-float",{scale:.5,autoAlpha:0,y:18},{scale:1,autoAlpha:1,y:0,duration:.58,stagger:.1,ease:"back.out(1.7)"});
+    },stage);return()=>ctx.revert();
+  },[activeOutcome]);
+
+  useEffect(() => {
+    const root = pageRef.current;
+    if (!root) return;
+    const onAnchorClick  useEffect(() => {
     const root = pageRef.current;
     if (!root) return;
     const onAnchorClick = event => {
@@ -237,37 +234,29 @@ export default function ReactLaunchpadPage() {
         <div className="rl-section-wrap">
           <div className="rl-section-eyebrow"><span>01</span> THE EXPERIENCE <i> / </i> A PROJECT-FIRST INTRODUCTION</div>
           <div className="rl-intro-layout"><h2>Less watching.<br/><em>More building.</em></h2><div><p className="rl-intro-lead">What if your first React lesson ended with something you could actually use?</p><p>Meet BuildBoard: a lightweight project board for student teams. We'll build it in small, understandable steps, with every concept introduced right before it becomes useful.</p></div></div>
-          <div className="rl-bento">
-            <article className="rl-bento-product rl-tilt-card"><span className="rl-card-index">01 / THE OUTCOME</span><div className="rl-bento-number">01</div><h3>A working<br/>project board.</h3><p>Create tasks, move work, search and save progress.</p><div className="rl-bento-card-orbit">✳</div></article>
-            <article className="rl-bento-method rl-tilt-card"><span className="rl-card-index">02 / THE METHOD</span><h3>See it.<br/>Build it.<br/><em>Make it yours.</em></h3><div className="rl-method-steps"><span>PRODUCT WALKTHROUGH</span><b>→</b><span>GUIDED BUILD</span><b>→</b><span>MINI CHALLENGE</span></div></article>
-            <article className="rl-bento-concepts rl-tilt-card"><span className="rl-card-index">03 / THE TOOLKIT</span><div className="rl-concept-pills">{["JSX","Components","Props","useState","Events","Forms","Lists","localStorage"].map(x=><span key={x}>{x}</span>)}</div><h3>Small concepts.<br/>Visible payoff.</h3></article>
-            <article className="rl-bento-time rl-tilt-card"><span className="rl-card-index">04 / THE FORMAT</span><strong>180<span>min</span></strong><p>One focused, hands-on session.</p><div className="rl-time-ring">3<br/><small>HOURS</small></div></article>
-          </div>
+          <div className="rl-bento rl-bento-story" aria-label="Four stages of the workshop">
+            <article className="rl-bento-product rl-tilt-card"><span className="rl-card-index">01 / THE OUTCOME</span><div className="rl-bento-number">01</div><h3>A working<br/>project board.</h3><p>Create tasks, move work, search and save progress.</p><div className="rl-bento-card-orbit" aria-hidden="true">✳</div><div className="rl-bento-product-track"><span>IDEA</span><i/><span>INTERFACE</span><i/><span>PRODUCT</span></div></article>
+            <article className="rl-bento-method rl-tilt-card"><span className="rl-card-index">02 / THE METHOD</span><div className="rl-bento-method-copy"><h3>See it.<br/>Build it.<br/><em>Make it yours.</em></h3><p>Observe a real interaction, build it together, then take the wheel.</p></div><div className="rl-method-steps"><span>SEE</span><b>→</b><span>BUILD</span><b>→</b><span>MAKE</span></div><div className="rl-bento-signal" aria-hidden="true"><span/><span/><span/><span/><span/></div></article>
+            <article className="rl-bento-concepts rl-tilt-card"><span className="rl-card-index">03 / THE TOOLKIT</span><div className="rl-concept-pills">{["JSX","Components","Props","useState","Events","Forms","Lists","localStorage"].map(x=><span key={x}>{x}</span>)}</div><h3>Small concepts.<br/>Visible payoff.</h3><p>Every new tool unlocks something you can see.</p></article>
+            <article className="rl-bento-time rl-tilt-card"><span className="rl-card-index">04 / THE FORMAT</span><strong>180<span>min</span></strong><p>One focused, hands-on session.</p><div className="rl-time-ring">3<br/><small>HOURS</small></div><div className="rl-time-pulse" aria-hidden="true"/></article>
+          </div></div>
         </div>
       </section>
 
 
-      <section className="rl-outcomes" id="outcomes">
+      <section className="rl-outcomes rl-outcomes-reimagined" id="outcomes">
         <div className="rl-section-wrap">
           <div className="rl-section-eyebrow"><span>02</span> THE TAKEAWAY <i> / </i> YOUR FIRST REACT MILESTONE</div>
           <div className="rl-outcomes-heading"><div><h2>From blank canvas<br/><em>to your first product.</em></h2><p>A guided build, a creative challenge, and a foundation you can keep extending.</p></div><span className="rl-outcomes-stamp"><Sparkles size={16}/> MADE BY YOU</span></div>
-          <div className="rl-outcomes-grid">
-            {["A real interface","UI that responds","A product that remembers","Your own feature"].map((title,index)=>{
-              const content=[["COMPONENTS","Break a useful product into clear React components, then compose them into a coherent interface.","JSX, component boundaries and props. Every piece has a visible job."],["STATE + EVENTS","Make buttons, forms and status changes feel immediate and intentional.","Use state and event handlers to make the interface respond to user choices."],["PERSISTENCE","Keep your work after a refresh and understand where browser storage fits.","Save a small amount of app state with localStorage, without needing a backend."],["CREATIVE SPRINT","Choose a mini-challenge, make a small design decision and show what you changed.","Add a due date, priority filter, task counter or another achievable improvement."]][index];
-              return <article className={activeOutcome===index?"rl-outcome-card is-active":"rl-outcome-card"} key={title}>
-                <button className="rl-outcome-trigger" aria-controls={`rl-outcome-detail-${index}`} onClick={()=>setActiveOutcome(activeOutcome===index?-1:index)} aria-expanded={activeOutcome===index}>
-                  <span className="rl-outcome-index">0{index+1} <i>{content[0]}</i></span>
-                  <span className="rl-outcome-symbol" aria-hidden="true">{["◫","↗","◌","✳"][index]}</span>
-                  <h3>{title}</h3><p>{content[1]}</p>
-                  <span className="rl-outcome-toggle">{activeOutcome===index?"Hide outcome":"Explore outcome"} <ArrowUpRight size={14}/></span>
-                </button>
-                {activeOutcome===index&&<div className="rl-outcome-detail" id={`rl-outcome-detail-${index}`}>
-                  <span className="rl-outcome-detail-label"><Sparkles size={12}/> SKILL UNLOCKED</span>
-                  <p>{content[2]}</p>
-                  <div className="rl-outcome-proof"><span>YOU’LL WALK AWAY WITH</span><b>{["A component-based interface you understand.","A task flow that reacts to every click.","A board that survives a browser refresh.","A personal feature you designed and shipped."][index]}</b></div>
-                </div>}
-              </article>;
-            })}
+          <div className="rl-outcome-explorer">
+            <div className="rl-outcome-rail" role="tablist" aria-label="Workshop outcomes">
+              {outcomes.map((item,index)=><button key={item.number} className={activeOutcome===index?"rl-outcome-choice is-active":"rl-outcome-choice"} role="tab" id={`rl-outcome-tab-${index}`} aria-selected={activeOutcome===index} aria-controls="rl-outcome-showcase" onClick={()=>setActiveOutcome(index)}><span className="rl-outcome-choice-number">{item.number}</span><span className="rl-outcome-choice-copy"><b>{item.title}</b><small>{item.tag}</small></span><ArrowUpRight size={16} className="rl-outcome-choice-arrow"/></button>)}
+              <div className="rl-outcome-rail-footer"><span>SELECT A MILESTONE</span><span>0{activeOutcome+1} <i>/ 04</i></span></div>
+            </div>
+            <div className="rl-outcome-stage" id="rl-outcome-showcase" role="tabpanel" aria-labelledby={`rl-outcome-tab-${activeOutcome}`} key={activeOutcome}>
+              <div className="rl-stage-art" aria-hidden="true"><div className="rl-stage-halo"/><div className="rl-stage-ring rl-stage-ring-one"/><div className="rl-stage-ring rl-stage-ring-two"/><div className="rl-stage-core"><span>{outcomes[activeOutcome].number}</span><b>{outcomes[activeOutcome].symbols[0]}</b></div><div className="rl-stage-float rl-stage-float-one">{outcomes[activeOutcome].symbols[1]}</div><div className="rl-stage-float rl-stage-float-two">{outcomes[activeOutcome].symbols[2]}</div><div className="rl-stage-scan"/></div>
+              <div className="rl-stage-content"><span className="rl-stage-kicker"><Sparkles size={13}/> SKILL UNLOCKED <i>{outcomes[activeOutcome].tag}</i></span><h3>{outcomes[activeOutcome].title}</h3><p>{outcomes[activeOutcome].summary}</p><div className="rl-stage-skills">{outcomes[activeOutcome].skills.map(skill=><span key={skill}>{skill}</span>)}</div><div className="rl-stage-takeaway"><span>YOU’LL WALK AWAY WITH</span><b>{outcomes[activeOutcome].takeaway}</b></div><div className="rl-stage-controls"><div className="rl-stage-progress" aria-hidden="true">{outcomes.map((item,index)=><i key={item.number} className={index<=activeOutcome?"is-filled":""}/>)}</div><button type="button" onClick={()=>setActiveOutcome((activeOutcome+1)%outcomes.length)} aria-label="Explore next outcome">NEXT OUTCOME <ArrowUpRight size={15}/></button></div></div>
+            </div>
           </div>
           <div className="rl-outcomes-note"><span className="rl-note-mark">✳</span><p><b>One product. Every concept has a purpose.</b><br/>React + Vite + JavaScript + CSS + localStorage. No backend setup or advanced state libraries in session one.</p></div>
         </div>
