@@ -927,104 +927,124 @@
   .ws-concept-note { gap: 7px; }
 }
 
-/* Portfolio-native workshop art direction: same ink, type, and accent system. */
+
+/* Independent workshop identity: light editorial canvas, gradient-first visual language. */
 .workshop-experience {
-  --ws-paper: #090a0d; --ws-paper-deep: #101217; --ws-white: #12151b;
-  --ws-ink: #f3f4ef; --ws-muted: #969ba4; --ws-line: rgba(255,255,255,.12);
-  --ws-green: #c7ff4a; --ws-lime: #c7ff4a; --ws-blue: #a58bff;
-  --ws-lilac: #a58bff; --ws-peach: #ff9b79;
-  --ws-serif: "Space Grotesk", "Manrope", sans-serif;
-  --ws-sans: "Manrope", system-ui, sans-serif;
-  --ws-mono: "DM Mono", ui-monospace, monospace;
-  background: var(--bg, #090a0d); color: var(--text, #f3f4ef);
-  font-family: var(--body, "Manrope", sans-serif);
+  color-scheme: light;
+  --ws-paper:#fbf8f2; --ws-paper-deep:#f0e9e0; --ws-white:#fffdf9;
+  --ws-ink:#211b2d; --ws-muted:#77717f; --ws-line:rgba(39,29,51,.13);
+  --ws-green:#51405f; --ws-lime:#d9f36a; --ws-blue:#8d9fe9;
+  --ws-lilac:#d8bdf5; --ws-peach:#ffb18c;
+  --ws-serif:"Instrument Serif",Georgia,serif; --ws-sans:"DM Sans",sans-serif;
+  --ws-mono:"Space Grotesk",sans-serif;
+  background:var(--ws-paper); color:var(--ws-ink);
 }
-.workshop-experience .ws-header { border-bottom-color: rgba(255,255,255,.08); background: rgba(9,10,13,.72); }
-.workshop-experience .ws-brand-mark { border-radius: 0; color: #f3f4ef; background: transparent; font: 700 24px/1 var(--display, "Space Grotesk",sans-serif); letter-spacing: -.09em; }
-.workshop-experience .ws-brand-mark span { color: #c7ff4a; font-size: 13px; letter-spacing: 0; }
-.workshop-experience .ws-brand-label { color: #969ba4; font-family: var(--mono); }
-.workshop-experience .ws-header-edition { color: #969ba4; }
-.workshop-experience .ws-header-dot { background: #c7ff4a; box-shadow: 0 0 0 4px rgba(199,255,74,.12); }
-.workshop-experience .ws-menu-toggle { border-color: var(--line); background: #12151b; color: #f3f4ef; }
-.workshop-experience .ws-menu-panel { border-color: var(--line); background: #12151b; box-shadow: 0 22px 70px rgba(0,0,0,.4); }
-.workshop-experience .ws-menu-panel > a:not(.ws-menu-cta):hover { background: #1b2028; }
-.workshop-experience .ws-menu-cta { color: #090a0d !important; background: #c7ff4a; }
-.workshop-experience .ws-hero { padding-top: 26px; background: #090a0d; }
-.workshop-experience .ws-hero-topline, .workshop-experience .ws-hero-bottom { color: #858b95; }
-.workshop-experience .ws-hero-topline b, .workshop-experience .ws-title-line-last > span > span { color: #c7ff4a; }
-.workshop-experience .ws-hero-backdrop { display: none; }
-.workshop-experience .ws-hero-kicker { color: #aeb3bb; }
-.workshop-experience .ws-kicker-mark { border-color: var(--line); color: #c7ff4a; background: #12151b; }
-.workshop-experience .ws-hero h1 { color: #f3f4ef; font-family: var(--display, "Space Grotesk",sans-serif); font-weight: 600; letter-spacing: -.085em; }
-.workshop-experience .ws-title-line em { color: #c7ff4a; font-family: var(--display, "Space Grotesk",sans-serif); font-style: normal; }
-.workshop-experience .ws-hero-description { color: #a0a5ad; }
-.workshop-experience .ws-button { border-radius: 3px; font-family: var(--mono); }
-.workshop-experience .ws-button-primary { color: #090a0d !important; background: #c7ff4a; box-shadow: 0 10px 30px rgba(199,255,74,.09); }
-.workshop-experience .ws-button-primary:hover { background: #d6ff78; }
-.workshop-experience .ws-text-link, .workshop-experience .ws-hero-meta-item b { color: #d7d9dc; }
-.workshop-experience .ws-hero-meta { border-color: var(--line); }
-.workshop-experience .ws-hero-meta-item, .workshop-experience .ws-hero-meta-item small { color: #858b95; }
-.workshop-experience .ws-hero-meta-item > svg { color: #c7ff4a; }
-.workshop-experience .ws-hero-art { padding: 0 0 35px 10px; }
-.workshop-experience .ws-gradient-gallery { position: relative; height: clamp(470px, 47vw, 650px); display: grid; grid-template-columns: minmax(0, 1fr) 18%; gap: 14px; overflow: visible; }
-.workshop-experience .ws-gradient-panel { position: relative; overflow: hidden; isolation: isolate; }
-.workshop-experience .ws-gradient-panel-main { background: linear-gradient(138deg,#ffbd68 0%,#ff8f9e 36%,#e8a5f5 60%,#f7e4d7 78%,#ff9a55 100%); color: #fffaf8; }
-.workshop-experience .ws-gradient-panel-main::before { content:""; position:absolute; inset:-20%; background: radial-gradient(ellipse at 25% 18%,rgba(255,244,174,.85),transparent 31%), radial-gradient(ellipse at 70% 70%,rgba(255,111,77,.65),transparent 39%), linear-gradient(118deg,transparent 35%,rgba(255,255,255,.38) 51%,transparent 67%); filter: blur(9px); }
-.workshop-experience .ws-gradient-grain { position:absolute; inset:0; z-index:3; opacity:.16; pointer-events:none; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E"); mix-blend-mode: soft-light; }
-.workshop-experience .ws-gradient-ribbons { position:absolute; inset:0; display:flex; gap:0; opacity:.62; }
-.workshop-experience .ws-gradient-ribbons i { flex:1; border-right:1px solid rgba(255,255,255,.23); background:linear-gradient(180deg,rgba(255,255,255,.13),transparent 42%,rgba(255,255,255,.25)); transform:skewY(-7deg) scale(1.04); transform-origin:top; }
-.workshop-experience .ws-gradient-ribbons i:nth-child(2n) { transform:skewY(5deg) scale(1.04); opacity:.56; }
+.workshop-experience .ws-header { background:rgba(251,248,242,.86); border-color:rgba(39,29,51,.09); }
+.workshop-experience .ws-brand-mark { color:#fffdf9; background:#292235; font-size:19px; }
+.workshop-experience .ws-brand-mark span { color:#e7a0bd; }
+.workshop-experience .ws-brand-label { color:#716b79; }
+.workshop-experience .ws-header-dot { background:#df8caa; box-shadow:0 0 0 4px rgba(223,140,170,.15); }
+.workshop-experience .ws-menu-toggle { border-color:rgba(39,29,51,.17); background:rgba(255,253,249,.8); color:#292235; }
+.workshop-experience .ws-menu-panel { background:rgba(255,253,249,.97); border-color:rgba(39,29,51,.1); box-shadow:0 24px 80px rgba(49,34,57,.14); }
+.workshop-experience .ws-menu-panel > a:not(.ws-menu-cta):hover { background:#f4edf2; }
+.workshop-experience .ws-menu-cta { color:#fffdf9 !important; background:#292235; }
+.workshop-experience .ws-hero {
+  padding-top:25px;
+  background:
+    radial-gradient(ellipse at 83% 9%,rgba(248,193,211,.5),transparent 27%),
+    radial-gradient(ellipse at 12% 84%,rgba(207,215,250,.54),transparent 28%),
+    linear-gradient(180deg,#fbf8f2 0%,#faf6f1 75%,#f8f3ed 100%);
+}
+.workshop-experience .ws-hero-backdrop { display:none; }
+.workshop-experience .ws-hero-topline,.workshop-experience .ws-hero-bottom { color:#817a87; }
+.workshop-experience .ws-hero-topline b,.workshop-experience .ws-title-line-last > span > span { color:#db789b; }
+.workshop-experience .ws-hero-kicker { color:#746a7d; }
+.workshop-experience .ws-kicker-mark { border-color:rgba(39,29,51,.15); color:#a16fb5; background:rgba(255,255,255,.66); }
+.workshop-experience .ws-hero h1 { color:#211b2d; font-family:"Space Grotesk",sans-serif; font-weight:500; letter-spacing:-.09em; }
+.workshop-experience .ws-title-line em { color:#ad6f9f; font-family:"Instrument Serif",Georgia,serif; font-style:italic; font-weight:400; }
+.workshop-experience .ws-hero-description { color:#6e6876; }
+.workshop-experience .ws-button { border-radius:999px; font-family:"Space Grotesk",sans-serif; letter-spacing:.055em; }
+.workshop-experience .ws-button-primary { color:#fffdf9 !important; background:#292235; box-shadow:0 12px 28px rgba(41,34,53,.12); }
+.workshop-experience .ws-button-primary:hover { background:#51405f; }
+.workshop-experience .ws-text-link,.workshop-experience .ws-hero-meta-item b { color:#332b40; }
+.workshop-experience .ws-hero-meta { border-color:var(--ws-line); }
+.workshop-experience .ws-hero-meta-item,.workshop-experience .ws-hero-meta-item small { color:#827b88; }
+.workshop-experience .ws-hero-meta-item > svg { color:#b27ba9; }
+.workshop-experience .ws-gradient-gallery { position:relative; height:clamp(470px,47vw,650px); display:grid; grid-template-columns:minmax(0,1fr) 18%; gap:14px; overflow:visible; perspective:1000px; }
+.workshop-experience .ws-gradient-panel { position:relative; overflow:hidden; isolation:isolate; border-radius:3px; }
+.workshop-experience .ws-gradient-panel-main { background:linear-gradient(142deg,#ffce8e 0%,#ffad9e 27%,#edb4d9 53%,#d5c5fa 74%,#fce8d4 100%); color:#fffdf9; }
+.workshop-experience .ws-gradient-panel-main::before { content:""; position:absolute; inset:-18%; background:radial-gradient(ellipse at 20% 20%,rgba(255,251,218,.95),transparent 31%),radial-gradient(ellipse at 75% 70%,rgba(255,130,115,.55),transparent 40%),linear-gradient(118deg,transparent 34%,rgba(255,255,255,.48) 52%,transparent 68%); filter:blur(10px); }
+.workshop-experience .ws-gradient-grain { position:absolute; inset:0; z-index:3; opacity:.12; pointer-events:none; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E"); mix-blend-mode:soft-light; }
+.workshop-experience .ws-gradient-ribbons { position:absolute; inset:-2%; display:flex; opacity:.55; }
+.workshop-experience .ws-gradient-ribbons i { flex:1; border-right:1px solid rgba(255,255,255,.38); background:linear-gradient(180deg,rgba(255,255,255,.35),transparent 45%,rgba(255,255,255,.3)); transform:skewY(-7deg) scale(1.04); transform-origin:top; }
+.workshop-experience .ws-gradient-ribbons i:nth-child(2n) { transform:skewY(5deg) scale(1.04); opacity:.58; }
 .workshop-experience .ws-gradient-panel-copy { position:absolute; z-index:4; left:clamp(22px,3vw,48px); top:clamp(26px,4vw,58px); max-width:80%; }
-.workshop-experience .ws-gradient-panel-copy > span, .workshop-experience .ws-gradient-panel-foot { font:500 9px var(--mono); letter-spacing:.12em; }
-.workshop-experience .ws-gradient-panel-copy strong { display:block; margin-top:clamp(24px,5vw,70px); font:600 clamp(42px,5.4vw,76px)/.94 var(--display); letter-spacing:-.075em; text-shadow:0 2px 25px rgba(113,49,54,.12); }
-.workshop-experience .ws-gradient-panel-copy strong em { font-style:normal; }
+.workshop-experience .ws-gradient-panel-copy > span,.workshop-experience .ws-gradient-panel-foot { font:500 9px "Space Grotesk",sans-serif; letter-spacing:.12em; }
+.workshop-experience .ws-gradient-panel-copy strong { display:block; margin-top:clamp(24px,5vw,70px); font:500 clamp(42px,5.4vw,76px)/.94 "Space Grotesk",sans-serif; letter-spacing:-.075em; text-shadow:0 2px 25px rgba(113,49,54,.08); }
+.workshop-experience .ws-gradient-panel-copy strong em { font-family:"Instrument Serif",serif; font-weight:400; font-style:italic; }
 .workshop-experience .ws-gradient-panel-copy p { max-width:245px; margin:18px 0 0; font-size:clamp(12px,1.2vw,15px); line-height:1.55; }
 .workshop-experience .ws-gradient-panel-foot { position:absolute; z-index:4; left:clamp(22px,3vw,48px); right:24px; bottom:23px; display:flex; justify-content:space-between; }
-.workshop-experience .ws-gradient-panel-side { display:flex; flex-direction:column; justify-content:space-between; padding:24px 15px; background:linear-gradient(160deg,#dba6ee,#f4d5e9 38%,#ffb7a1 65%,#8bc9dc); color:#fff; }
-.workshop-experience .ws-gradient-panel-side::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg,rgba(255,255,255,.3),transparent 35%,rgba(96,76,154,.14)); }
-.workshop-experience .ws-gradient-panel-side > span { position:relative; z-index:1; font:600 clamp(12px,1.2vw,18px)/1.05 var(--display); letter-spacing:-.06em; }
-.workshop-experience .ws-gradient-panel-side em { font-style:normal; }
-.workshop-experience .ws-gradient-panel-side small { position:relative; z-index:1; font:500 7px var(--mono); letter-spacing:.12em; }
-.workshop-experience .ws-gradient-board { position:absolute; z-index:5; left:-42px; bottom:18px; width:min(440px,86%); padding:17px 17px 15px; border:1px solid rgba(255,255,255,.12); background:rgba(12,14,19,.88); backdrop-filter:blur(18px); box-shadow:0 22px 70px rgba(0,0,0,.32); color:#f3f4ef; }
-.workshop-experience .ws-gradient-board-top { display:flex; justify-content:space-between; align-items:center; gap:10px; padding-bottom:13px; border-bottom:1px solid rgba(255,255,255,.1); font:500 8px var(--mono); letter-spacing:.08em; }
+.workshop-experience .ws-gradient-panel-side { display:flex; flex-direction:column; justify-content:space-between; padding:24px 15px; background:linear-gradient(160deg,#d6c1f1,#f4d5e9 38%,#ffc0a5 65%,#b7dbe9); color:#fffdf9; }
+.workshop-experience .ws-gradient-panel-side::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg,rgba(255,255,255,.35),transparent 35%,rgba(96,76,154,.1)); }
+.workshop-experience .ws-gradient-panel-side > span { position:relative; z-index:1; font:500 clamp(12px,1.2vw,18px)/1.05 "Space Grotesk",sans-serif; letter-spacing:-.06em; }
+.workshop-experience .ws-gradient-panel-side em { font-family:"Instrument Serif",serif; font-style:italic; }
+.workshop-experience .ws-gradient-panel-side small { position:relative; z-index:1; font:500 7px "Space Grotesk",sans-serif; letter-spacing:.12em; }
+.workshop-experience .ws-gradient-board { position:absolute; z-index:5; left:-42px; bottom:18px; width:min(440px,86%); padding:17px 17px 15px; border:1px solid rgba(51,39,65,.12); border-radius:8px; background:rgba(255,253,249,.92); backdrop-filter:blur(20px); box-shadow:0 24px 70px rgba(72,45,72,.18); color:#292235; }
+.workshop-experience .ws-gradient-board-top { display:flex; justify-content:space-between; align-items:center; gap:10px; padding-bottom:13px; border-bottom:1px solid rgba(51,39,65,.1); font:500 8px "Space Grotesk",sans-serif; letter-spacing:.08em; }
 .workshop-experience .ws-gradient-board-top > span:first-child { display:flex; align-items:center; gap:7px; }
-.workshop-experience .ws-gradient-board-top i { width:7px; height:7px; border-radius:50%; background:#c7ff4a; }
-.workshop-experience .ws-gradient-board-top > span:last-child { color:#9298a3; }
+.workshop-experience .ws-gradient-board-top i { width:7px; height:7px; border-radius:50%; background:#9bbf66; }
+.workshop-experience .ws-gradient-board-top > span:last-child { color:#8b8290; }
 .workshop-experience .ws-gradient-board-columns { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:9px; padding-top:13px; }
 .workshop-experience .ws-gradient-board-columns > div { display:grid; align-content:start; gap:7px; min-width:0; }
-.workshop-experience .ws-gradient-board-columns small { display:flex; justify-content:space-between; gap:4px; color:#9ca2ad; font:500 7px var(--mono); letter-spacing:.04em; }
-.workshop-experience .ws-gradient-board-columns small b { color:#c7ff4a; font-weight:500; }
-.workshop-experience .ws-mini-task { display:block; padding:8px 7px; border:1px solid rgba(255,255,255,.09); background:#191d25; color:#c8ccd2; font-size:8px; line-height:1.35; }
-.workshop-experience .ws-mini-task-active { border-color:rgba(165,139,255,.42); background:rgba(165,139,255,.1); }
-.workshop-experience .ws-mini-task-done { color:#aebc8c; }
-.workshop-experience .ws-art-index { color:#9298a3; }
-.workshop-experience .ws-art-index i { color:#c7ff4a; }
-.workshop-experience .ws-hero-bottom { border-top:1px solid var(--line); padding-top:17px; }
-.workshop-experience .ws-hero-bottom a { display:flex; align-items:center; gap:8px; color:#d6d9dd; }
-.workshop-experience .ws-intro-band, .workshop-experience .ws-method, .workshop-experience .ws-build, .workshop-experience .ws-outcomes, .workshop-experience .ws-agenda, .workshop-experience .ws-pathway, .workshop-experience .ws-audience, .workshop-experience .ws-faq, .workshop-experience .ws-join { background-color:#090a0d; }
-.workshop-experience .ws-intro-band { border-color:var(--line); }
-.workshop-experience .ws-intro-band-label, .workshop-experience .ws-index, .workshop-experience .ws-section-label { color:#969ba4; }
-.workshop-experience .ws-intro-statement, .workshop-experience .ws-display, .workshop-experience .ws-build-heading h2, .workshop-experience .ws-demo-heading h3, .workshop-experience .ws-section-heading h2 { color:#f3f4ef; }
-.workshop-experience .ws-intro-statement em, .workshop-experience .ws-display em, .workshop-experience .ws-build-heading h2 em, .workshop-experience .ws-demo-heading h3 em { color:#c7ff4a; }
-.workshop-experience .ws-footer { border-color:var(--line); color:#9298a3; background:#090a0d; }
-.workshop-experience .ws-footer-brand { color:#f3f4ef; }
-.workshop-experience .ws-footer-brand span { color:#c7ff4a; }
-.workshop-experience .ws-challenge-strip { border-color:var(--line); background:linear-gradient(115deg,#12151b,#171b22); }
-.workshop-experience .ws-challenge-heading h3 { color:#f3f4ef; }
-.workshop-experience .ws-challenge-heading h3 em { color:#c7ff4a; }
-.workshop-experience .ws-challenge-heading p, .workshop-experience .ws-concept-note p { color:#969ba4; }
-.workshop-experience .ws-challenge-ideas span { border-color:var(--line); background:#171b22; color:#d1d4d9; }
-.workshop-experience .ws-challenge-ideas b { color:#c7ff4a; }
-.workshop-experience .ws-concept-note { border-color:var(--line); }
-.workshop-experience .ws-concept-note > span { color:#c7ff4a; }
-@media (max-width: 900px) {
+.workshop-experience .ws-gradient-board-columns small { display:flex; justify-content:space-between; gap:4px; color:#887f8e; font:500 7px "Space Grotesk",sans-serif; letter-spacing:.04em; }
+.workshop-experience .ws-gradient-board-columns small b { color:#a16fb5; font-weight:500; }
+.workshop-experience .ws-mini-task { display:block; padding:8px 7px; border:1px solid rgba(51,39,65,.08); border-radius:4px; background:#f7f2f8; color:#51465e; font-size:8px; line-height:1.35; }
+.workshop-experience .ws-mini-task-active { border-color:rgba(161,111,181,.3); background:#f0e4f4; }
+.workshop-experience .ws-mini-task-done { color:#79895b; background:#f3f5e8; }
+.workshop-experience .ws-art-index { color:#827b88; }
+.workshop-experience .ws-art-index i { color:#bd81aa; }
+.workshop-experience .ws-hero-bottom { border-top:1px solid var(--ws-line); padding-top:17px; }
+.workshop-experience .ws-hero-bottom a { display:flex; align-items:center; gap:8px; color:#332b40; }
+.workshop-experience .ws-build-photo { background:#f1e7f1; }
+.workshop-experience .ws-build-gradient-art { position:relative; min-height:clamp(350px,42vw,560px); overflow:hidden; isolation:isolate; background:linear-gradient(135deg,#f9c6a4 0%,#e8b8d8 36%,#c8c9f4 65%,#c2e1dd 100%); }
+.workshop-experience .ws-build-gradient-art::before { content:""; position:absolute; inset:-12%; background:radial-gradient(ellipse at 26% 25%,rgba(255,255,235,.9),transparent 28%),radial-gradient(ellipse at 75% 80%,rgba(255,143,156,.72),transparent 38%),linear-gradient(120deg,transparent 30%,rgba(255,255,255,.44) 50%,transparent 65%); filter:blur(12px); }
+.workshop-experience .ws-build-art-orbit { position:absolute; inset:7% 12%; border:1px solid rgba(255,255,255,.55); border-radius:48% 52% 55% 45%; transform:rotate(-23deg); }
+.workshop-experience .ws-build-art-orbit i { position:absolute; display:block; width:24%; height:24%; border-radius:50%; background:linear-gradient(145deg,rgba(255,255,255,.8),rgba(255,255,255,.08)); box-shadow:inset 0 0 24px rgba(255,255,255,.38); backdrop-filter:blur(5px); }
+.workshop-experience .ws-build-art-orbit i:nth-child(1) { top:3%; left:17%; }
+.workshop-experience .ws-build-art-orbit i:nth-child(2) { right:2%; bottom:18%; width:17%; height:17%; }
+.workshop-experience .ws-build-art-orbit i:nth-child(3) { left:4%; bottom:12%; width:11%; height:11%; }
+.workshop-experience .ws-build-art-window { position:absolute; top:21%; left:21%; width:58%; min-height:48%; padding:23px; display:flex; flex-direction:column; justify-content:space-between; border:1px solid rgba(255,255,255,.55); background:rgba(255,253,249,.35); backdrop-filter:blur(20px); color:#fffdf9; transform:rotate(-5deg); box-shadow:0 30px 80px rgba(110,65,105,.12); }
+.workshop-experience .ws-build-art-window > span { font:500 10px "Space Grotesk",sans-serif; }
+.workshop-experience .ws-build-art-window b { font:500 clamp(27px,4vw,54px)/.95 "Space Grotesk",sans-serif; letter-spacing:-.07em; }
+.workshop-experience .ws-build-art-window small { font:500 8px "Space Grotesk",sans-serif; letter-spacing:.12em; }
+.workshop-experience .ws-build-photo-overlay { z-index:5; }
+.workshop-experience .ws-build-photo-overlay b { color:#fffdf9; }
+.workshop-experience .ws-intro-band,.workshop-experience .ws-method,.workshop-experience .ws-build,.workshop-experience .ws-outcomes,.workshop-experience .ws-agenda,.workshop-experience .ws-pathway,.workshop-experience .ws-audience,.workshop-experience .ws-faq,.workshop-experience .ws-join { background-color:var(--ws-paper); }
+.workshop-experience .ws-intro-band { border-color:var(--ws-line); }
+.workshop-experience .ws-intro-band-label,.workshop-experience .ws-index,.workshop-experience .ws-section-label { color:#817987; }
+.workshop-experience .ws-intro-statement,.workshop-experience .ws-display,.workshop-experience .ws-build-heading h2,.workshop-experience .ws-demo-heading h3,.workshop-experience .ws-section-heading h2 { color:#211b2d; }
+.workshop-experience .ws-intro-statement em,.workshop-experience .ws-display em,.workshop-experience .ws-build-heading h2 em,.workshop-experience .ws-demo-heading h3 em { color:#ad6f9f; }
+.workshop-experience .ws-footer { border-color:var(--ws-line); color:#827b88; background:var(--ws-paper); }
+.workshop-experience .ws-footer-brand { color:#292235; }
+.workshop-experience .ws-footer-brand span { color:#db789b; }
+.workshop-experience .ws-challenge-strip { border-color:var(--ws-line); background:linear-gradient(115deg,#fffdf9,#f1e8f1); }
+.workshop-experience .ws-challenge-heading h3 { color:#211b2d; }
+.workshop-experience .ws-challenge-heading h3 em { color:#ad6f9f; }
+.workshop-experience .ws-challenge-heading p,.workshop-experience .ws-concept-note p { color:#77717f; }
+.workshop-experience .ws-challenge-ideas span { border-color:var(--ws-line); background:rgba(255,253,249,.8); color:#51465e; }
+.workshop-experience .ws-challenge-ideas b { color:#ad6f9f; }
+.workshop-experience .ws-concept-note { border-color:var(--ws-line); }
+.workshop-experience .ws-concept-note > span { color:#ad6f9f; }
+.workshop-experience .ws-section-heading h2 em,.workshop-experience .ws-agenda-heading h2 em,.workshop-experience .ws-outcomes-intro h2 em { color:#ad6f9f; }
+.workshop-experience .ws-reading-progress { background:linear-gradient(90deg,#f5a16e,#df8caa 42%,#a9a6e9 74%,#9ed4c7); }
+@media(max-width:900px) {
  .workshop-experience .ws-hero-layout { grid-template-columns:1fr; gap:34px; min-height:0; }
  .workshop-experience .ws-hero-copy { max-width:740px; }
  .workshop-experience .ws-hero-art { width:min(100%,760px); margin-inline:auto; padding-left:28px; }
  .workshop-experience .ws-gradient-gallery { height:clamp(420px,70vw,610px); }
  .workshop-experience .ws-gradient-board { left:-25px; }
 }
-@media (max-width: 580px) {
+@media(max-width:580px) {
  .workshop-experience .ws-hero { padding:20px 20px 22px; }
  .workshop-experience .ws-hero-topline { font-size:7px; letter-spacing:.07em; }
  .workshop-experience .ws-hero-topline > span:last-child { display:none; }
@@ -1047,4 +1067,8 @@
  .workshop-experience .ws-gradient-board-columns small { font-size:6px; }
  .workshop-experience .ws-mini-task { padding:6px 5px; font-size:7px; }
  .workshop-experience .ws-art-index { font-size:7px; }
+ .workshop-experience .ws-build-art-window { left:15%; width:70%; padding:15px; }
+}
+@media(prefers-reduced-motion:reduce) {
+ .workshop-experience .ws-gradient-ribbons i,.workshop-experience .ws-build-art-window { transform:none !important; }
 }
