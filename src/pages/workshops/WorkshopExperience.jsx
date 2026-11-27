@@ -46,8 +46,9 @@ export default function WorkshopExperience() {
           </div>
 
           <div className="ws-build-feature">
-            <div className="ws-build-photo">
-              <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1700&q=86" alt="Developer workspace with a laptop, code and natural details" loading="lazy" />
+            <div className="ws-build-photo ws-build-gradient-art" aria-label="Abstract gradient artwork illustrating the move from a blank canvas to a working product">
+              <div className="ws-build-art-orbit" aria-hidden="true"><i /><i /><i /></div>
+              <div className="ws-build-art-window" aria-hidden="true"><span>01</span><b>IDEA<br />→ INTERACTION</b><small>REACT / FIRST BUILD</small></div>
               <div className="ws-build-photo-overlay"><span>FROM BLANK CANVAS</span><b>TO WORKING PRODUCT.</b></div>
             </div>
             <div className="ws-build-aside">
