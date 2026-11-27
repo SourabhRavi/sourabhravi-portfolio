@@ -1,3 +1,4 @@
+import React from "react";
 import WorkshopExperience from "./workshops/WorkshopExperience.jsx";
 
 export default function WorkshopPage() {
