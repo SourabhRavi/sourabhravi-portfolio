@@ -60,6 +60,25 @@ export default function WorkshopExperience() {
           <div className="ws-demo-heading ws-reveal"><div><span className="ws-index">TRY THE INTERACTION</span><h3>A tiny preview. <em>Go on, change something.</em></h3></div><span>DEMO / LOCAL STATE</span></div>
           <BuildBoardDemo />
           <p className="ws-build-note"><ArrowDownRight size={15} /> The workshop version adds task details, status flows, filtering and browser persistence step by step.</p>
+
+          <div className="ws-challenge-strip ws-reveal">
+            <div className="ws-challenge-heading">
+              <span>THE MINI CHALLENGE / YOUR OWN EXTENSION</span>
+              <h3>One more detail.<br /><em>Make it yours.</em></h3>
+              <p>After the guided build, choose a small feature and take the board a step further.</p>
+            </div>
+            <div className="ws-challenge-ideas">
+              <span><b>01</b> Due dates</span>
+              <span><b>02</b> Live task counts</span>
+              <span><b>03</b> Priority filters</span>
+              <span><b>04</b> Delete confirmation</span>
+            </div>
+          </div>
+
+          <div className="ws-concept-note">
+            <span>CONCEPTS IN CONTEXT</span>
+            <p>JSX · Components · Props · useState · Events · Controlled forms · Lists & keys · Conditional rendering · Derived state · localStorage</p>
+          </div>
         </section>
 
         <OutcomesSection />
