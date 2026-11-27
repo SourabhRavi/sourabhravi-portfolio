@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import React from "react";
+import ReactLaunchpadPage from "./pages/ReactLaunchpadPage.jsx";
 import {
   ArrowDownRight,
   ArrowRight,
@@ -306,7 +307,7 @@ function ContactLinks() {
   );
 }
 
-export default function App() {
+function PortfolioHome() {
   const rootRef = useRef(null);
   usePortfolioMotion(rootRef);
 
@@ -890,3 +891,11 @@ export default function App() {
     </div>
   );
 }
+
+function AppRouter() {
+  const path = window.location.pathname.replace(/\/+$/, "") || "/";
+  if (path === "/workshops/react-launchpad") return <ReactLaunchpadPage />;
+  return <PortfolioHome />;
+}
+
+export default AppRouter;
