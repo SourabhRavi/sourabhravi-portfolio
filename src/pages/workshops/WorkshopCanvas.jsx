@@ -15,19 +15,26 @@ const starterTasks = [
   { id: 3, title: "Make the board respond", tag: "STATE", status: "done" },
 ];
 const columns = [
-  { key: "todo", label: "UP NEXT", color: "blue" },
-  { key: "doing", label: "IN THE WORKS", color: "orange" },
-  { key: "done", label: "SHIPPED", color: "green" },
+  { key: "todo", title: "To do", hint: "Not started", color: "blue" },
+  { key: "doing", title: "In progress", hint: "Working on it", color: "orange" },
+  { key: "done", title: "Done", hint: "Completed", color: "green" },
 ];
 
 function BoardPlayground() {
   const [tasks, setTasks] = useState(starterTasks);
   const [title, setTitle] = useState("");
-  const [notice, setNotice] = useState("");
+  const [notice, setNotice] = useState("Sample tasks are ready. Add a task or move one to see the board change.");
   const moveTask = (id, status) => {
-    setTasks((current) => current.map((task) => task.id === id ? { ...task, status } : task));
+    const task = tasks.find((item) => item.id === id);
     const next = columns.find((column) => column.key === status);
-    setNotice(next ? `Moved to ${next.label.toLowerCase()}.` : "Task updated.");
+    setTasks((current) => current.map((item) => item.id === id ? { ...item, status } : item));
+    if (task && next) {
+      setNotice(status === "done"
+        ? `“${task.title}” marked as done.`
+        : status === "doing"
+          ? `“${task.title}” moved to In progress.`
+          : `“${task.title}” moved back to To do.`);
+    }
   };
   const addTask = (event) => {
     event.preventDefault();
@@ -35,12 +42,12 @@ function BoardPlayground() {
     if (!cleanTitle) return;
     setTasks((current) => [...current, { id: Date.now(), title: cleanTitle, tag: "YOUR TASK", status: "todo" }]);
     setTitle("");
-    setNotice("Task added. Give it a go!");
+    setNotice(`Added “${cleanTitle}” to To do. Select Start when you're ready to work on it.`);
   };
   const resetBoard = () => {
     setTasks(starterTasks);
     setTitle("");
-    setNotice("Demo reset. Try it again!");
+    setNotice("Demo reset. The 3 sample tasks are back.");
   };
   return (
     <div className="wc-board" aria-label="Interactive BuildBoard demo">
@@ -62,14 +69,14 @@ function BoardPlayground() {
       <div className="wc-board-columns">
         {columns.map((column) => (
           <section className={`wc-board-column wc-column-${column.color}`} key={column.key} aria-label={column.label}>
-            <header><span className="wc-column-dot"/><span>{column.key === "todo" ? "To do" : column.key === "doing" ? "In progress" : "Done"}</span><b>{tasks.filter((task) => task.status === column.key).length}</b></header>
+            <header><div className="wc-column-heading"><span className="wc-column-dot"/><strong>{column.title}</strong><small>{column.hint}</small></div><b aria-label={`${tasks.filter((task) => task.status === column.key).length} tasks`}>{tasks.filter((task) => task.status === column.key).length}</b></header>
             <div className="wc-task-list">
               {tasks.filter((task) => task.status === column.key).map((task) => {
                 const action = column.key === "todo"
-                  ? { label: "Start task", next: "doing" }
+                  ? { label: "Start", next: "doing" }
                   : column.key === "doing"
-                    ? { label: "Mark as done", next: "done" }
-                    : { label: "Move back to To do", next: "todo" };
+                    ? { label: "Complete", next: "done" }
+                    : { label: "Reopen", next: "todo" };
                 return (
                   <article className="wc-task" key={task.id}>
                     <span className="wc-task-tag">{task.tag}</span>
@@ -83,7 +90,7 @@ function BoardPlayground() {
           </section>
         ))}
       </div>
-      <div className="wc-board-feedback" role="status" aria-live="polite"><span className="wc-board-check">✓</span>{notice || "Your changes happen right here, instantly."}<span className="wc-board-count">{tasks.length} {tasks.length === 1 ? "task" : "tasks"}</span></div>
+      <div className="wc-board-feedback" role="status" aria-live="polite"><span className="wc-board-check">✓</span><span className="wc-board-notice">{notice}</span><span className="wc-board-count">{tasks.length} total · {tasks.filter((task) => task.status === "done").length} done</span></div>
     </div>
   );
 }
