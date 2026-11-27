@@ -943,3 +943,71 @@
 @keyframes rl-spark-pop{0%,100%{transform:scale(.92) rotate(-7deg);opacity:.75}50%{transform:scale(1.08) rotate(7deg);opacity:1}}
 @media(max-width:760px){.rl-stage-art{width:min(100%,230px)!important;max-width:230px!important;aspect-ratio:1/1!important}.rl-art-frame{inset:7% 1% 12%}.rl-stage-art-caption{font-size:6px}}
 @media(prefers-reduced-motion:reduce){.rl-art-window,.rl-art-float-card,.rl-art-board,.rl-art-moving-task,.rl-art-state-cursor,.rl-art-storage,.rl-art-refresh,.rl-art-sprint-note,.rl-art-spark,.rl-stage-updated .rl-art-frame{animation:none!important}.rl-art-frame{transition:none!important}}
+
+/* Final interaction + responsive layout pass (single source of truth). */
+.rl-bento-story{
+  display:grid!important;
+  grid-template-columns:minmax(0,1.05fr) minmax(0,1fr) minmax(0,1fr)!important;
+  grid-template-rows:minmax(245px,auto) minmax(205px,auto)!important;
+  grid-template-areas:"product method method" "product concepts time"!important;
+  gap:clamp(10px,1.2vw,15px)!important;
+  align-items:stretch!important;
+}
+.rl-bento-story>.rl-bento-product{grid-area:product!important;min-height:100%!important}
+.rl-bento-story>.rl-bento-method{grid-area:method!important;min-height:0!important}
+.rl-bento-story>.rl-bento-concepts{grid-area:concepts!important;min-height:0!important}
+.rl-bento-story>.rl-bento-time{grid-area:time!important;min-height:0!important}
+.rl-bento-story>article{min-width:0!important;width:auto!important;height:100%;transform-origin:center!important}
+.rl-bento-method-copy{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.72fr);gap:clamp(14px,2vw,30px);align-items:center;min-width:0}
+.rl-bento-method-copy h3{font-size:clamp(24px,2.4vw,34px);text-wrap:balance}
+.rl-bento-method-copy p{min-width:0;max-width:32ch}
+.rl-bento-concepts h3{font-size:clamp(16px,1.55vw,21px)}
+.rl-concept-pills{max-width:100%}
+.rl-bento-time strong{white-space:nowrap}
+.rl-outcome-stage{display:grid!important;grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr)!important;align-items:center!important;gap:clamp(22px,3vw,48px)!important;min-height:480px!important;height:auto!important;overflow:hidden!important}
+.rl-stage-art{min-width:0!important;width:100%!important;max-width:290px!important;aspect-ratio:1!important;margin:0 auto}
+.rl-stage-content{min-width:0!important}
+.rl-stage-content h3,.rl-stage-content>p,.rl-stage-takeaway b{overflow-wrap:anywhere}
+.rl-stage-content{animation:rl-detail-content-in .36s cubic-bezier(.22,.72,.22,1) both}
+.rl-art-frame{opacity:0!important;visibility:hidden!important;transform:translate3d(0,14px,0) scale(.96)!important;animation:none!important;transition:opacity .38s cubic-bezier(.22,.72,.22,1),transform .48s cubic-bezier(.22,.72,.22,1),visibility .38s!important}
+.rl-stage-art-0 .rl-art-components,.rl-stage-art-1 .rl-art-state,.rl-stage-art-2 .rl-art-memory,.rl-stage-art-3 .rl-art-sprint{opacity:1!important;visibility:visible!important;transform:translate3d(0,0,0) scale(1)!important;animation:rl-scene-arrive .5s cubic-bezier(.22,.72,.22,1) both!important}
+.rl-stage-updated .rl-art-frame{animation:none!important}
+.rl-stage-updated .rl-art-frame:not(.rl-art-components):not(.rl-art-state):not(.rl-art-memory):not(.rl-art-sprint){animation:none!important}
+.rl-bento-product-track{display:flex;align-items:center;gap:9px;min-width:0}
+.rl-bento-product-track i{flex:1;min-width:5px}
+.rl-hero-art{perspective:1000px}
+.rl-pane-main,.rl-pane-side{will-change:transform;transform-origin:center center}
+.rl-hero-copy{will-change:transform}
+.rl-floating-chip{will-change:transform}
+@media(max-width:1100px){
+ .rl-bento-story{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;grid-template-rows:minmax(300px,auto) minmax(205px,auto)!important;grid-template-areas:"product method" "concepts time"!important}
+ .rl-bento-story>.rl-bento-product,.rl-bento-story>.rl-bento-method{min-height:100%!important}
+ .rl-bento-method-copy{grid-template-columns:minmax(0,1fr)!important;gap:8px!important}
+ .rl-bento-method-copy p{max-width:38ch}
+ .rl-outcome-stage{grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr)!important}
+}
+@media(max-width:760px){
+ .rl-bento-story{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;grid-template-rows:auto!important;grid-template-areas:"product product" "method method" "concepts time"!important;gap:10px!important}
+ .rl-bento-story>.rl-bento-product{min-height:285px!important}
+ .rl-bento-story>.rl-bento-method{min-height:225px!important}
+ .rl-bento-story>.rl-bento-concepts,.rl-bento-story>.rl-bento-time{min-height:205px!important}
+ .rl-bento-method-copy{grid-template-columns:minmax(0,1fr)!important}
+ .rl-bento-method-copy h3{font-size:clamp(27px,7vw,34px)!important}
+ .rl-bento-method-copy p{max-width:38ch!important}
+ .rl-outcome-stage{grid-template-columns:minmax(0,1fr)!important;min-height:0!important;height:auto!important;padding:22px!important;gap:14px!important}
+ .rl-stage-art{width:min(100%,230px)!important;max-width:230px!important}
+ .rl-stage-content h3{font-size:clamp(28px,8vw,34px)!important}
+ .rl-stage-takeaway{min-height:0}
+}
+@media(max-width:430px){
+ .rl-bento-story{grid-template-columns:minmax(0,1fr)!important;grid-template-areas:"product" "method" "concepts" "time"!important}
+ .rl-bento-story>.rl-bento-product,.rl-bento-story>.rl-bento-method,.rl-bento-story>.rl-bento-concepts,.rl-bento-story>.rl-bento-time{grid-column:1!important;min-height:0!important}
+ .rl-bento-story>.rl-bento-product{min-height:285px!important}
+ .rl-bento-story>.rl-bento-method{min-height:245px!important}
+ .rl-bento-story>.rl-bento-concepts,.rl-bento-story>.rl-bento-time{min-height:185px!important}
+ .rl-outcome-stage{padding:18px!important}
+}
+@media(prefers-reduced-motion:reduce){
+ .rl-stage-content,.rl-stage-art-0 .rl-art-components,.rl-stage-art-1 .rl-art-state,.rl-stage-art-2 .rl-art-memory,.rl-stage-art-3 .rl-art-sprint{animation:none!important}
+ .rl-art-frame{transition:none!important}
+}
