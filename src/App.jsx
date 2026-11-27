@@ -894,6 +894,6 @@ function PortfolioApp() {
 
 
 export default function App() {
-  if (window.location.pathname.replace(/\\/$/, "") === "/workshops/react-launchpad") return <WorkshopCanvas />;
+  if (window.location.pathname === "/workshops/react-launchpad" || window.location.pathname === "/workshops/react-launchpad/") return <WorkshopCanvas />;
   return <PortfolioApp />;
 }
