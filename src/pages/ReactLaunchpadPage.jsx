@@ -71,7 +71,32 @@ export default function ReactLaunchpadPage() {
         .from(".rl-hero-actions,.rl-hero-facts", { y: 8, autoAlpha: 0, duration: .32 }, "-=.15")
         .from(".rl-hero-art", { y: 16, autoAlpha: 0, duration: .5 }, "-=.25");
 
-      // Keep hero artwork still; section rhythm carries the narrative.
+      // Scroll choreography: the hero artwork converges gently as the story moves
+      // from the headline into the product. Scrub keeps it tied to scroll position.
+      const hero = root.querySelector(".rl-hero");
+      if (hero && window.matchMedia("(min-width: 761px)").matches) {
+        const copy = hero.querySelector(".rl-hero-copy");
+        const mainPane = hero.querySelector(".rl-pane-main");
+        const sidePane = hero.querySelector(".rl-pane-side");
+        const glowOne = hero.querySelector(".rl-glow-one");
+        const glowTwo = hero.querySelector(".rl-glow-two");
+        gsap.timeline({
+          scrollTrigger: {
+            trigger: hero,
+            start: "top top",
+            end: "bottom top",
+            scrub: 0.75,
+            invalidateOnRefresh: true
+          }
+        })
+          .to(copy, { y: -34, ease: "none" }, 0)
+          .to(mainPane, { y: 26, x: 12, rotate: -1.1, scale: 0.985, ease: "none" }, 0)
+          .to(sidePane, { y: -24, x: -18, rotate: 1.4, ease: "none" }, 0)
+          .to(glowOne, { x: 34, y: -20, scale: 1.08, ease: "none" }, 0)
+          .to(glowTwo, { x: -28, y: 18, scale: 0.94, ease: "none" }, 0);
+      }
+
+      // Keep the section reveals understated; the hero carries the main motion.
 
       [".rl-intro-layout", ".rl-outcomes-heading", ".rl-outcome-explorer",
        ".rl-agenda-heading", ".rl-agenda-layout", ".rl-series-heading",
