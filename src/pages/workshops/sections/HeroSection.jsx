@@ -1,3 +1,4 @@
+import React from "react";
 import { ArrowDownRight, ArrowUpRight, Clock3, Code2, MousePointer2 } from "lucide-react";
 import { motion } from "motion/react";
 
