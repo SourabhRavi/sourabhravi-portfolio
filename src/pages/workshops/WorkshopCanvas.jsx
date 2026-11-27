@@ -78,9 +78,15 @@ export default function WorkshopCanvas() {
   useEffect(() => {
     if (!root.current || reducedMotion) return;
     const context = gsap.context(() => {
-      gsap.fromTo(".wc-reveal", { y: 34, autoAlpha: 0 }, {
-        y: 0, autoAlpha: 1, duration: 0.75, stagger: 0.08, ease: "power3.out",
-        scrollTrigger: { trigger: ".wc-reveal-group", start: "top 82%", once: true }
+      gsap.utils.toArray(".wc-reveal").forEach((element) => {
+        gsap.fromTo(element, { y: 28, autoAlpha: 0 }, {
+          y: 0, autoAlpha: 1, duration: 0.65, ease: "power3.out",
+          scrollTrigger: { trigger: element, start: "top 88%", once: true }
+        });
+      });
+      gsap.to(".wc-progress>div", {
+        scaleX: 1, ease: "none",
+        scrollTrigger: { trigger: root.current, start: "top top", end: "bottom bottom", scrub: 0.25 }
       });
       gsap.utils.toArray(".wc-line-reveal").forEach((element) => {
         gsap.fromTo(element, { clipPath: "inset(0 0 100% 0)" }, {
