@@ -175,7 +175,30 @@ export default function WorkshopCanvas() {
         <div className="wc-prereq-content"><h2 className="wc-reveal">You don't need React.<br/><em>Just the web basics.</em></h2><div className="wc-prereq-cards"><article className="wc-prereq-card wc-reveal"><Laptop size={22}/><h3>Bring your laptop</h3><p>VS Code (or your editor), a modern browser and Node.js installed. Setup guidance can be shared before the session.</p></article><article className="wc-prereq-card wc-reveal"><Code2 size={22}/><h3>Know the basics</h3><p>HTML, CSS, JavaScript fundamentals: functions, arrays and objects. React experience is not expected.</p></article><article className="wc-prereq-card wc-reveal"><Terminal size={22}/><h3>Start where you are</h3><p>If a setup issue or concept slows you down, checkpoints and starter code help you rejoin the build.</p></article></div></div>
       </section>
 
-      <section className="wc-next wc-reveal-group"><div className="wc-next-top"><SectionStamp number="07" label="AFTER THIS"/></div><h2 className="wc-line-reveal">One project down.<br/><em>A whole stack ahead.</em></h2><p className="wc-reveal">This is chapter one. Later sessions can take the same product further: APIs, routing, databases, real-time features, AI integrations and the practices that help software ship responsibly.</p><div className="wc-next-path">{[["02","Connect it","Routing + APIs"],["03","Store it","Node + database"],["04","Make it live","Realtime systems"],["05","Add intelligence","AI + responsible integration"],["06","Ship it","Testing + accessibility"]].map(([n,a,b])=><div key={n}><span>{n}</span><b>{a}</b><small>{b}</small></div>)}</div></section>
+      <section className="wc-faq" id="faq">
+        <div className="wc-faq-inner">
+          <div className="wc-faq-heading">
+            <SectionStamp number="07" label="GOOD TO KNOW"/>
+            <h2 className="wc-reveal">Questions?<br/><em>Good ones.</em></h2>
+            <p className="wc-reveal">The practical details, without the mystery.</p>
+            <a className="wc-faq-contact" href="mailto:sourabh.k.ravi@gmail.com?subject=React%20Workshop%20Question">ASK SOMETHING ELSE <ArrowUpRight size={15}/></a>
+          </div>
+          <div className="wc-faq-list">
+            {[
+              ["Do I need to know React already?","No. The workshop starts with the fundamentals. Basic HTML, CSS and JavaScript are the prerequisites."],
+              ["What should I install before joining?","Bring a laptop with VS Code (or another editor), a modern browser and Node.js. Setup guidance can be shared before the session."],
+              ["What will I build?","A small interactive project board called BuildBoard. You'll add tasks, move them between states, search and save the board in your browser."],
+              ["Is this a 3-hour lecture?","No. It's a guided build with checkpoints, a short break, a mini challenge and a final showcase."],
+              ["Do I need a backend or paid tools?","No backend, account or paid tool is required. The project uses React, Vite, JavaScript, CSS and localStorage."],
+              ["Will I leave with a project?","You'll work toward a functioning starter project and learn how its pieces fit together. Your final progress depends on participation and setup."],
+              ["How do I arrange a workshop?","Use the enquiry button below or email directly. Share your preferred dates and approximate participant count."]
+            ].map(([question,answer],index)=><details className="wc-faq-item wc-reveal" key={question}><summary><span>{String(index+1).padStart(2,"0")}</span><b>{question}</b><i aria-hidden="true">+</i></summary><p>{answer}</p></details>)}
+          </div>
+        </div>
+        <div className="wc-faq-bottom"><span>STILL CURIOUS?</span><p>Tell me what you're wondering. I'll help you figure out whether this workshop fits.</p><a href="mailto:sourabh.k.ravi@gmail.com?subject=React%20Workshop%20Enquiry">LET'S TALK ABOUT IT <ArrowUpRight size={16}/></a></div>
+      </section>
+
+      <section className="wc-next wc-reveal-group"><div className="wc-next-top"><SectionStamp number="08" label="AFTER THIS"/></div><h2 className="wc-line-reveal">One project down.<br/><em>A whole stack ahead.</em></h2><p className="wc-reveal">This is chapter one. Later sessions can take the same product further: APIs, routing, databases, real-time features, AI integrations and the practices that help software ship responsibly.</p><div className="wc-next-path">{[["02","Connect it","Routing + APIs"],["03","Store it","Node + database"],["04","Make it live","Realtime systems"],["05","Add intelligence","AI + responsible integration"],["06","Ship it","Testing + accessibility"]].map(([n,a,b])=><div key={n}><span>{n}</span><b>{a}</b><small>{b}</small></div>)}</div></section>
 
       <section className="wc-register" id="register"><div className="wc-register-pattern" aria-hidden="true"/><div className="wc-register-inner"><span className="wc-register-kicker"><i/> THE FIRST BUILD IS YOURS</span><h2>Less scrolling.<br/><em>More shipping.</em></h2><p>Bring your curiosity. Leave with a project you can explain, extend and make your own.</p><a className="wc-button wc-button-dark" href="mailto:sourabh.k.ravi@gmail.com?subject=React%20Workshop%20%7C%20College%20Collaboration">ENQUIRE ABOUT A WORKSHOP <ArrowUpRight size={18}/></a><span className="wc-register-foot">FOR STUDENT GROUPS · TECH CLUBS · AI COMMUNITIES</span></div><div className="wc-register-side"><span>WORKSHOP / 001</span><b>LEARN<br/>THROUGH<br/>BUILDING.</b><span>REACT FOUNDATIONS</span></div></section>
       <footer className="wc-footer"><a href="#top" className="wc-footer-mark">W<span>.</span></a><span>MAKE THE WEB MAKE SENSE.</span><a href="/">BACK TO PORTFOLIO ↗</a><span>© {new Date().getFullYear()} WORKSHOP SERIES</span></footer>
