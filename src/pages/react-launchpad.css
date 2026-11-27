@@ -820,3 +820,91 @@
     transform: none !important;
   }
 }
+
+/* 2026-11 responsive + motion pass: one explicit grid at every breakpoint. */
+.rl-bento-story{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr)!important;
+  grid-template-rows:minmax(245px,auto) minmax(205px,auto)!important;
+  grid-template-areas:"product method method" "product concepts time"!important;
+  align-items:stretch!important;
+  gap:14px!important;
+}
+.rl-bento-story>.rl-bento-product{grid-area:product!important;grid-column:auto!important;grid-row:auto!important}
+.rl-bento-story>.rl-bento-method{grid-area:method!important;grid-column:auto!important;grid-row:auto!important}
+.rl-bento-story>.rl-bento-concepts{grid-area:concepts!important;grid-column:auto!important;grid-row:auto!important}
+.rl-bento-story>.rl-bento-time{grid-area:time!important;grid-column:auto!important;grid-row:auto!important}
+.rl-bento-story>article{min-width:0!important;width:auto!important;height:100%;overflow:hidden}
+.rl-bento-product-track{display:flex;align-items:center;gap:10px;min-width:0}
+.rl-bento-product-track i{flex:1;min-width:8px}
+.rl-bento-method-copy{min-width:0}
+.rl-bento-method-copy h3{overflow-wrap:normal;text-wrap:balance}
+.rl-bento-method-copy p{min-width:0}
+.rl-bento-concepts .rl-concept-pills{max-width:100%}
+.rl-bento-time strong{white-space:nowrap}
+.rl-outcome-explorer{align-items:stretch}
+.rl-outcome-rail{min-width:0}
+.rl-outcome-stage{min-width:0;min-height:460px;height:100%;align-self:stretch;overflow:hidden}
+.rl-stage-art,.rl-stage-content{min-width:0}
+.rl-stage-content h3,.rl-stage-content>p,.rl-stage-takeaway b{overflow-wrap:anywhere}
+.rl-agenda-layout{grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr)}
+.rl-agenda-detail{min-width:0}
+.rl-agenda-detail-content,.rl-series-detail-content{min-width:0}
+.rl-series-list{grid-template-columns:repeat(3,minmax(0,1fr))}
+.rl-series-item{min-width:0}
+.rl-series-item b{overflow-wrap:anywhere}
+.rl-logistics-grid{grid-template-columns:minmax(0,1fr) minmax(0,.82fr)}
+.rl-facilitator{min-width:0}
+.rl-hero-art{transform:none!important}
+.rl-pane-main,.rl-pane-side{transform-origin:center center;will-change:transform}
+.rl-hero-glow{will-change:transform}
+.rl-chip-a,.rl-chip-b{will-change:transform}
+.rl-bento-story>article,.rl-outcome-stage,.rl-agenda-detail,.rl-series-detail{transition:background-color .3s ease,border-color .3s ease}
+@media(max-width:1100px){
+ .rl-bento-story{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;grid-template-rows:minmax(300px,auto) minmax(205px,auto)!important;grid-template-areas:"product method" "concepts time"!important}
+ .rl-bento-story>.rl-bento-product{min-height:100%!important}
+ .rl-bento-story>.rl-bento-method{min-height:100%!important}
+ .rl-bento-method-copy{grid-template-columns:minmax(0,1fr)!important;gap:8px!important}
+ .rl-bento-method-copy p{max-width:34ch}
+ .rl-outcome-stage{grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr)}
+ .rl-agenda-layout{grid-template-columns:minmax(0,1fr) minmax(0,.9fr)}
+ .rl-series-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .rl-logistics-grid{grid-template-columns:minmax(0,1fr) minmax(0,.9fr)}
+}
+@media(max-width:760px){
+ .rl-bento-story{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;grid-template-rows:auto!important;grid-template-areas:"product product" "method method" "concepts time"!important;gap:10px!important}
+ .rl-bento-story>.rl-bento-product{min-height:285px!important}
+ .rl-bento-story>.rl-bento-method{min-height:230px!important}
+ .rl-bento-story>.rl-bento-concepts,.rl-bento-story>.rl-bento-time{min-height:205px!important}
+ .rl-bento-method-copy{grid-template-columns:minmax(0,1fr)!important}
+ .rl-bento-method-copy h3{font-size:clamp(27px,7vw,34px)!important}
+ .rl-bento-method-copy p{max-width:38ch!important}
+ .rl-outcome-stage{grid-template-columns:minmax(0,1fr)!important;min-height:0!important;height:auto!important;padding:24px!important;gap:12px!important}
+ .rl-stage-art{width:155px!important;max-width:55%!important;margin:0 auto}
+ .rl-stage-content h3{font-size:clamp(28px,8vw,34px)!important}
+ .rl-stage-takeaway{min-height:0}
+ .rl-agenda-layout,.rl-series-layout{grid-template-columns:minmax(0,1fr)!important}
+ .rl-agenda-detail{min-height:300px!important;height:auto!important}
+ .rl-series-list{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ .rl-series-detail{min-height:0!important}
+ .rl-series-detail-content{min-height:200px!important}
+ .rl-logistics-grid{grid-template-columns:minmax(0,1fr)!important}
+ .rl-hero-art{height:clamp(270px,76vw,360px)!important}
+}
+@media(max-width:430px){
+ .rl-bento-story{grid-template-columns:minmax(0,1fr)!important;grid-template-areas:"product" "method" "concepts" "time"!important}
+ .rl-bento-story>.rl-bento-product,.rl-bento-story>.rl-bento-method,
+ .rl-bento-story>.rl-bento-concepts,.rl-bento-story>.rl-bento-time{grid-column:1!important;min-height:0!important}
+ .rl-bento-story>.rl-bento-product{min-height:285px!important}
+ .rl-bento-story>.rl-bento-method{min-height:250px!important}
+ .rl-bento-story>.rl-bento-concepts,.rl-bento-story>.rl-bento-time{min-height:185px!important}
+ .rl-series-list{grid-template-columns:minmax(0,1fr)!important}
+ .rl-setup-list{grid-template-columns:minmax(0,1fr)!important}
+ .rl-hero-art{height:290px!important}
+ .rl-hero-facts{gap:8px}
+ .rl-outcome-stage{padding:20px!important}
+}
+@media(prefers-reduced-motion:reduce){
+ .rl-pane-main,.rl-pane-side,.rl-glow-one,.rl-glow-two,.rl-chip-a,.rl-chip-b{transform:none!important;will-change:auto!important}
+ .rl-bento-story>article{opacity:1!important;transform:none!important}
+}
