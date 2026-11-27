@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 .workshop-experience {
+  min-height: 100vh;
+  color-scheme: light;
   --ws-paper: #f4f1e9;
   --ws-paper-deep: #eae7dd;
   --ws-white: #fffefa;
@@ -44,7 +46,23 @@
   height: 3px;
   transform-origin: left;
   background: linear-gradient(90deg, #a6d84d 0%, #8fa5e7 52%, #e8a88d 100%);
+  transform-origin: left center;
   pointer-events: none;
+}
+
+.workshop-experience button:focus-visible,
+.workshop-experience a:focus-visible,
+.workshop-experience input:focus-visible,
+.workshop-experience summary:focus-visible {
+  outline: 2px solid var(--ws-green);
+  outline-offset: 4px;
+}
+
+.ws-section,
+.ws-hero,
+.ws-build,
+.ws-join {
+  scroll-margin-top: 84px;
 }
 
 .ws-header {
