@@ -1,3 +1,4 @@
+import React from "react";
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight, Check, Plus, Search, Trash2 } from "lucide-react";
