@@ -152,7 +152,7 @@ export default function WorkshopCanvas() {
           <div className="wc-build-title"><span className="wc-overline">MEET YOUR WORKSHOP PROJECT</span><h2 className="wc-line-reveal">This is <em>BuildBoard.</em></h2><p>A project board inspired by the tools real teams use. Familiar enough to understand. Rich enough to teach you React.</p></div>
           <div className="wc-build-note"><span>PRODUCT BRIEF / 001</span><b>Not a screenshot.<br/>A set of decisions.</b><p>Every button has a job. Every interaction teaches a concept.</p></div>
         </div>
-        <div className="wc-demo-wrap wc-reveal"><div className="wc-demo-top"><span><i/> TRY THE MINI BOARD</span><span>INTERACTIVE · NO SIGN-IN</span></div><BoardPlayground/><div className="wc-demo-caption"><span>PLAY WITH IT.</span><p>Add a task. Move it through the workflow. That's state, events and rendering working together.</p><b>YOU\'LL BUILD THE FULL VERSION IN THE SESSION ↗</b><a className="wc-demo-faq-link" href="#faq">Got questions before you join? Browse the FAQs ↗</a></div></div>
+        <div className="wc-demo-wrap wc-reveal"><div className="wc-demo-top"><span><i/> TRY THE MINI BOARD</span><span>INTERACTIVE · NO SIGN-IN</span></div><BoardPlayground/><div className="wc-demo-caption"><span>PLAY WITH IT.</span><p>Add a task. Move it through the workflow. That's state, events and rendering working together.</p><b>YOU'LL BUILD THE FULL VERSION IN THE SESSION ↗</b><a className="wc-demo-faq-link" href="#faq">Got questions before you join? Browse the FAQs ↗</a></div></div>
         <div className="wc-build-bottom"><span>THE STACK</span><div><b>REACT</b><b>VITE</b><b>JAVASCRIPT</b><b>CSS</b><b>LOCALSTORAGE</b></div><span>NO BACKEND. NO MAGIC.</span></div>
       </section>
 
