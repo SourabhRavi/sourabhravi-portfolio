@@ -4,10 +4,10 @@ import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight, Check, Plus, Search, Trash2 } from "lucide-react";
 
 const initialTasks = [
-  { id: 1, title: "Sketch the first screen", status: 0, tag: "Design" },
-  { id: 2, title: "Build a reusable task card", status: 1, tag: "React" },
-  { id: 3, title: "Make the board remember", status: 2, tag: "Product" },
-  { id: 4, title: "Add a quick search", status: 0, tag: "Feature" },
+  { id: 1, title: "Sketch the first screen", status: 0, tag: "DESIGN" },
+  { id: 2, title: "Build a reusable task card", status: 1, tag: "REACT" },
+  { id: 3, title: "Save my progress", status: 2, tag: "WIN" },
+  { id: 4, title: "Add a quick search", status: 0, tag: "IDEA" },
 ];
 
 const columns = ["TO DO", "IN PROGRESS", "DONE"];
@@ -17,6 +17,8 @@ export default function BuildBoardDemo() {
   const [query, setQuery] = useState("");
   const [newTask, setNewTask] = useState("");
   const [nextId, setNextId] = useState(5);
+  const completedCount = tasks.filter((task) => task.status === 2).length;
+  const resetDemo = () => { setTasks(initialTasks); setQuery(""); setNewTask(""); setNextId(5); };
 
   const visibleTasks = useMemo(() => {
     const value = query.trim().toLowerCase();
@@ -45,13 +47,17 @@ export default function BuildBoardDemo() {
 
   return (
     <div className="ws-board">
+      <div className="ws-demo-welcome">
+        <div><span className="ws-demo-eyebrow"><i /> YOUR TURN TO PLAY</span><h4>Small clicks. <em>Real React.</em></h4><p>Add a task, move it forward, or search. Watch the board respond.</p></div>
+        <button type="button" className="ws-demo-reset" onClick={resetDemo}>RESET PLAYGROUND <span>↺</span></button>
+      </div>
       <div className="ws-board-topbar">
         <div className="ws-board-project">
           <span className="ws-board-logo">B</span>
           <span><b>BuildBoard</b><small>YOUR FIRST REACT PROJECT</small></span>
         </div>
         <div className="ws-board-topbar-meta"><i /> LIVE DEMO <span>·</span> LOCAL STATE</div>
-        <span className="ws-board-total">{tasks.length.toString().padStart(2, "0")} TASKS</span>
+        <span className="ws-board-total">{completedCount}/{tasks.length} COMPLETE</span>
       </div>
 
       <div className="ws-board-toolbar">
@@ -114,7 +120,7 @@ export default function BuildBoardDemo() {
                           disabled={task.status === 2}
                           aria-label={task.status === 2 ? "Task completed" : "Move task to next column"}
                         >
-                          {task.status === 2 ? <><Check size={14} /> COMPLETE</> : <>MOVE <ArrowRight size={13} /></>}
+                          {task.status === 2 ? <><Check size={14} /> DONE</> : <>{task.status === 1 ? "FINISH" : "MOVE"} <ArrowRight size={13} /></>}
                         </button>
                       </div>
                     </motion.article>
@@ -127,8 +133,8 @@ export default function BuildBoardDemo() {
         })}
       </div>
       <div className="ws-board-foot">
-        <span>TRY IT: ADD A TASK, SEARCH FOR IT, THEN MOVE IT FORWARD.</span>
-        <span>STATE CHANGES <b>→</b> INTERFACE CHANGES</span>
+        <span>YOU JUST CHANGED THE UI WITH STATE.</span>
+        <span><b>{completedCount === tasks.length && tasks.length ? "BOARD COMPLETE ✳" : "KEEP MOVING →"}</b></span>
       </div>
     </div>
   );
