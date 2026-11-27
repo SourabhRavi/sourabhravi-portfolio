@@ -19,6 +19,7 @@ import { capabilities, experience, profile, projects } from "./data";
 import { usePortfolioMotion } from "./usePortfolioMotion";
 import GlowCursor from "./components/GlowCursor/GlowCursor";
 import ShapeGrid from "./components/ShapeGrid/ShapeGrid";
+import WorkshopPage from "./pages/WorkshopPage.jsx";
 
 function PortfolioGlowCursor() {
   const [isSupported, setIsSupported] = useState(false);
@@ -73,6 +74,7 @@ function Header() {
     ["Work", "#work"],
     ["Experience", "#experience"],
     ["About", "#about"],
+    ["Workshops", "/workshops/react-launchpad"],
   ];
 
   return (
@@ -558,10 +560,9 @@ export default function App() {
               ))}
             </div>
             <div className="work-footnote" data-reveal>
-              <span>MORE IN THE WORKSHOP</span>
+              <span>LEARNING IN PUBLIC</span>
               <p>
-                There are more experiments, prototypes and product stories
-                behind the scenes.
+                Explore a hands-on workshop series built around real projects and curious people.
               </p>
               <a href="#contact">
                 Ask me about them <ArrowUpRight size={15} />
