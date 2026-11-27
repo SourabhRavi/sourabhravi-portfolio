@@ -94,31 +94,46 @@ export function PathwaySection() {
 }
 
 export function AudienceSection() {
+  const essentials = ["A laptop", "Node.js installed", "A code editor + browser"];
+  const [ready, setReady] = React.useState([]);
+  const toggleReady = (item) => setReady((current) =>
+    current.includes(item) ? current.filter((value) => value !== item) : [...current, item]
+  );
+
   return (
-    <section className="ws-audience ws-section">
-      <div className="ws-audience-heading">
-        <span className="ws-index">06 / BEFORE YOU JOIN</span>
-        <h2 className="ws-display">A good fit<br /><em>starts here.</em></h2>
+    <section className="ws-audience ws-section" id="prepare">
+      <div className="ws-audience-heading ws-reveal">
+        <span className="ws-index">06 / YOUR STARTING POINT</span>
+        <h2 className="ws-display">Curious is enough.<br /><em>Let's get ready.</em></h2>
+        <p className="ws-lead">You don't need a React portfolio or a perfect setup. Just a few basics and the willingness to try.</p>
       </div>
       <div className="ws-audience-grid">
         <article className="ws-audience-card ws-audience-good ws-reveal">
-          <span className="ws-audience-label">THIS SESSION IS FOR YOU IF…</span>
+          <div className="ws-audience-card-head"><span className="ws-audience-label">THE STARTING LINE</span><span className="ws-audience-stamp">NO REACT NEEDED</span></div>
+          <h3>You'll feel at home if…</h3>
           <ul>
-            <li><Check size={16} /> You know the basics of HTML, CSS and JavaScript.</li>
-            <li><Check size={16} /> You want to understand React by building something.</li>
-            <li><Check size={16} /> You learn best by following a real, guided project.</li>
+            <li><Check size={16} /> HTML and CSS feel familiar.</li>
+            <li><Check size={16} /> You know a little JavaScript: functions, arrays and objects.</li>
+            <li><Check size={16} /> You'd rather learn by making than watching another tutorial.</li>
           </ul>
+          <p className="ws-audience-card-note">New to React? Perfect. This session starts at the beginning.</p>
         </article>
         <article className="ws-audience-card ws-audience-setup ws-reveal">
-          <span className="ws-audience-label">BRING THESE THREE THINGS</span>
-          <ul>
-            <li><Laptop2 size={16} /> A laptop and a modern browser.</li>
-            <li><Code2Icon /> Node.js and a code editor such as VS Code.</li>
-            <li><Sparkles size={16} /> Questions, patience and curiosity.</li>
-          </ul>
+          <div className="ws-audience-card-head"><span className="ws-audience-label">A TINY PRE-FLIGHT CHECK</span><span className="ws-audience-stamp">{ready.length}/{essentials.length} READY</span></div>
+          <h3>Bring your build kit.</h3>
+          <p className="ws-setup-intro">Tick these off before we meet. No complicated setup or accounts required.</p>
+          <div className="ws-ready-list">
+            {essentials.map((item, index) => (
+              <button type="button" className={"ws-ready-item" + (ready.includes(item) ? " is-ready" : "")} key={item} onClick={() => toggleReady(item)} aria-pressed={ready.includes(item)}>
+                <span className="ws-ready-check">{ready.includes(item) ? <Check size={14} /> : String(index + 1).padStart(2, "0")}</span>
+                <span>{item}</span><span className="ws-ready-toggle">{ready.includes(item) ? "READY" : "CHECK"}</span>
+              </button>
+            ))}
+          </div>
+          <p className="ws-ready-feedback" aria-live="polite">{ready.length === essentials.length ? "You're set. See you at the build." : "A quick check now means more time making later."}</p>
         </article>
       </div>
-      <p className="ws-audience-footnote">No prior React experience is expected. We keep the first session focused on the browser, React and localStorage.</p>
+      <div className="ws-audience-footnote"><span>THE PROMISE</span><b>One focused frontend project. No backend, auth or database detours.</b></div>
     </section>
   );
 }
@@ -130,17 +145,22 @@ function Code2Icon() {
 export function FAQSection() {
   return (
     <section className="ws-faq ws-section" id="faq">
-      <div className="ws-faq-heading">
-        <span className="ws-index">07 / GOOD TO KNOW</span>
-        <h2 className="ws-display">A few things<br />worth <em>knowing.</em></h2>
+      <div className="ws-faq-heading ws-reveal">
+        <span className="ws-index">07 / THE PRACTICAL DETAILS</span>
+        <h2 className="ws-display">Before you say<br /><em>I'm in.</em></h2>
+        <p className="ws-lead">The useful details, without the fine-print fog.</p>
+        <a className="ws-faq-contact" href={"mailto:sourabh.k.ravi@gmail.com?subject=" + encodeURIComponent("Question about the React workshop")}>Still wondering? Ask me <ArrowUpRight size={15} /></a>
       </div>
-      <div className="ws-faq-list">
-        {faqs.map((item) => (
-          <details className="ws-faq-item" key={item.question}>
-            <summary><span>{item.question}</span><b>+</b></summary>
-            <p>{item.answer}</p>
-          </details>
-        ))}
+      <div className="ws-faq-side">
+        <div className="ws-faq-note"><span>QUICK ANSWERS</span><b>01—05</b></div>
+        <div className="ws-faq-list">
+          {faqs.map((item, index) => (
+            <details className="ws-faq-item ws-reveal" key={item.question}>
+              <summary><span className="ws-faq-number">0{index + 1}</span><span className="ws-faq-question">{item.question}</span><b aria-hidden="true">+</b></summary>
+              <p>{item.answer}</p>
+            </details>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -149,25 +169,26 @@ export function FAQSection() {
 export function JoinSection() {
   return (
     <section className="ws-join" id="join">
-      <div className="ws-join-orb ws-join-orb-one" aria-hidden="true" />
-      <div className="ws-join-orb ws-join-orb-two" aria-hidden="true" />
-      <div className="ws-join-top"><span>ONE PROJECT. THREE HOURS.</span><span>YOUR TURN TO BUILD</span></div>
+      <div className="ws-join-gradient" aria-hidden="true"><i /><i /><i /></div>
+      <div className="ws-join-top"><span>WORKSHOP 01 <i>·</i> REACT FOUNDATIONS</span><span>THREE HOURS / ONE REAL BUILD</span></div>
       <div className="ws-join-main">
-        <div>
-          <span className="ws-join-kicker">START WITH A SMALL, REAL THING</span>
-          <h2>Let's make<br /><em>your first one.</em></h2>
+        <div className="ws-join-headline ws-reveal">
+          <span className="ws-join-kicker">A SMALL FIRST STEP. A REAL THING YOU MADE.</span>
+          <h2>Your first React project<br /><em>starts here.</em></h2>
+          <div className="ws-join-details"><span>01 <b>Guided build</b></span><span>02 <b>Hands-on checkpoints</b></span><span>03 <b>Your own mini-feature</b></span></div>
         </div>
-        <div className="ws-join-copy">
-          <p>Bring your laptop and your questions. We'll bring a clear path, a working product to build, and space to experiment.</p>
-          <a className="ws-button ws-button-dark" href={"mailto:sourabh.k.ravi@gmail.com?subject=" + encodeURIComponent("React workshop interest")}>
-            I'M INTERESTED <ArrowUpRight size={17} />
+        <div className="ws-join-copy ws-reveal">
+          <p>Build a project board from a blank canvas to a working interface. Leave with the code, the concepts behind it, and a clearer next step.</p>
+          <a className="ws-button ws-button-dark" href={"mailto:sourabh.k.ravi@gmail.com?subject=" + encodeURIComponent("I'm interested in the React workshop")}>
+            TELL ME ABOUT THE NEXT SESSION <ArrowUpRight size={17} />
           </a>
-          <span>REACT + VITE · 180 MINUTES · GUIDED BUILD</span>
+          <a className="ws-join-secondary" href="#build">EXPLORE THE PROJECT FIRST <ArrowUpRight size={15} /></a>
+          <span>NO PRIOR REACT EXPERIENCE · STARTER CODE FOR CATCH-UP</span>
         </div>
       </div>
       <div className="ws-join-bottom">
         <a href="/">← BACK TO PORTFOLIO</a>
-        <span>MADE FOR PEOPLE WHO WANT TO MAKE THINGS</span>
+        <span>MAKE SOMETHING. UNDERSTAND HOW IT WORKS.</span>
         <a href="#top">BACK TO THE TOP ↑</a>
       </div>
     </section>
