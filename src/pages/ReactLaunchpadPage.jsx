@@ -56,6 +56,16 @@ export default function ReactLaunchpadPage() {
   const pageRef = useRef(null);
   const progressRef = useRef(null);
   const [expandedSeries, setExpandedSeries] = useState(0);
+  const [activeStory, setActiveStory] = useState(0);
+  const spotlightStory = index => {
+    setActiveStory(index);
+    const card = pageRef.current?.querySelectorAll('.rl-bento-story > article')[index];
+    if (!card || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const badge = card.querySelector('.rl-bento-selected');
+    gsap.timeline({ defaults: { ease: 'power2.out' } })
+      .fromTo(card, { filter: 'brightness(1)' }, { filter: 'brightness(1.075)', duration: .14, yoyo: true, repeat: 1 })
+      .fromTo(badge, { y: -8, autoAlpha: 0, scale: .82 }, { y: 0, autoAlpha: 1, scale: 1, duration: .28 }, 0);
+  };
 
   // One choreographed motion system: the hero assembles on entry,
   // then its layers settle together as the visitor scrolls into the story.
@@ -112,32 +122,76 @@ export default function ReactLaunchpadPage() {
       const outcomeVisual = root.querySelector(".rl-stage-art");
       if (outcomeVisual) gsap.fromTo(outcomeVisual, { y: 34, scale: .94, autoAlpha: 0, rotate: -2 }, { y: 0, scale: 1, autoAlpha: 1, rotate: 0, duration: .9, ease: "power3.out", scrollTrigger: { trigger: ".rl-outcome-explorer", start: "top 76%", once: true } });
 
+      const story = root.querySelector(".rl-bento-story");
       const cards = gsap.utils.toArray(".rl-bento-story > article", root);
-      if (cards.length && window.matchMedia("(min-width: 761px)").matches) {
+      if (story && cards.length) {
+        const desktop = window.matchMedia("(min-width: 761px)").matches;
         const offsets = [
-          { x: -54, y: 48, rotate: -3 },
-          { x: 58, y: 38, rotate: 2.5 },
-          { x: -35, y: 54, rotate: 2 },
-          { x: 42, y: 42, rotate: -2 }
+          { x: -74, y: 46, rotate: -5 },
+          { x: 62, y: 38, rotate: 4 },
+          { x: -42, y: 54, rotate: 3 },
+          { x: 48, y: 48, rotate: -4 }
         ];
-        gsap.set(cards, { autoAlpha: 1, transformOrigin: "50% 50%" });
-        const buildStory = gsap.timeline({
-          scrollTrigger: {
-            trigger: ".rl-bento-story",
-            start: "top 82%",
-            end: "bottom 42%",
-            scrub: 1,
-            invalidateOnRefresh: true
-          }
+        if (desktop) {
+          gsap.set(cards, { transformOrigin: "50% 50%", autoAlpha: .72 });
+          const assembly = gsap.timeline({
+            scrollTrigger: {
+              trigger: story, start: "top 78%", end: "bottom 58%",
+              scrub: 0.85, invalidateOnRefresh: true
+            }
+          });
+          cards.forEach((card, index) => assembly.fromTo(card,
+            { x: offsets[index].x, y: offsets[index].y, rotate: offsets[index].rotate, scale: .92, autoAlpha: .72 },
+            { x: 0, y: 0, rotate: 0, scale: 1, autoAlpha: 1, ease: "none" }, index * .08
+          ));
+          gsap.fromTo(".rl-story-controls", { y: 24, autoAlpha: 0 }, {
+            y: 0, autoAlpha: 1, duration: .6, ease: "power3.out",
+            scrollTrigger: { trigger: story, start: "top 86%", once: true }
+          });
+        } else {
+          gsap.fromTo(cards, { y: 24, autoAlpha: 0, scale: .985 }, {
+            y: 0, autoAlpha: 1, scale: 1, duration: .55, stagger: .09, ease: "power3.out",
+            scrollTrigger: { trigger: story, start: "top 82%", once: true }
+          });
+        }
+
+        cards.forEach(card => {
+          const tiltX = gsap.quickTo(card, "rotationY", { duration: .32, ease: "power3.out" });
+          const tiltY = gsap.quickTo(card, "rotationX", { duration: .32, ease: "power3.out" });
+          const lift = gsap.quickTo(card, "z", { duration: .35, ease: "power3.out" });
+          const onMove = event => {
+            if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+            const bounds = card.getBoundingClientRect();
+            const px = (event.clientX - bounds.left) / bounds.width;
+            const py = (event.clientY - bounds.top) / bounds.height;
+            card.style.setProperty("--rl-pointer-x", (px * 100) + "%");
+            card.style.setProperty("--rl-pointer-y", (py * 100) + "%");
+            tiltX((px - .5) * 7);
+            tiltY((.5 - py) * 6);
+            lift(12);
+          };
+          const onLeave = () => {
+            tiltX(0); tiltY(0); lift(0);
+            card.style.setProperty("--rl-pointer-x", "50%");
+            card.style.setProperty("--rl-pointer-y", "50%");
+          };
+          card.addEventListener("pointermove", onMove);
+          card.addEventListener("pointerleave", onLeave);
+          card.addEventListener("pointercancel", onLeave);
+          card._rlMotionCleanup = () => {
+            card.removeEventListener("pointermove", onMove);
+            card.removeEventListener("pointerleave", onLeave);
+            card.removeEventListener("pointercancel", onLeave);
+            gsap.killTweensOf(card);
+          };
         });
-        cards.forEach((card, index) => buildStory.fromTo(card,
-          { x: offsets[index].x, y: offsets[index].y, rotate: offsets[index].rotate, scale: .94 },
-          { x: 0, y: 0, rotate: 0, scale: 1, ease: "none" }, index * .12
-        ));
       }
       requestAnimationFrame(() => ScrollTrigger.refresh());
     }, root);
-    return () => ctx.revert();
+    return () => {
+      root.querySelectorAll(".rl-bento-story > article").forEach(card => card._rlMotionCleanup?.());
+      ctx.revert();
+    };
   }, []);
 
   // The milestone artwork is driven by its selected scene class. Avoid
@@ -221,11 +275,15 @@ export default function ReactLaunchpadPage() {
         <div className="rl-section-wrap">
           <div className="rl-section-eyebrow"><span>01</span> THE EXPERIENCE <i> / </i> A PROJECT-FIRST INTRODUCTION</div>
           <div className="rl-intro-layout"><h2>Less watching.<br/><em>More building.</em></h2><div><p className="rl-intro-lead">What if your first React lesson ended with something you could actually use?</p><p>Meet BuildBoard: a lightweight project board for student teams. We'll build it in small, understandable steps, with every concept introduced right before it becomes useful.</p></div></div>
-          <div className="rl-bento rl-bento-story" aria-label="Four stages of the workshop">
-            <article className="rl-bento-product rl-tilt-card"><span className="rl-card-index">01 / THE OUTCOME</span><div className="rl-bento-number">01</div><h3>A working<br/>project board.</h3><p>Create tasks, move work, search and save progress.</p><div className="rl-bento-card-orbit" aria-hidden="true">✳</div><div className="rl-bento-product-track"><span>IDEA</span><i/><span>INTERFACE</span><i/><span>PRODUCT</span></div></article>
-            <article className="rl-bento-method rl-tilt-card"><span className="rl-card-index">02 / THE METHOD</span><div className="rl-bento-method-copy"><h3>See it.<br/>Build it.<br/><em>Make it yours.</em></h3><p>Observe a real interaction, build it together, then take the wheel.</p></div><div className="rl-method-steps"><span>SEE</span><b>→</b><span>BUILD</span><b>→</b><span>MAKE</span></div><div className="rl-bento-signal" aria-hidden="true"><span/><span/><span/><span/><span/></div></article>
-            <article className="rl-bento-concepts rl-tilt-card"><span className="rl-card-index">03 / THE TOOLKIT</span><div className="rl-concept-pills">{["JSX","Components","Props","useState","Events","Forms","Lists","localStorage"].map(x=><span key={x}>{x}</span>)}</div><h3>Small concepts.<br/>Visible payoff.</h3><p>Every new tool unlocks something you can see.</p></article>
-            <article className="rl-bento-time rl-tilt-card"><span className="rl-card-index">04 / THE FORMAT</span><strong>180<span>min</span></strong><p>One focused, hands-on session.</p><div className="rl-time-ring">3<br/><small>HOURS</small></div><div className="rl-time-pulse" aria-hidden="true"/></article>
+          <div className="rl-story-controls" aria-label="Interactive workshop story">
+            <div className="rl-story-controls-copy"><span>EXPLORE THE BUILD</span><b>Choose a tile. See the idea come alive.</b></div>
+            <div className="rl-story-controls-state" aria-live="polite"><span className="rl-story-live-dot"/><span>SPOTLIGHT <b>0{activeStory+1}</b> / 04</span><div className="rl-story-progress">{outcomes.map((item,index)=><i key={item.number} className={index<=activeStory?"is-active":""}/>)}</div></div>
+          </div>
+          <div className="rl-bento rl-bento-story" aria-label="Four interactive stages of the workshop">
+            <article tabIndex="0" role="button" aria-pressed={activeStory===0} className={"rl-bento-product rl-tilt-card"+(activeStory===0?" is-spotlight":"")} onClick={()=>spotlightStory(0)} onKeyDown={event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();spotlightStory(0)}}}><span className="rl-card-index">01 / THE OUTCOME</span><span className="rl-bento-selected">SPOTLIGHT · 01</span><div className="rl-bento-number">01</div><h3>A working<br/>project board.</h3><p>Create tasks, move work, search and save progress.</p><div className="rl-bento-card-orbit" aria-hidden="true">✳</div><div className="rl-bento-product-track"><span>IDEA</span><i/><span>INTERFACE</span><i/><span>PRODUCT</span></div></article>
+            <article tabIndex="0" role="button" aria-pressed={activeStory===1} className={"rl-bento-method rl-tilt-card"+(activeStory===1?" is-spotlight":"")} onClick={()=>spotlightStory(1)} onKeyDown={event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();spotlightStory(1)}}}><span className="rl-card-index">02 / THE METHOD</span><span className="rl-bento-selected">SPOTLIGHT · 02</span><div className="rl-bento-method-copy"><h3>See it.<br/>Build it.<br/><em>Make it yours.</em></h3><p>Observe a real interaction, build it together, then take the wheel.</p></div><div className="rl-method-steps"><span>SEE</span><b>→</b><span>BUILD</span><b>→</b><span>MAKE</span></div><div className="rl-bento-signal" aria-hidden="true"><span/><span/><span/><span/><span/></div></article>
+            <article tabIndex="0" role="button" aria-pressed={activeStory===2} className={"rl-bento-concepts rl-tilt-card"+(activeStory===2?" is-spotlight":"")} onClick={()=>spotlightStory(2)} onKeyDown={event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();spotlightStory(2)}}}><span className="rl-card-index">03 / THE TOOLKIT</span><span className="rl-bento-selected">SPOTLIGHT · 03</span><div className="rl-concept-pills">{["JSX","Components","Props","useState","Events","Forms","Lists","localStorage"].map(x=><span key={x}>{x}</span>)}</div><h3>Small concepts.<br/>Visible payoff.</h3><p>Every new tool unlocks something you can see.</p></article>
+            <article tabIndex="0" role="button" aria-pressed={activeStory===3} className={"rl-bento-time rl-tilt-card"+(activeStory===3?" is-spotlight":"")} onClick={()=>spotlightStory(3)} onKeyDown={event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();spotlightStory(3)}}}><span className="rl-card-index">04 / THE FORMAT</span><span className="rl-bento-selected">SPOTLIGHT · 04</span><strong>180<span>min</span></strong><p>One focused, hands-on session.</p><div className="rl-time-ring">3<br/><small>HOURS</small></div><div className="rl-time-pulse" aria-hidden="true"/></article>
           </div>
         </div>
       </section>
