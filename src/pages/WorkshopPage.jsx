@@ -80,9 +80,9 @@ function Hero() {
     <div className="wl-hero-topline"><span>AN OPEN INVITATION TO BUILD</span><span>REACT / 001 <b>●</b> HANDS-ON SERIES</span></div>
     <div className="wl-hero-stage">
       <motion.div className="wl-hero-copy" style={{y:titleY,scale:titleScale}}>
-        <motion.p className="wl-eyebrow" initial={{opacity:0,x:-24}} animate={{opacity:1,x:0}} transition={{delay:.18,duration:.7}}>LESS THEORY. MORE THINGS THAT WORK.</motion.p>
-        <h1><span>Ideas are</span><span className="wl-outline-word">only the</span><span className="wl-accent-word">beginning<span className="wl-period">.</span></span></h1>
-        <motion.p className="wl-hero-deck" initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:.75,duration:.65}}>A workshop series where you learn the craft by building something real, one curious step at a time.</motion.p>
+        <motion.p className="wl-eyebrow" initial={{opacity:0,x:-24}} animate={{opacity:1,x:0}} transition={{delay:.18,duration:.7}}>A LITTLE CURIOSITY. A REAL FIRST BUILD.</motion.p>
+        <h1><span>Learn by</span><span className="wl-outline-word">making</span><span className="wl-accent-word">something real<span className="wl-period">.</span></span></h1>
+        <motion.p className="wl-hero-deck" initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:.75,duration:.65}}>A hands-on React experience. Follow an idea, shape an interface, and watch your first product come to life.</motion.p>
         <div className="wl-hero-actions"><MagneticLink href="#experience" className="wl-button wl-button-bright">ENTER THE EXPERIENCE <ArrowDown size={16}/></MagneticLink><span>FIRST STOP <b>REACT</b></span></div>
       </motion.div>
       <motion.div className="wl-hero-object" style={{y:artY,rotate:artRotate}} initial={{opacity:0,scale:.7,rotate:-22}} animate={{opacity:1,scale:1,rotate:0}} transition={{duration:1.3,delay:.25,ease:[.16,1,.3,1]}} aria-label="Abstract layered interactive workshop object">
@@ -107,7 +107,7 @@ function ExperienceSection() {
         </button>)}
         <div className="wl-chapter-nav-foot"><span>SELECT A MOMENT</span><span>0{active+1} / 03</span></div>
       </div>
-      <div className="wl-chapter-visual">
+      <motion.div className="wl-chapter-visual" style={{y:chapterY,rotateX:chapterTilt}}>
         <div className="wl-visual-top"><span>FIELD NOTES / REACT LAUNCH</span><span>LIVE LEARNING SYSTEM <i/></span></div>
         <AnimatePresence mode="wait">
           <motion.div className={"wl-chapter-scene scene-"+active} key={active} initial={{opacity:0,y:24,filter:"blur(8px)"}} animate={{opacity:1,y:0,filter:"blur(0px)"}} exit={{opacity:0,y:-16,filter:"blur(5px)"}} transition={{duration:.45,ease:[.22,1,.36,1]}}>
@@ -140,7 +140,7 @@ function BuildBoard() {
         </div></div>)}</div>
       <div className="wl-board-bottom"><span>TRY IT: ADD A TASK. MOVE IT. WATCH THE BOARD RESPOND.</span><span>STATE → UI <b>✳</b></span></div>
     </motion.div>
-    <div className="wl-build-foot"><span>THE FIRST MILESTONE</span><p>Create, edit, search, filter and save tasks. Then add one feature that makes the board yours.</p><span className="wl-build-stamp">REACT + VITE<br/>LOCAL STORAGE</span></div>
+    <motion.div className="wl-build-foot" initial={{opacity:0,y:22}} whileInView={{opacity:1,y:0}} viewport={{once:true,amount:.3}} transition={{duration:.6}}> <span>THE FIRST MILESTONE</span><p>Create, edit, search, filter and save tasks. Then add one feature that makes the board yours.</p><span className="wl-build-stamp">REACT + VITE<br/>LOCAL STORAGE</span></div>
   </section>;
 }
 
@@ -150,7 +150,7 @@ function JourneySection() {
     <div className="wl-journey-heading"><span className="wl-index">03 / THE LONGER STORY</span><h2>One workshop<br/>opens <em>another door.</em></h2><p>Each chapter stands on its own. Together, they take you from your first component to systems that people can use together.</p></div>
     <div className="wl-track">
       <div className="wl-track-line"><motion.i style={{scaleX:(selected+1)/tracks.length,transformOrigin:"left"}}/></div>
-      {tracks.map((track,i)=><motion.button key={track.n} className={"wl-track-item accent-"+track.accent+(selected===i?" selected":"")} onClick={()=>setSelected(i)} whileHover={{y:-7}} whileTap={{scale:.985}}>
+      {tracks.map((track,i)=><motion.button key={track.n} initial={{opacity:0,y:28}} whileInView={{opacity:1,y:0}} viewport={{once:true,amount:.2}} transition={{duration:.55,delay:i*.07,ease:[.22,1,.36,1]}} className={"wl-track-item accent-"+track.accent+(selected===i?" selected":"")} onClick={()=>setSelected(i)} whileHover={{y:-7}} whileTap={{scale:.985}}>
         <span className="wl-track-top"><small>{track.n} / CHAPTER</small><ArrowUpRight size={17}/></span><span className="wl-track-dot"><i/></span><span className="wl-track-name">{track.name}</span><span className="wl-track-detail">{track.detail}</span><span className="wl-track-duration">{track.duration}</span>
       </motion.button>)}
     </div>
@@ -161,7 +161,7 @@ function JourneySection() {
 function CuriositySection() {
   const [focus,setFocus]=useState("Explore");
   const modes={Explore:"Find the small detail that makes the whole thing click.",Design:"Make a decision. Give the interface a point of view.",Build:"Turn that idea into an interaction someone can feel."};
-  return <section className="wl-curiosity">
+  return <motion.section className="wl-curiosity" initial={{opacity:.6,clipPath:"inset(5% 0 5% 0)"}} whileInView={{opacity:1,clipPath:"inset(0% 0 0% 0)"}} viewport={{once:true,amount:.12}} transition={{duration:1.05,ease:[.22,1,.36,1]}}> 
     <div className="wl-curiosity-stamp" aria-hidden="true">STAY<br/>CURIOUS<span>✳</span></div>
     <div className="wl-curiosity-copy"><span className="wl-index">04 / YOUR TURN</span><h2>Bring your<br/><em>curiosity.</em></h2><p>There's no perfect way to begin. There's only the next thing you're curious enough to try.</p><div className="wl-mode-buttons">{Object.keys(modes).map(mode=><button key={mode} className={focus===mode?"active":""} onClick={()=>setFocus(mode)}>{mode}<span>↗</span></button>)}</div><AnimatePresence mode="wait"><motion.div className="wl-mode-note" key={focus} initial={{opacity:0,x:12}} animate={{opacity:1,x:0}} exit={{opacity:0,x:-8}} transition={{duration:.24}}><span>YOUR CREATIVE PROMPT</span><strong>{modes[focus]}</strong></motion.div></AnimatePresence></div>
     <div className="wl-curiosity-art"><motion.div className="wl-curiosity-ring ring-1" animate={{rotate:360}} transition={{duration:42,repeat:Infinity,ease:"linear"}}/><motion.div className="wl-curiosity-ring ring-2" animate={{rotate:-360}} transition={{duration:32,repeat:Infinity,ease:"linear"}}/><motion.div className="wl-curiosity-core" whileHover={{scale:1.08,rotate:12}} whileTap={{scale:.95}}><Sparkles/><span>MAKE<br/>SOMETHING</span></motion.div><span className="wl-curiosity-orbit-label label-a">IDEA / 001</span><span className="wl-curiosity-orbit-label label-b">POSSIBLE → REAL</span></div>
@@ -169,7 +169,7 @@ function CuriositySection() {
 }
 
 function JoinSection() {
-  return <section className="wl-join" id="join"><div className="wl-join-top"><span>05 / TAKE THE FIRST STEP</span><span>NO EXPERIENCE WITH REACT REQUIRED</span></div><div className="wl-join-main"><motion.h2 initial={{opacity:0,y:35}} whileInView={{opacity:1,y:0}} viewport={{once:true,amount:.35}} transition={{duration:.7,ease:[.22,1,.36,1]}}>Your first<br/><em>build starts here.</em></motion.h2><div className="wl-join-side"><p>Bring your laptop, your questions and a little curiosity. We'll bring the product, the path and the room to experiment.</p><MagneticLink href="mailto:sourabh.k.ravi@gmail.com?subject=Workshop%20interest" className="wl-button wl-button-light">I'M INTERESTED <ArrowUpRight size={17}/></MagneticLink><span>3 HOURS · REACT + VITE · GUIDED BUILD</span></div></div><div className="wl-join-footer"><a href="/">← BACK TO PORTFOLIO</a><span>MADE FOR PEOPLE WHO WANT TO MAKE THINGS</span><a href="#top">BACK TO THE TOP ↑</a></div></section>;
+  return <section className="wl-join" id="join"><div className="wl-join-top"><span>05 / TAKE THE FIRST STEP</span><span>NO EXPERIENCE WITH REACT REQUIRED</span></div><div className="wl-join-main"><motion.h2 initial={{opacity:0,y:45,filter:"blur(8px)"}} whileInView={{opacity:1,y:0,filter:"blur(0px)"}} viewport={{once:true,amount:.35}} transition={{duration:.9,ease:[.22,1,.36,1]}}>Your first<br/><em>build starts here.</em></motion.h2><div className="wl-join-side"><p>Bring your laptop, your questions and a little curiosity. We'll bring the product, the path and the room to experiment.</p><MagneticLink href="mailto:sourabh.k.ravi@gmail.com?subject=Workshop%20interest" className="wl-button wl-button-light">I'M INTERESTED <ArrowUpRight size={17}/></MagneticLink><span>3 HOURS · REACT + VITE · GUIDED BUILD</span></div></div><div className="wl-join-footer"><a href="/">← BACK TO PORTFOLIO</a><span>MADE FOR PEOPLE WHO WANT TO MAKE THINGS</span><a href="#top">BACK TO THE TOP ↑</a></div></section>;
 }
 
 export default function WorkshopPage() {
