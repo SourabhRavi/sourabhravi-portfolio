@@ -108,6 +108,11 @@ function Header() {
             {label}
           </a>
         ))}
+        <a
+          href="/workshops/react-launchpad"
+          onClick={() => setOpen(false)}>
+          Workshops
+        </a>
         <a className="nav-cta" href="#contact" onClick={() => setOpen(false)}>
           Let's talk <ArrowUpRight size={15} />
         </a>
