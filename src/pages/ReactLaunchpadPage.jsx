@@ -113,27 +113,35 @@ export default function ReactLaunchpadPage() {
       if (outcomeVisual) gsap.fromTo(outcomeVisual, { y: 34, scale: .94, autoAlpha: 0, rotate: -2 }, { y: 0, scale: 1, autoAlpha: 1, rotate: 0, duration: .9, ease: "power3.out", scrollTrigger: { trigger: ".rl-outcome-explorer", start: "top 76%", once: true } });
 
       const cards = gsap.utils.toArray(".rl-bento-story > article", root);
-      if (cards.length) {
-        gsap.fromTo(cards,
-          { y: 28, autoAlpha: 0, scale: .985 },
-          { y: 0, autoAlpha: 1, scale: 1, duration: .62, stagger: .11,
-            ease: "power3.out",
-            scrollTrigger: { trigger: ".rl-bento-story", start: "top 78%", once: true } }
-        );
+      if (cards.length && window.matchMedia("(min-width: 761px)").matches) {
+        const offsets = [
+          { x: -54, y: 48, rotate: -3 },
+          { x: 58, y: 38, rotate: 2.5 },
+          { x: -35, y: 54, rotate: 2 },
+          { x: 42, y: 42, rotate: -2 }
+        ];
+        gsap.set(cards, { autoAlpha: 1, transformOrigin: "50% 50%" });
+        const buildStory = gsap.timeline({
+          scrollTrigger: {
+            trigger: ".rl-bento-story",
+            start: "top 82%",
+            end: "bottom 42%",
+            scrub: 1,
+            invalidateOnRefresh: true
+          }
+        });
+        cards.forEach((card, index) => buildStory.fromTo(card,
+          { x: offsets[index].x, y: offsets[index].y, rotate: offsets[index].rotate, scale: .94 },
+          { x: 0, y: 0, rotate: 0, scale: 1, ease: "none" }, index * .12
+        ));
       }
       requestAnimationFrame(() => ScrollTrigger.refresh());
     }, root);
     return () => ctx.revert();
   }, []);
 
-  useEffect(() => {
-    const stage = pageRef.current?.querySelector(".rl-outcome-stage");
-    if (!stage) return;
-    stage.classList.remove("rl-stage-updated");
-    // Force a single animation restart after the selected milestone changes.
-    void stage.offsetWidth;
-    stage.classList.add("rl-stage-updated");
-  }, [activeOutcome]);
+  // The milestone artwork is driven by its selected scene class. Avoid
+  // restarting an animation on every hidden artwork layer.
 
 
   useEffect(() => {
