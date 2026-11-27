@@ -616,7 +616,6 @@
 .rl-bento-story .rl-bento-concepts{grid-area:concepts!important;grid-column:auto!important;min-height:0!important}
 .rl-bento-story .rl-bento-time{grid-area:time!important;grid-column:auto!important;min-height:0!important}
 .rl-bento-story>article{min-width:0;min-height:0!important;border-radius:16px;padding:clamp(20px,2.4vw,30px);box-shadow:none!important;transition:border-color .22s ease,background-color .22s ease!important}
-.rl-bento-story>article:hover{transform:none!important}
 .rl-bento-product{display:flex;flex-direction:column}
 .rl-bento-number{margin-top:clamp(25px,3vw,40px);font-size:clamp(76px,8vw,104px)}
 .rl-bento-product h3{font-size:clamp(23px,2.4vw,31px)}
@@ -1010,4 +1009,40 @@
 @media(prefers-reduced-motion:reduce){
  .rl-stage-content,.rl-stage-art-0 .rl-art-components,.rl-stage-art-1 .rl-art-state,.rl-stage-art-2 .rl-art-memory,.rl-stage-art-3 .rl-art-sprint{animation:none!important}
  .rl-art-frame{transition:none!important}
+}
+
+/* GSAP interaction pass: one motion engine for scroll assembly, cursor depth,
+   spotlight clicks and section reveals. CSS here describes the surfaces only. */
+.rl-story-controls{display:flex;align-items:center;justify-content:space-between;gap:22px;margin:34px 0 18px;padding:16px 19px;border:1px solid #e5e0ed;border-radius:15px;background:rgba(255,255,255,.64);backdrop-filter:blur(12px)}
+.rl-story-controls-copy{display:flex;flex-direction:column;gap:6px}
+.rl-story-controls-copy>span{font:8px var(--rl-mono);letter-spacing:.12em;color:#8b7bce}
+.rl-story-controls-copy>b{font:500 12px var(--rl-display);letter-spacing:-.02em;color:#393646}
+.rl-story-controls-state{display:flex;align-items:center;gap:10px;font:8px var(--rl-mono);letter-spacing:.08em;color:#8a8497;white-space:nowrap}
+.rl-story-controls-state>b,.rl-story-controls-state span b{color:#7764e8}
+.rl-story-live-dot{width:6px;height:6px;border-radius:50%;background:#66c8a5;box-shadow:0 0 0 4px #66c8a51c}
+.rl-story-progress{display:flex;gap:4px;margin-left:5px}
+.rl-story-progress i{width:18px;height:3px;border-radius:3px;background:#e3deed;transform-origin:left center}
+.rl-story-progress i.is-active{background:#806cf0}
+.rl-bento-story>article{cursor:pointer;outline:none;transform-style:preserve-3d;will-change:transform;position:relative;isolation:isolate}
+.rl-bento-story>article:before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;opacity:0;background:radial-gradient(260px circle at var(--rl-pointer-x,50%) var(--rl-pointer-y,50%),rgba(255,255,255,.42),transparent 68%);transition:opacity .2s ease}
+.rl-bento-story>article:hover:before,.rl-bento-story>article:focus-visible:before,.rl-bento-story>article.is-spotlight:before{opacity:1}
+.rl-bento-story>article>*{position:relative;z-index:1}
+.rl-bento-story>article:focus-visible{outline:2px solid #8170f0;outline-offset:4px}
+.rl-bento-story>article.is-spotlight{box-shadow:0 0 0 1.5px rgba(123,104,238,.72),0 22px 65px rgba(67,54,132,.13)!important}
+.rl-bento-story>article.is-spotlight .rl-card-index{color:#7764e8}
+.rl-bento-selected{position:absolute!important;top:20px;right:20px;z-index:3!important;padding:7px 9px;border:1px solid rgba(123,104,238,.2);border-radius:99px;background:rgba(255,255,255,.82);color:#7764e8;font:7px var(--rl-mono);letter-spacing:.07em;opacity:0;visibility:hidden;pointer-events:none}
+.rl-bento-story>article.is-spotlight .rl-bento-selected{visibility:visible}
+.rl-bento-product .rl-bento-selected{background:#38304f;color:#d4caff;border-color:#7d6ae966}
+.rl-bento-story>article:active{cursor:grabbing}
+.rl-bento-story .rl-bento-number,.rl-bento-story h3,.rl-bento-story strong{transform:translateZ(16px)}
+.rl-bento-story .rl-bento-product-track,.rl-bento-story .rl-time-ring{transform:translateZ(9px)}
+@media(max-width:760px){
+ .rl-story-controls{align-items:flex-start;flex-direction:column;gap:12px;margin:24px 0 12px;padding:15px}
+ .rl-story-controls-state{width:100%;justify-content:space-between}
+ .rl-bento-story>article{cursor:pointer;touch-action:pan-y}
+ .rl-bento-selected{top:15px;right:15px}
+}
+@media(prefers-reduced-motion:reduce){
+ .rl-story-controls,.rl-bento-story>article{will-change:auto!important}
+ .rl-bento-story>article:before{transition:none!important}
 }
