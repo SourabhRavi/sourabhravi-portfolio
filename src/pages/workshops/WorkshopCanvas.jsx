@@ -94,10 +94,13 @@ export default function WorkshopCanvas() {
           scrollTrigger: { trigger: element, start: "top 86%", once: true }
         });
       });
-      gsap.to(".wc-hero-orbit", {
-        rotate: 22, ease: "none",
-        scrollTrigger: { trigger: ".wc-hero", start: "top top", end: "bottom top", scrub: 1 }
-      });
+      gsap.to(".wc-hero-orbit", { rotation: "+=360", duration: 34, ease: "none", repeat: -1 });
+      gsap.to(".wc-mini-window", { y: -13, rotation: -1.5, duration: 3.8, ease: "sine.inOut", yoyo: true, repeat: -1 });
+      gsap.to(".wc-art-sticker", { y: 12, rotation: 18, duration: 2.6, ease: "sine.inOut", yoyo: true, repeat: -1 });
+      gsap.to(".wc-hero-orbit span:nth-child(1)", { scale: 1.55, duration: 1.8, ease: "sine.inOut", yoyo: true, repeat: -1 });
+      gsap.to(".wc-hero-orbit span:nth-child(2)", { scale: 1.35, duration: 2.3, ease: "sine.inOut", yoyo: true, repeat: -1 });
+      gsap.to(".wc-hero-orbit span:nth-child(3)", { scale: 1.7, duration: 1.5, ease: "sine.inOut", yoyo: true, repeat: -1 });
+      gsap.to(".wc-hero-art", { y: -24, ease: "none", scrollTrigger: { trigger: ".wc-hero", start: "top top", end: "bottom top", scrub: 1 } });
     }, root);
     return () => context.revert();
   }, [reducedMotion]);
@@ -118,10 +121,10 @@ export default function WorkshopCanvas() {
             <div className="wc-kicker"><span>REACT STARTER WORKSHOP</span><b>NO EXPERIENCE WITH REACT? GOOD.</b></div>
             <h1 className="wc-line-reveal">Your first<br/>React app<br/><em>starts here.</em></h1>
             <p className="wc-hero-lead">Skip the tutorial tab spiral. Build a real, interactive project board with a team that makes the code make sense.</p>
-            <div className="wc-hero-actions"><a className="wc-button wc-button-yellow" href="#build">SEE WHAT YOU'LL BUILD <ArrowDown size={17}/></a><a className="wc-hero-textlink" href="#workshop">THE 3-HOUR PLAN <ArrowRight size={16}/></a></div>
+            <div className="wc-hero-actions"><a className="wc-button wc-button-yellow" href="#build">SEE WHAT YOU'LL BUILD <ArrowDown size={17}/></a><a className="wc-hero-textlink" href="#workshop">THE 3-HOUR PLAN <ArrowRight size={16}/></a><a className="wc-hero-textlink wc-hero-faq-link" href="#faq">GOT QUESTIONS? <ArrowRight size={16}/></a></div>
             <div className="wc-hero-facts"><span><b>03</b> HOURS</span><i/><span><b>01</b> WORKING APP</span><i/><span><b>0</b> REACT REQUIRED</span></div>
           </div>
-          <div className="wc-hero-art" aria-label="BuildBoard project interface preview">
+          <div className="wc-hero-art" aria-label="Animated BuildBoard project interface preview"><span className="wc-hero-particle wc-particle-one" aria-hidden="true"/><span className="wc-hero-particle wc-particle-two" aria-hidden="true"/><span className="wc-hero-particle wc-particle-three" aria-hidden="true"/>
             <div className="wc-art-label wc-art-label-a">FROM STUDENT<br/>TO BUILDER <span>↗</span></div>
             <div className="wc-hero-orbit" aria-hidden="true"><span/><span/><span/></div>
             <div className="wc-art-sticker"><Sparkles size={18}/><b>LEARN<br/>BY MAKING</b></div>
@@ -165,11 +168,6 @@ export default function WorkshopCanvas() {
         <div className="wc-timeline">
           {[["00:00","00:15","Meet the product","See the finished board. Understand the goal before opening the editor."],["00:15","00:40","Components, JSX + props","Build the first pieces and connect them."],["00:40","01:05","State + events","Make the board respond to clicks and changes."],["01:05","01:15","Reset break","Ten minutes away from the screen."],["01:15","01:45","Forms + task flow","Create tasks and wire up user input."],["01:45","02:10","Search + derived state","Filter the board without duplicating state."],["02:10","02:35","Save it with localStorage","Refresh without losing the work."],["02:35","02:50","Mini challenge","Add a small feature of your own."],["02:50","03:00","Demo + recap","Share the build and connect the dots."]].map(([start,end,title,detail],i)=><article className="wc-time-row wc-reveal" key={start}><span className="wc-time">{start}<small>– {end}</small></span><span className="wc-time-node">{i===3?<span>Ⅱ</span>:String(i+1).padStart(2,"0")}</span><div><h3>{title}</h3><p>{detail}</p></div><span className="wc-time-duration">{i===3?"BREAK":i===8?"WRAP":"BUILD"}</span></article>)}
         </div>
-      </section>
-
-      <section className="wc-for-colleges wc-reveal-group">
-        <div className="wc-college-graphic" aria-hidden="true"><div className="wc-college-ring"/><div className="wc-college-core"><span>TECH</span><b>×</b><span>AI</span></div><div className="wc-college-orbit-label">STUDENT<br/>COMMUNITY</div><div className="wc-college-orbit-label wc-college-orbit-label-2">PRACTICAL<br/>LEARNING</div></div>
-        <div className="wc-college-copy"><SectionStamp number="05" label="FOR COLLEGE TEAMS"/><span className="wc-overline">A WORKSHOP THAT RESPECTS THE CURRICULUM</span><h2 className="wc-reveal">Hands-on for students.<br/><em>Structured for faculty.</em></h2><p className="wc-reveal">Designed to complement college learning with a guided, practical experience. The session has clear prerequisites, defined outcomes, a transparent stack and a complete agenda for your tech or AI community to review.</p><ul className="wc-college-checks wc-reveal"><li><Check size={16}/> Beginner-friendly prerequisite checklist</li><li><Check size={16}/> Learning outcomes mapped to the build</li><li><Check size={16}/> Transparent tools and project scope</li><li><Check size={16}/> Checkpoints, break and showcase</li><li><Check size={16}/> No inflated placement or job guarantees</li></ul><a className="wc-college-link" href="#register">BRING THIS TO YOUR CAMPUS <ArrowUpRight size={16}/></a></div>
       </section>
 
       <section className="wc-prereq wc-reveal-group">
