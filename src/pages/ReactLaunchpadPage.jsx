@@ -57,26 +57,44 @@ export default function ReactLaunchpadPage() {
   const progressRef = useRef(null);
   const [expandedSeries, setExpandedSeries] = useState(0);
 
-  // Motion is deliberately restrained: one entrance sequence, then quiet scroll reveals.
+  // A single visual choreography: hero composition settles, then its accent
+  // carries into the first chapter. Scroll reveals are sequenced by section.
   useEffect(() => {
     const root = pageRef.current;
     if (!root || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const ctx = gsap.context(() => {
       const intro = gsap.timeline({ defaults: { ease: "power3.out" } });
-      intro.from(".rl-kicker", { y: 12, autoAlpha: 0, duration: .45 })
-        .from(".rl-overline", { y: 12, autoAlpha: 0, duration: .4 }, "-=.25")
-        .from(".rl-hero h1", { y: 24, autoAlpha: 0, duration: .65 }, "-=.18")
-        .from(".rl-hero-subtitle,.rl-hero-description", { y: 12, autoAlpha: 0, stagger: .08, duration: .45 }, "-=.3")
-        .from(".rl-hero-actions,.rl-hero-facts", { y: 10, autoAlpha: 0, duration: .4 }, "-=.2")
-        .from(".rl-hero-art", { y: 18, autoAlpha: 0, duration: .65 }, "-=.35");
-      gsap.utils.toArray(".rl-section-eyebrow,.rl-intro-layout,.rl-outcomes-heading,.rl-agenda-heading,.rl-series-heading,.rl-logistics-grid,.rl-close .rl-section-wrap>*", root)
-        .forEach(node => gsap.from(node, {
-          y: 16, autoAlpha: 0, duration: .55, ease: "power2.out",
-          scrollTrigger: { trigger: node, start: "top 88%", toggleActions: "play none none none" }
-        }));
+      intro.from(".rl-kicker", { y: 10, autoAlpha: 0, duration: .35 })
+        .from(".rl-overline", { y: 10, autoAlpha: 0, duration: .35 }, "-=.18")
+        .from(".rl-hero h1", { y: 22, autoAlpha: 0, duration: .55 }, "-=.12")
+        .from(".rl-hero-subtitle,.rl-hero-description", { y: 10, autoAlpha: 0, stagger: .08, duration: .35 }, "-=.2")
+        .from(".rl-hero-actions,.rl-hero-facts", { y: 8, autoAlpha: 0, duration: .32 }, "-=.15")
+        .from(".rl-hero-art", { y: 16, autoAlpha: 0, duration: .5 }, "-=.25");
+
+      // The artwork shifts scale/position as the hero hands off to chapter one.
+      gsap.to(".rl-hero-art", {
+        yPercent: 9, scale: .94, rotate: 1.5, ease: "none",
+        scrollTrigger: { trigger: ".rl-hero", start: "top top", end: "bottom top", scrub: .7 }
+      });
+      gsap.to(".rl-hero-glow", {
+        opacity: .35, scale: .82, ease: "none",
+        scrollTrigger: { trigger: ".rl-hero", start: "top top", end: "bottom top", scrub: .8 }
+      });
+
+      [".rl-intro-layout", ".rl-bento-story", ".rl-outcomes-heading",
+       ".rl-outcome-explorer", ".rl-agenda-heading", ".rl-agenda-layout",
+       ".rl-series-heading", ".rl-series-layout", ".rl-logistics-grid", ".rl-close .rl-section-wrap"]
+        .forEach(selector => {
+          const nodes = gsap.utils.toArray(selector, root);
+          nodes.forEach(node => gsap.fromTo(node,
+            { y: 22, autoAlpha: 0 },
+            { y: 0, autoAlpha: 1, duration: .65, ease: "power2.out",
+              scrollTrigger: { trigger: node, start: "top 84%", once: true } }
+          ));
+        });
       gsap.from(".rl-bento-story>article", {
-        y: 18, autoAlpha: 0, stagger: .07, duration: .55, ease: "power2.out",
-        scrollTrigger: { trigger: ".rl-bento-story", start: "top 82%", toggleActions: "play none none none" }
+        y: 24, autoAlpha: 0, stagger: .11, duration: .62, ease: "power2.out",
+        scrollTrigger: { trigger: ".rl-bento-story", start: "top 78%", once: true }
       });
       requestAnimationFrame(() => ScrollTrigger.refresh());
     }, root);
@@ -91,6 +109,18 @@ export default function ReactLaunchpadPage() {
     void stage.offsetWidth;
     stage.classList.add("rl-stage-updated");
   }, [activeOutcome]);
+
+  useEffect(() => {
+    const root = pageRef.current;
+    const panels = [".rl-outcome-stage", ".rl-agenda-detail", ".rl-series-detail"];
+    panels.forEach(selector => {
+      const panel = root?.querySelector(selector);
+      if (!panel) return;
+      panel.classList.remove("rl-panel-arrive");
+      void panel.offsetWidth;
+      panel.classList.add("rl-panel-arrive");
+    });
+  }, [activeOutcome, activeAgenda, expandedSeries]);
 
   useEffect(() => {
     const root = pageRef.current;
@@ -188,7 +218,7 @@ export default function ReactLaunchpadPage() {
               {outcomes.map((item,index)=><button key={item.number} className={activeOutcome===index?"rl-outcome-choice is-active":"rl-outcome-choice"} role="tab" id={`rl-outcome-tab-${index}`} aria-selected={activeOutcome===index} aria-controls="rl-outcome-showcase" onClick={()=>setActiveOutcome(index)}><span className="rl-outcome-choice-number">{item.number}</span><span className="rl-outcome-choice-copy"><b>{item.title}</b><small>{item.tag}</small></span><ArrowUpRight size={16} className="rl-outcome-choice-arrow"/></button>)}
               <div className="rl-outcome-rail-footer"><span>SELECT A MILESTONE</span><span>0{activeOutcome+1} <i>/ 04</i></span></div>
             </div>
-            <div className="rl-outcome-stage" id="rl-outcome-showcase" role="tabpanel" aria-labelledby={`rl-outcome-tab-${activeOutcome}`} key={activeOutcome}>
+            <div className="rl-outcome-stage" id="rl-outcome-showcase" role="tabpanel" aria-labelledby={`rl-outcome-tab-${activeOutcome}`}>
               <div className="rl-stage-art" aria-hidden="true"><div className="rl-stage-halo"/><div className="rl-stage-ring rl-stage-ring-one"/><div className="rl-stage-ring rl-stage-ring-two"/><div className="rl-stage-core"><span>{outcomes[activeOutcome].number}</span><b>{outcomes[activeOutcome].symbols[0]}</b></div><div className="rl-stage-float rl-stage-float-one">{outcomes[activeOutcome].symbols[1]}</div><div className="rl-stage-float rl-stage-float-two">{outcomes[activeOutcome].symbols[2]}</div><div className="rl-stage-scan"/></div>
               <div className="rl-stage-content"><span className="rl-stage-kicker"><Sparkles size={13}/> SKILL UNLOCKED <i>{outcomes[activeOutcome].tag}</i></span><h3>{outcomes[activeOutcome].title}</h3><p>{outcomes[activeOutcome].summary}</p><div className="rl-stage-skills">{outcomes[activeOutcome].skills.map(skill=><span key={skill}>{skill}</span>)}</div><div className="rl-stage-takeaway"><span>YOU’LL WALK AWAY WITH</span><b>{outcomes[activeOutcome].takeaway}</b></div><div className="rl-stage-controls"><div className="rl-stage-progress" aria-hidden="true">{outcomes.map((item,index)=><i key={item.number} className={index<=activeOutcome?"is-filled":""}/>)}</div><button type="button" onClick={()=>setActiveOutcome((activeOutcome+1)%outcomes.length)} aria-label="Explore next outcome">NEXT OUTCOME <ArrowUpRight size={15}/></button></div></div>
             </div>
@@ -203,7 +233,7 @@ export default function ReactLaunchpadPage() {
           <div className="rl-agenda-heading"><h2>A clear path<br/><em>to the build.</em></h2><p>Open any session stop to see what happens inside that block.</p></div>
           <div className="rl-agenda-layout">
             <div className="rl-agenda-list">{agenda.map((item,index)=><button key={item.time} className={activeAgenda===index?"rl-agenda-item is-active":"rl-agenda-item"} onClick={()=>setActiveAgenda(index)}><span className="rl-agenda-time">{item.time}</span><span className="rl-agenda-title">{item.title}</span><span className="rl-agenda-duration">{item.duration}</span><ChevronDown size={15}/></button>)}</div>
-            <article className="rl-agenda-detail" key={activeAgenda}><span>SESSION BLOCK / {String(activeAgenda+1).padStart(2,"0")}</span><div className="rl-agenda-detail-time">{agenda[activeAgenda].time}</div><h3>{agenda[activeAgenda].title}</h3><p>{agenda[activeAgenda].detail}</p><div className="rl-agenda-progress"><i style={{width:`${((activeAgenda+1)/agenda.length)*100}%`}}/></div><div className="rl-agenda-detail-foot"><span>WORKSHOP 01</span><span>{agenda[activeAgenda].duration}</span></div></article>
+            <article className="rl-agenda-detail"><span>SESSION BLOCK / {String(activeAgenda+1).padStart(2,"0")}</span><div className="rl-agenda-detail-time">{agenda[activeAgenda].time}</div><h3>{agenda[activeAgenda].title}</h3><p>{agenda[activeAgenda].detail}</p><div className="rl-agenda-progress"><i style={{width:`${((activeAgenda+1)/agenda.length)*100}%`}}/></div><div className="rl-agenda-detail-foot"><span>WORKSHOP 01</span><span>{agenda[activeAgenda].duration}</span></div></article>
           </div>
         </div>
       </section>
@@ -214,7 +244,7 @@ export default function ReactLaunchpadPage() {
           <div className="rl-series-heading"><h2>Start with a board.<br/><em>Grow into a product.</em></h2><p>BuildBoard evolves as the workshops progress. Each session is a milestone, not a prerequisite trap.</p></div>
           <div className="rl-series-layout">
             <div className="rl-series-list">{series.map((item,index)=><button key={item[0]} className={expandedSeries===index?"rl-series-item is-active":"rl-series-item"} onClick={()=>setExpandedSeries(index)}><span>{item[0]}</span><b>{item[1]}</b>{item[3]&&<i>{item[3]}</i>}<ArrowUpRight size={16}/></button>)}</div>
-            <article className="rl-series-detail" key={expandedSeries}><div className="rl-series-orb">0{expandedSeries+1}</div><span>THE NEXT MILESTONE</span><h3>{series[expandedSeries][1]}</h3><p>{series[expandedSeries][2]}</p><div>RVS REACT LAUNCHPAD <i>·</i> WORKSHOP SERIES</div></article>
+            <article className="rl-series-detail"><div className="rl-series-orb">0{expandedSeries+1}</div><span>THE NEXT MILESTONE</span><h3>{series[expandedSeries][1]}</h3><p>{series[expandedSeries][2]}</p><div>RVS REACT LAUNCHPAD <i>·</i> WORKSHOP SERIES</div></article>
           </div>
         </div>
       </section>
