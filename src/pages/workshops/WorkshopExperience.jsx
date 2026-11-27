@@ -46,10 +46,20 @@ export default function WorkshopExperience() {
           </div>
 
           <div className="ws-build-feature">
-            <div className="ws-build-photo ws-build-gradient-art" aria-label="Abstract gradient artwork illustrating the move from a blank canvas to a working product">
-              <div className="ws-build-art-orbit" aria-hidden="true"><i /><i /><i /></div>
-              <div className="ws-build-art-window" aria-hidden="true"><span>01</span><b>IDEA<br />→ INTERACTION</b><small>REACT / FIRST BUILD</small></div>
-              <div className="ws-build-photo-overlay"><span>FROM BLANK CANVAS</span><b>TO WORKING PRODUCT.</b></div>
+            <div className="ws-build-photo ws-product-preview" aria-label="A polished visual preview of the BuildBoard project participants will create">
+              <div className="ws-preview-glow ws-preview-glow-one" aria-hidden="true" />
+              <div className="ws-preview-glow ws-preview-glow-two" aria-hidden="true" />
+              <div className="ws-preview-app">
+                <div className="ws-preview-appbar"><span className="ws-preview-brand"><i>B</i> buildboard</span><span className="ws-preview-appbar-note">YOUR PROJECT / 01</span><span className="ws-preview-avatar">S</span></div>
+                <div className="ws-preview-welcome"><div><small>MONDAY, BUILD DAY</small><b>Make room for<br /><em>good ideas.</em></b></div><span className="ws-preview-new">＋ NEW TASK</span></div>
+                <div className="ws-preview-mini-board">
+                  <div className="ws-preview-lane"><span><i className="ws-dot-todo" /> TO DO <b>02</b></span><article><small>DESIGN</small><strong>Sketch the first screen</strong><footer>BB-001 <i>↗</i></footer></article><article><small>IDEA</small><strong>Choose a color palette</strong><footer>BB-004 <i>↗</i></footer></article></div>
+                  <div className="ws-preview-lane"><span><i className="ws-dot-progress" /> IN PROGRESS <b>01</b></span><article className="ws-preview-card-active"><small>REACT</small><strong>Build a task card</strong><footer>BB-002 <i>↗</i></footer></article></div>
+                  <div className="ws-preview-lane"><span><i className="ws-dot-done" /> DONE <b>01</b></span><article className="ws-preview-card-done"><small>SETUP</small><strong>Start the project</strong><footer>BB-003 <i>✓</i></footer></article></div>
+                </div>
+                <div className="ws-preview-appfoot"><span><i /> SAVED IN YOUR BROWSER</span><span>MADE WITH REACT <b>✳</b></span></div>
+              </div>
+              <div className="ws-preview-caption"><span>THE FINISH LINE</span><b>Not a mockup.<br />A working little product.</b><i>01 ↗</i></div>
             </div>
             <div className="ws-build-aside">
               <span>THE PRODUCT BRIEF / 001</span>
