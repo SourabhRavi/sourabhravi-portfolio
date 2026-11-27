@@ -1,3 +1,4 @@
+import React from "react";
 import { useRef } from "react";
 import { motion, MotionConfig, useScroll, useSpring } from "motion/react";
 import { ArrowDownRight } from "lucide-react";
