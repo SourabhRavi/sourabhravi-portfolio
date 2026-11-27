@@ -312,6 +312,8 @@ export default function App() {
   const rootRef = useRef(null);
   usePortfolioMotion(rootRef);
 
+  if (window.location.pathname.startsWith("/workshops")) return <WorkshopPage />;
+
   return (
     <div className="app-shell" id="top" ref={rootRef}>
       <ShapeGrid
@@ -564,8 +566,8 @@ export default function App() {
               <p>
                 Explore a hands-on workshop series built around real projects and curious people.
               </p>
-              <a href="#contact">
-                Ask me about them <ArrowUpRight size={15} />
+              <a href="/workshops/react-launchpad">
+                Explore Workshops <ArrowUpRight size={15} />
               </a>
             </div>
           </div>
