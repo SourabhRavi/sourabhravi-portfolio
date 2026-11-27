@@ -109,6 +109,9 @@ export default function ReactLaunchpadPage() {
           );
         });
       });
+      const outcomeVisual = root.querySelector(".rl-stage-art");
+      if (outcomeVisual) gsap.fromTo(outcomeVisual, { y: 34, scale: .94, autoAlpha: 0, rotate: -2 }, { y: 0, scale: 1, autoAlpha: 1, rotate: 0, duration: .9, ease: "power3.out", scrollTrigger: { trigger: ".rl-outcome-explorer", start: "top 76%", once: true } });
+
       const cards = gsap.utils.toArray(".rl-bento-story > article", root);
       if (cards.length) {
         gsap.fromTo(cards,
@@ -230,7 +233,7 @@ export default function ReactLaunchpadPage() {
               <div className="rl-outcome-rail-footer"><span>SELECT A MILESTONE</span><span>0{activeOutcome+1} <i>/ 04</i></span></div>
             </div>
             <div className="rl-outcome-stage" id="rl-outcome-showcase" role="tabpanel" aria-labelledby={`rl-outcome-tab-${activeOutcome}`}>
-              <div className="rl-stage-art" aria-hidden="true"><div className="rl-stage-halo"/><div className="rl-stage-ring rl-stage-ring-one"/><div className="rl-stage-ring rl-stage-ring-two"/><div className="rl-stage-core"><span>{outcomes[activeOutcome].number}</span><b>{outcomes[activeOutcome].symbols[0]}</b></div><div className="rl-stage-float rl-stage-float-one">{outcomes[activeOutcome].symbols[1]}</div><div className="rl-stage-float rl-stage-float-two">{outcomes[activeOutcome].symbols[2]}</div><div className="rl-stage-scan"/></div>
+              <div className={"rl-stage-art rl-stage-art-" + activeOutcome} aria-hidden="true"><div className="rl-stage-halo"/><div className="rl-art-frame rl-art-components"><div className="rl-art-window"><span className="rl-art-window-dots">•••</span><small>TaskCard.jsx</small><div className="rl-art-code"><i/><i/><i/><i/><i/></div></div><div className="rl-art-float-card"><b>TaskCard</b><span>Reusable component</span><em>↗</em></div></div><div className="rl-art-frame rl-art-state"><div className="rl-art-board"><span>TO DO</span><b>Design card</b><small>Priority · High</small><div className="rl-art-moving-task">Build UI <i>→</i></div></div><div className="rl-art-state-cursor">↗</div></div><div className="rl-art-frame rl-art-memory"><div className="rl-art-storage"><span>LOCAL STORAGE</span><b>buildboard.tasks</b><div>{"{ tasks: [...] }"}</div><small>Saved in this browser</small></div><div className="rl-art-refresh">↻</div></div><div className="rl-art-frame rl-art-sprint"><div className="rl-art-sprint-note"><span>MINI CHALLENGE</span><b>Make it yours.</b><small>+ Add a due date</small><small>✓ Filter by priority</small></div><div className="rl-art-spark">✳</div></div><div className="rl-stage-art-caption"><span>BUILDBOARD / MILESTONE 0{activeOutcome+1}</span><i/></div></div>
               <div className="rl-stage-content"><span className="rl-stage-kicker"><Sparkles size={13}/> SKILL UNLOCKED <i>{outcomes[activeOutcome].tag}</i></span><h3>{outcomes[activeOutcome].title}</h3><p>{outcomes[activeOutcome].summary}</p><div className="rl-stage-skills">{outcomes[activeOutcome].skills.map(skill=><span key={skill}>{skill}</span>)}</div><div className="rl-stage-takeaway"><span>YOU’LL WALK AWAY WITH</span><b>{outcomes[activeOutcome].takeaway}</b></div><div className="rl-stage-controls"><div className="rl-stage-progress" aria-hidden="true">{outcomes.map((item,index)=><i key={item.number} className={index<=activeOutcome?"is-filled":""}/>)}</div><button type="button" onClick={()=>setActiveOutcome((activeOutcome+1)%outcomes.length)} aria-label="Explore next outcome">NEXT OUTCOME <ArrowUpRight size={15}/></button></div></div>
             </div>
           </div>
