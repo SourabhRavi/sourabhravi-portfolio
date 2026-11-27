@@ -122,3 +122,27 @@
  .wc-task-list{min-height:0}
  .wc-board-feedback{align-items:flex-start;font-size:9px;line-height:1.5}
 }
+
+
+/* Clear column labels and compact task controls */
+.wc-board-column>header{align-items:flex-start;gap:9px;padding-bottom:11px;border-bottom:1px solid #e4e7ee}
+.wc-column-heading{display:grid;grid-template-columns:8px 1fr;column-gap:7px;row-gap:3px;align-items:center;min-width:0}
+.wc-column-heading .wc-column-dot{grid-row:span 2;width:7px;height:7px;margin-top:2px}
+.wc-column-heading strong{font:600 12px/1.2 var(--body);color:#293246;letter-spacing:0}
+.wc-column-heading small{grid-column:2;font:10px/1.3 var(--body);color:#8a91a0}
+.wc-board-column>header>b{margin-left:auto;flex:0 0 auto;min-width:23px;height:23px;border-radius:7px;background:#e9ecf4;color:#5e687b;font:10px var(--mono)}
+.wc-task-action{min-height:30px;padding:6px 8px;font-size:9px;line-height:1.2}
+.wc-task-action svg{width:12px;height:12px;flex-shrink:0}
+.wc-board-feedback{align-items:flex-start;line-height:1.45}
+.wc-board-notice{min-width:0;flex:1}
+.wc-board-count{font-size:8px;align-self:center}
+@media(max-width:720px){
+ .wc-board-columns{grid-template-columns:1fr;gap:9px}
+ .wc-board-column{padding:11px 12px}
+ .wc-board-column>header{margin-bottom:9px}
+ .wc-column-heading strong{font-size:12px}
+ .wc-column-heading small{font-size:10px}
+ .wc-task-action{min-height:28px;padding:6px 9px;font-size:9px}
+ .wc-board-feedback{gap:7px}
+ .wc-board-count{white-space:normal;text-align:right;max-width:78px}
+}
