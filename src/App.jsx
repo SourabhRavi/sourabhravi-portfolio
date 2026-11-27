@@ -74,6 +74,7 @@ function Header() {
     ["Work", "#work"],
     ["Experience", "#experience"],
     ["About", "#about"],
+    ["Workshops", "/workshops/react-launchpad"],
   ];
 
   return (
@@ -559,13 +560,12 @@ function PortfolioHome() {
               ))}
             </div>
             <div className="work-footnote" data-reveal>
-              <span>MORE IN THE WORKSHOP</span>
+              <span>LEARNING IN PUBLIC</span>
               <p>
-                There are more experiments, prototypes and product stories
-                behind the scenes.
+                Explore the workshop experience: learn by building, one milestone at a time.
               </p>
-              <a href="#contact">
-                Ask me about them <ArrowUpRight size={15} />
+              <a href="/workshops/react-launchpad">
+                Explore Workshops <ArrowUpRight size={15} />
               </a>
             </div>
           </div>
