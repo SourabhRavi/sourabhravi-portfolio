@@ -1203,3 +1203,96 @@
 .workshop-experience .ws-column-empty { border-color:#d9c9f2; color:#a38bc5; }
 .workshop-experience .ws-board-foot { border-color:#eadcf8; color:#9a86b8; }
 .workshop-experience .ws-board-foot b { color:#8054d8; }
+
+
+/* Whole-page contrast pass: stronger ink, clearer hierarchy, and firmer section edges. */
+.workshop-experience {
+  --ws-paper: #f7f3eb;
+  --ws-paper-deep: #e7e1d5;
+  --ws-white: #fffefa;
+  --ws-ink: #201a2b;
+  --ws-muted: #514b5b;
+  --ws-line: rgba(32, 26, 43, .22);
+  --ws-green: #283d32;
+  --ws-lime: #d2f45b;
+}
+.workshop-experience .ws-hero,
+.workshop-experience .ws-method,
+.workshop-experience .ws-outcomes,
+.workshop-experience .ws-agenda,
+.workshop-experience .ws-pathway,
+.workshop-experience .ws-audience,
+.workshop-experience .ws-faq {
+  background-color: #f8f4ec;
+}
+.workshop-experience .ws-build {
+  background-color: #e4dfd4;
+}
+.workshop-experience .ws-hero h1,
+.workshop-experience .ws-display,
+.workshop-experience .ws-section-heading h2,
+.workshop-experience .ws-agenda-heading h2,
+.workshop-experience .ws-outcomes-intro h2,
+.workshop-experience .ws-audience-heading h2,
+.workshop-experience .ws-faq-heading h2,
+.workshop-experience .ws-join h2 {
+  color: #201a2b;
+}
+.workshop-experience .ws-hero-description,
+.workshop-experience .ws-lead,
+.workshop-experience .ws-method-card p,
+.workshop-experience .ws-build-aside p,
+.workshop-experience .ws-challenge-heading p,
+.workshop-experience .ws-concept-note p,
+.workshop-experience .ws-audience-card li,
+.workshop-experience .ws-faq-item p,
+.workshop-experience .ws-join-copy p {
+  color: #514b5b;
+}
+.workshop-experience .ws-index,
+.workshop-experience .ws-section-aside,
+.workshop-experience .ws-hero-topline,
+.workshop-experience .ws-hero-bottom,
+.workshop-experience .ws-hero-meta-item,
+.workshop-experience .ws-method-card-top,
+.workshop-experience .ws-method-note,
+.workshop-experience .ws-method-caption,
+.workshop-experience .ws-board-overline,
+.workshop-experience .ws-board-project small,
+.workshop-experience .ws-board-total,
+.workshop-experience .ws-board-foot,
+.workshop-experience .ws-faq-note,
+.workshop-experience .ws-footer {
+  color: #625a6c;
+}
+.workshop-experience .ws-section-top,
+.workshop-experience .ws-method-caption,
+.workshop-experience .ws-hero-meta,
+.workshop-experience .ws-hero-bottom,
+.workshop-experience .ws-board-topbar,
+.workshop-experience .ws-board-foot,
+.workshop-experience .ws-faq-list,
+.workshop-experience .ws-faq-item,
+.workshop-experience .ws-footer {
+  border-color: rgba(32, 26, 43, .2);
+}
+.workshop-experience .ws-method-card,
+.workshop-experience .ws-challenge-ideas span,
+.workshop-experience .ws-audience-good,
+.workshop-experience .ws-ready-item,
+.workshop-experience .ws-faq-item {
+  border-color: rgba(57, 39, 76, .2);
+}
+.workshop-experience .ws-display em,
+.workshop-experience .ws-section-heading h2 em,
+.workshop-experience .ws-agenda-heading h2 em,
+.workshop-experience .ws-outcomes-intro h2 em,
+.workshop-experience .ws-audience-heading h2 em,
+.workshop-experience .ws-faq-heading h2 em {
+  color: #98518f;
+}
+.workshop-experience .ws-text-link,
+.workshop-experience .ws-method-caption b,
+.workshop-experience .ws-audience-footnote b {
+  color: #3e334d;
+}
