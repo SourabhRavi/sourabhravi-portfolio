@@ -71,19 +71,11 @@ export default function ReactLaunchpadPage() {
         .from(".rl-hero-actions,.rl-hero-facts", { y: 8, autoAlpha: 0, duration: .32 }, "-=.15")
         .from(".rl-hero-art", { y: 16, autoAlpha: 0, duration: .5 }, "-=.25");
 
-      // The artwork shifts scale/position as the hero hands off to chapter one.
-      gsap.to(".rl-hero-art", {
-        yPercent: 9, scale: .94, rotate: 1.5, ease: "none",
-        scrollTrigger: { trigger: ".rl-hero", start: "top top", end: "bottom top", scrub: .7 }
-      });
-      gsap.to(".rl-hero-glow", {
-        opacity: .35, scale: .82, ease: "none",
-        scrollTrigger: { trigger: ".rl-hero", start: "top top", end: "bottom top", scrub: .8 }
-      });
+      // Keep hero artwork still; section rhythm carries the narrative.
 
-      [".rl-intro-layout", ".rl-bento-story", ".rl-outcomes-heading",
-       ".rl-outcome-explorer", ".rl-agenda-heading", ".rl-agenda-layout",
-       ".rl-series-heading", ".rl-series-layout", ".rl-logistics-grid", ".rl-close .rl-section-wrap"]
+      [".rl-intro-layout", ".rl-outcomes-heading", ".rl-outcome-explorer",
+       ".rl-agenda-heading", ".rl-agenda-layout", ".rl-series-heading",
+       ".rl-series-layout", ".rl-logistics-grid", ".rl-close .rl-section-wrap"]
         .forEach(selector => {
           const nodes = gsap.utils.toArray(selector, root);
           nodes.forEach(node => gsap.fromTo(node,
@@ -92,10 +84,6 @@ export default function ReactLaunchpadPage() {
               scrollTrigger: { trigger: node, start: "top 84%", once: true } }
           ));
         });
-      gsap.from(".rl-bento-story>article", {
-        y: 24, autoAlpha: 0, stagger: .11, duration: .62, ease: "power2.out",
-        scrollTrigger: { trigger: ".rl-bento-story", start: "top 78%", once: true }
-      });
       requestAnimationFrame(() => ScrollTrigger.refresh());
     }, root);
     return () => ctx.revert();
@@ -110,17 +98,6 @@ export default function ReactLaunchpadPage() {
     stage.classList.add("rl-stage-updated");
   }, [activeOutcome]);
 
-  useEffect(() => {
-    const root = pageRef.current;
-    const panels = [".rl-outcome-stage", ".rl-agenda-detail", ".rl-series-detail"];
-    panels.forEach(selector => {
-      const panel = root?.querySelector(selector);
-      if (!panel) return;
-      panel.classList.remove("rl-panel-arrive");
-      void panel.offsetWidth;
-      panel.classList.add("rl-panel-arrive");
-    });
-  }, [activeOutcome, activeAgenda, expandedSeries]);
 
   useEffect(() => {
     const root = pageRef.current;
@@ -233,7 +210,7 @@ export default function ReactLaunchpadPage() {
           <div className="rl-agenda-heading"><h2>A clear path<br/><em>to the build.</em></h2><p>Open any session stop to see what happens inside that block.</p></div>
           <div className="rl-agenda-layout">
             <div className="rl-agenda-list">{agenda.map((item,index)=><button key={item.time} className={activeAgenda===index?"rl-agenda-item is-active":"rl-agenda-item"} onClick={()=>setActiveAgenda(index)}><span className="rl-agenda-time">{item.time}</span><span className="rl-agenda-title">{item.title}</span><span className="rl-agenda-duration">{item.duration}</span><ChevronDown size={15}/></button>)}</div>
-            <article className="rl-agenda-detail"><span>SESSION BLOCK / {String(activeAgenda+1).padStart(2,"0")}</span><div className="rl-agenda-detail-time">{agenda[activeAgenda].time}</div><h3>{agenda[activeAgenda].title}</h3><p>{agenda[activeAgenda].detail}</p><div className="rl-agenda-progress"><i style={{width:`${((activeAgenda+1)/agenda.length)*100}%`}}/></div><div className="rl-agenda-detail-foot"><span>WORKSHOP 01</span><span>{agenda[activeAgenda].duration}</span></div></article>
+            <article className="rl-agenda-detail" aria-live="polite"><div className="rl-agenda-detail-content" key={activeAgenda}><span>SESSION BLOCK / {String(activeAgenda+1).padStart(2,"0")}</span><div className="rl-agenda-detail-time">{agenda[activeAgenda].time}</div><h3>{agenda[activeAgenda].title}</h3><p>{agenda[activeAgenda].detail}</p><div className="rl-agenda-progress"><i style={{width:`${((activeAgenda+1)/agenda.length)*100}%`}}/></div><div className="rl-agenda-detail-foot"><span>WORKSHOP 01</span><span>{agenda[activeAgenda].duration}</span></div></div></article>
           </div>
         </div>
       </section>
@@ -244,7 +221,7 @@ export default function ReactLaunchpadPage() {
           <div className="rl-series-heading"><h2>Start with a board.<br/><em>Grow into a product.</em></h2><p>BuildBoard evolves as the workshops progress. Each session is a milestone, not a prerequisite trap.</p></div>
           <div className="rl-series-layout">
             <div className="rl-series-list">{series.map((item,index)=><button key={item[0]} className={expandedSeries===index?"rl-series-item is-active":"rl-series-item"} onClick={()=>setExpandedSeries(index)}><span>{item[0]}</span><b>{item[1]}</b>{item[3]&&<i>{item[3]}</i>}<ArrowUpRight size={16}/></button>)}</div>
-            <article className="rl-series-detail"><div className="rl-series-orb">0{expandedSeries+1}</div><span>THE NEXT MILESTONE</span><h3>{series[expandedSeries][1]}</h3><p>{series[expandedSeries][2]}</p><div>RVS REACT LAUNCHPAD <i>·</i> WORKSHOP SERIES</div></article>
+            <article className="rl-series-detail" aria-live="polite"><div className="rl-series-detail-content" key={expandedSeries}><div className="rl-series-orb">0{expandedSeries+1}</div><span>THE NEXT MILESTONE</span><h3>{series[expandedSeries][1]}</h3><p>{series[expandedSeries][2]}</p><div>RVS REACT LAUNCHPAD <i>·</i> WORKSHOP SERIES</div></div></article>
           </div>
         </div>
       </section>
