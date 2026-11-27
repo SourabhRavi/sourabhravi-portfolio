@@ -1072,3 +1072,93 @@
 @media(prefers-reduced-motion:reduce) {
  .workshop-experience .ws-gradient-ribbons i,.workshop-experience .ws-build-art-window { transform:none !important; }
 }
+
+/* Sections 06–08: readiness, reassurance, and a purposeful invitation. */
+.workshop-experience .ws-audience { background:linear-gradient(180deg,#fbf8f2,#f6f0f3); }
+.workshop-experience .ws-audience-heading { display:grid; grid-template-columns:1fr 1fr; align-items:end; gap:18px 7%; margin-bottom:42px; }
+.workshop-experience .ws-audience-heading .ws-index { grid-column:1/-1; }
+.workshop-experience .ws-audience-heading h2 { font-size:clamp(46px,6.3vw,86px); }
+.workshop-experience .ws-audience-heading .ws-lead { max-width:410px; margin:0 0 8px; }
+.workshop-experience .ws-audience-grid { gap:18px; }
+.workshop-experience .ws-audience-card { min-height:0; padding:clamp(24px,3.4vw,44px); border:1px solid rgba(51,39,65,.1); border-radius:4px; }
+.workshop-experience .ws-audience-good { background:rgba(255,253,249,.85); }
+.workshop-experience .ws-audience-setup { background:linear-gradient(145deg,#f0e5f3,#e8e8f8 65%,#e6f0eb); }
+.workshop-experience .ws-audience-card-head { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.workshop-experience .ws-audience-stamp { color:#a16fb5; font:500 8px "Space Grotesk",sans-serif; letter-spacing:.08em; }
+.workshop-experience .ws-audience-card h3 { margin:24px 0 0; color:#292235; font:500 clamp(23px,2.6vw,34px)/1.05 "Space Grotesk",sans-serif; letter-spacing:-.06em; }
+.workshop-experience .ws-audience-card ul { gap:14px; margin-top:22px; }
+.workshop-experience .ws-audience-card li { color:#6c6474; font-size:13px; }
+.workshop-experience .ws-audience-card li svg,.workshop-experience .ws-code-icon { color:#b17ba8; }
+.workshop-experience .ws-audience-card-note { margin:23px 0 0; padding-top:16px; border-top:1px solid rgba(51,39,65,.1); color:#a16fb5; font-size:11px; }
+.workshop-experience .ws-setup-intro { max-width:350px; margin:12px 0 18px; color:#766d80; font-size:12px; line-height:1.6; }
+.workshop-experience .ws-ready-list { display:grid; gap:7px; }
+.workshop-experience .ws-ready-item { display:grid; grid-template-columns:28px 1fr auto; align-items:center; gap:10px; width:100%; padding:10px 11px; border:1px solid rgba(51,39,65,.1); border-radius:4px; background:rgba(255,253,249,.72); color:#51465e; text-align:left; cursor:pointer; transition:background .2s,border-color .2s,transform .2s; }
+.workshop-experience .ws-ready-item:hover { transform:translateX(3px); border-color:rgba(161,111,181,.35); }
+.workshop-experience .ws-ready-check { display:grid; width:25px; height:25px; place-items:center; border:1px solid rgba(51,39,65,.13); border-radius:50%; color:#a16fb5; font:500 8px "Space Grotesk",sans-serif; }
+.workshop-experience .ws-ready-item.is-ready { border-color:rgba(145,175,105,.45); background:rgba(246,249,232,.9); }
+.workshop-experience .ws-ready-item.is-ready .ws-ready-check { color:#fff; border-color:#9bbf66; background:#9bbf66; }
+.workshop-experience .ws-ready-toggle { color:#a19aa7; font:500 7px "Space Grotesk",sans-serif; letter-spacing:.08em; }
+.workshop-experience .ws-ready-item.is-ready .ws-ready-toggle { color:#788d56; }
+.workshop-experience .ws-ready-feedback { min-height:16px; margin:12px 0 0; color:#81768b; font-size:10px; }
+.workshop-experience .ws-audience-footnote { display:flex; flex-wrap:wrap; align-items:center; gap:14px; margin-top:23px; padding-top:18px; border-top:1px solid rgba(51,39,65,.12); color:#817987; font-size:10px; }
+.workshop-experience .ws-audience-footnote span { color:#b17ba8; font:500 8px "Space Grotesk",sans-serif; letter-spacing:.12em; }
+.workshop-experience .ws-audience-footnote b { color:#51465e; font-weight:500; }
+.workshop-experience .ws-faq { grid-template-columns:.78fr 1.22fr; gap:clamp(38px,8vw,118px); background:#fffdf9; }
+.workshop-experience .ws-faq-heading h2 { margin:28px 0 18px; font-size:clamp(46px,6vw,82px); }
+.workshop-experience .ws-faq-heading .ws-lead { max-width:290px; margin:0; }
+.workshop-experience .ws-faq-contact { display:inline-flex; align-items:center; gap:7px; margin-top:26px; color:#a16fb5; font-size:12px; }
+.workshop-experience .ws-faq-side { min-width:0; }
+.workshop-experience .ws-faq-note { display:flex; justify-content:space-between; padding:0 0 13px; color:#8b8290; font:500 8px "Space Grotesk",sans-serif; letter-spacing:.12em; }
+.workshop-experience .ws-faq-note b { color:#b17ba8; font-weight:500; }
+.workshop-experience .ws-faq-list { border-top:1px solid rgba(51,39,65,.13); }
+.workshop-experience .ws-faq-item { border-color:rgba(51,39,65,.13); }
+.workshop-experience .ws-faq-item summary { display:grid; grid-template-columns:28px 1fr 30px; align-items:center; gap:12px; padding:20px 0; color:#292235; font-size:14px; }
+.workshop-experience .ws-faq-number { color:#b17ba8; font:500 9px "Space Grotesk",sans-serif; }
+.workshop-experience .ws-faq-question { line-height:1.4; }
+.workshop-experience .ws-faq-item summary b { width:28px; height:28px; border-color:rgba(51,39,65,.14); color:#a16fb5; }
+.workshop-experience .ws-faq-item[open] summary b { background:#f3e9f5; }
+.workshop-experience .ws-faq-item p { margin:0 40px 20px 40px; color:#77717f; font-size:12px; line-height:1.8; }
+.workshop-experience .ws-join { padding:clamp(22px,4vw,48px) clamp(22px,8vw,124px) 0; color:#30263d; background:#f8f1ed; }
+.workshop-experience .ws-join-gradient { position:absolute; inset:0; overflow:hidden; background:radial-gradient(ellipse at 10% 95%,rgba(186,213,240,.75),transparent 38%),radial-gradient(ellipse at 78% 22%,rgba(247,174,199,.68),transparent 36%),linear-gradient(125deg,#fff1dc 0%,#f6dce9 45%,#e4dcf6 75%,#d7ebe4 100%); }
+.workshop-experience .ws-join-gradient::after { content:""; position:absolute; inset:0; opacity:.15; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E"); mix-blend-mode:soft-light; }
+.workshop-experience .ws-join-gradient i { position:absolute; display:block; border:1px solid rgba(255,255,255,.68); border-radius:50%; backdrop-filter:blur(2px); }
+.workshop-experience .ws-join-gradient i:nth-child(1) { width:min(48vw,650px); aspect-ratio:1; right:-8%; top:-24%; box-shadow:0 0 0 35px rgba(255,255,255,.14),0 0 0 75px rgba(255,255,255,.1); }
+.workshop-experience .ws-join-gradient i:nth-child(2) { width:min(27vw,360px); aspect-ratio:1; right:14%; top:18%; background:rgba(255,255,255,.12); }
+.workshop-experience .ws-join-gradient i:nth-child(3) { width:14vw; aspect-ratio:1; left:8%; bottom:8%; background:rgba(255,255,255,.2); }
+.workshop-experience .ws-join-top,.workshop-experience .ws-join-bottom { border-color:rgba(48,38,61,.16); color:rgba(48,38,61,.58); }
+.workshop-experience .ws-join-top i { padding:0 6px; font-style:normal; color:#b17ba8; }
+.workshop-experience .ws-join-main { grid-template-columns:1.1fr .62fr; gap:clamp(35px,7vw,100px); padding:clamp(65px,8vw,112px) 0 clamp(65px,7vw,96px); }
+.workshop-experience .ws-join-kicker { color:#a16fb5; }
+.workshop-experience .ws-join h2 { max-width:850px; font-size:clamp(52px,7.7vw,112px); color:#30263d; }
+.workshop-experience .ws-join h2 em { color:#b17ba8; }
+.workshop-experience .ws-join-details { display:flex; flex-wrap:wrap; gap:12px 24px; margin-top:33px; color:#a16fb5; font:500 9px "Space Grotesk",sans-serif; }
+.workshop-experience .ws-join-details b { margin-left:5px; color:#6f6578; font-weight:500; }
+.workshop-experience .ws-join-copy { max-width:420px; }
+.workshop-experience .ws-join-copy p { color:#6e6476; font-size:14px; }
+.workshop-experience .ws-button-dark { display:inline-flex; align-items:center; justify-content:space-between; gap:18px; min-width:0; padding:17px 20px; color:#fffdf9 !important; background:#30263d; border-radius:999px; font-size:10px; }
+.workshop-experience .ws-button-dark:hover { background:#51405f; }
+.workshop-experience .ws-join-secondary { display:flex; align-items:center; gap:7px; margin-top:18px; color:#a16fb5; font:500 9px "Space Grotesk",sans-serif; letter-spacing:.06em; }
+.workshop-experience .ws-join-copy > span { color:#8c8290; font-size:8px; line-height:1.6; }
+.workshop-experience .ws-join-bottom a:hover { color:#a16fb5; }
+@media(max-width:760px) {
+ .workshop-experience .ws-audience-heading { grid-template-columns:1fr; gap:15px; }
+ .workshop-experience .ws-audience-heading .ws-index { grid-column:auto; }
+ .workshop-experience .ws-audience-grid { grid-template-columns:1fr; }
+ .workshop-experience .ws-faq { grid-template-columns:1fr; gap:35px; }
+ .workshop-experience .ws-faq-heading h2 { margin-top:22px; }
+ .workshop-experience .ws-join-main { grid-template-columns:1fr; gap:36px; }
+ .workshop-experience .ws-join-details { margin-top:24px; }
+ .workshop-experience .ws-join-gradient i:nth-child(1) { width:90vw; right:-40%; top:0; }
+}
+@media(max-width:520px) {
+ .workshop-experience .ws-audience-card-head { align-items:flex-start; flex-direction:column; }
+ .workshop-experience .ws-ready-item { grid-template-columns:27px 1fr auto; padding:9px; font-size:12px; }
+ .workshop-experience .ws-faq-item summary { grid-template-columns:23px 1fr 28px; gap:9px; font-size:13px; }
+ .workshop-experience .ws-faq-item p { margin-left:32px; margin-right:8px; }
+ .workshop-experience .ws-join h2 { font-size:clamp(47px,12vw,68px); }
+ .workshop-experience .ws-join-bottom { flex-wrap:wrap; font-size:7px; }
+ .workshop-experience .ws-join-bottom span { display:none; }
+}
+@media(prefers-reduced-motion:reduce) {
+ .workshop-experience .ws-ready-item { transition:none; }
+}
