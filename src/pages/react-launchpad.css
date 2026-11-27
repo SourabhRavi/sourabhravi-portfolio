@@ -778,3 +778,45 @@
   .rl-stage-updated .rl-stage-content,.rl-stage-updated .rl-stage-art,.rl-agenda-detail-content,.rl-series-detail-content{animation:none!important}
   .rl-stage-core{transition:none!important}
 }
+
+/* Responsive hotfix: explicit spans prevent implicit-grid placement from
+   squeezing a full-width story card into a single mobile track. */
+@media (max-width: 760px) {
+  .rl-bento-story {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    grid-template-areas: none !important;
+  }
+  .rl-bento-story .rl-bento-product,
+  .rl-bento-story .rl-bento-method {
+    grid-column: 1 / -1 !important;
+    width: 100%;
+    min-width: 0;
+  }
+  .rl-bento-story .rl-bento-concepts,
+  .rl-bento-story .rl-bento-time {
+    grid-column: span 1 !important;
+    min-width: 0;
+  }
+}
+@media (max-width: 430px) {
+  .rl-bento-story {
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-areas: none !important;
+  }
+  .rl-bento-story .rl-bento-product,
+  .rl-bento-story .rl-bento-method,
+  .rl-bento-story .rl-bento-concepts,
+  .rl-bento-story .rl-bento-time {
+    grid-column: 1 / -1 !important;
+    width: 100%;
+  }
+  .rl-bento-story .rl-bento-method-copy {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+/* Respect reduced-motion and keep the scroll choreography on desktop only. */
+@media (prefers-reduced-motion: reduce) {
+  .rl-pane-main, .rl-pane-side, .rl-glow-one, .rl-glow-two {
+    transform: none !important;
+  }
+}
