@@ -122,9 +122,6 @@ export default function ReactLaunchpadPage() {
   useEffect(() => {
     const root = pageRef.current;
     if (!root) return;
-    const onAnchorClick  useEffect(() => {
-    const root = pageRef.current;
-    if (!root) return;
     const onAnchorClick = event => {
       const link = event.target.closest("a[href^='#']");
       if (!link) return;
