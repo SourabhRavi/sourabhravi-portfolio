@@ -1296,3 +1296,181 @@
 .workshop-experience .ws-audience-footnote b {
   color: #3e334d;
 }
+
+
+/* Campus Build Lab: a bolder, student-first visual identity across the full page. */
+.workshop-experience {
+  --ws-paper: #f7f8fc;
+  --ws-paper-deep: #e8eaf4;
+  --ws-white: #ffffff;
+  --ws-ink: #17152d;
+  --ws-muted: #57556e;
+  --ws-line: rgba(23, 21, 45, .17);
+  --ws-green: #3020a8;
+  --ws-lime: #d7ff3f;
+  --ws-blue: #4f6bff;
+  --ws-lilac: #d8d1ff;
+  --ws-peach: #ffb18b;
+  background: #f7f8fc;
+  color: #17152d;
+  letter-spacing: -.025em;
+}
+.workshop-experience .ws-header {
+  border-bottom-color: #dedff0;
+  background: rgba(247,248,252,.92);
+}
+.workshop-experience .ws-brand-mark { border-radius: 11px; background:#3020a8; color:#fff; }
+.workshop-experience .ws-brand-mark span { color:#d7ff3f; }
+.workshop-experience .ws-brand-label,
+.workshop-experience .ws-header-edition { color:#514d70; }
+.workshop-experience .ws-menu-toggle { border-color:#c9c7e5; background:#fff; color:#272044; }
+.workshop-experience .ws-menu-toggle:hover { border-color:#6b52e8; background:#f1edff; }
+.workshop-experience .ws-menu-panel { border-color:#d8d3f1; background:#fff; }
+.workshop-experience .ws-menu-cta { background:#3020a8; }
+.workshop-experience .ws-hero {
+  color:#fff;
+  background:
+    radial-gradient(ellipse at 77% 20%,rgba(99,82,255,.55),transparent 34%),
+    radial-gradient(ellipse at 18% 90%,rgba(42,189,214,.22),transparent 34%),
+    linear-gradient(135deg,#17132e 0%,#21174b 58%,#3020a8 100%);
+}
+.workshop-experience .ws-hero-topline,
+.workshop-experience .ws-hero-bottom { color:#c4c0e5; }
+.workshop-experience .ws-hero-topline i { color:#7770b9; }
+.workshop-experience .ws-hero-topline b { color:#d7ff3f; }
+.workshop-experience .ws-hero-kicker { color:#d9d5f5; }
+.workshop-experience .ws-kicker-mark { border-color:#7168bd; color:#d7ff3f; background:#30265b; }
+.workshop-experience .ws-hero h1 { color:#fff; }
+.workshop-experience .ws-title-line em { color:#d7ff3f; }
+.workshop-experience .ws-title-line-last > span > span { color:#8be8ff; }
+.workshop-experience .ws-hero-description { color:#d2cfea; }
+.workshop-experience .ws-button-primary { color:#17132e !important; background:#d7ff3f; box-shadow:0 12px 30px #09051e55; }
+.workshop-experience .ws-button-primary:hover { background:#e5ff78; }
+.workshop-experience .ws-text-link { color:#fff; }
+.workshop-experience .ws-hero-meta { border-color:#ffffff30; }
+.workshop-experience .ws-hero-meta-item,
+.workshop-experience .ws-hero-meta-item b { color:#f4f1ff; }
+.workshop-experience .ws-hero-meta-item small { color:#c0bbdf; }
+.workshop-experience .ws-hero-meta-item > svg { color:#d7ff3f; }
+.workshop-experience .ws-gradient-gallery { filter:saturate(1.18) contrast(1.04); }
+.workshop-experience .ws-gradient-panel-main { background:linear-gradient(140deg,#ffb56b 0%,#ff6d9b 38%,#795cff 72%,#38c8d8 100%); }
+.workshop-experience .ws-gradient-panel-side { color:#fff; background:#d7ff3f; }
+.workshop-experience .ws-gradient-panel-side em { color:#3020a8; }
+.workshop-experience .ws-gradient-board { border:1px solid #ffffffa8; background:#fff; box-shadow:0 28px 70px #0d082b66; }
+.workshop-experience .ws-gradient-board-top { color:#3020a8; }
+.workshop-experience .ws-gradient-board-top > span:first-child i { background:#d7ff3f; }
+.workshop-experience .ws-mini-task-active { border-color:#a79aff; background:#eeeaff; }
+.workshop-experience .ws-mini-task-done { background:#e7ffad; }
+.workshop-experience .ws-hero-bottom { border-color:#ffffff30; }
+.workshop-experience .ws-hero-bottom a { color:#d7ff3f; }
+.workshop-experience .ws-intro-band {
+  color:#fff;
+  background:linear-gradient(110deg,#3020a8,#5940dc 55%,#4c5eff);
+}
+.workshop-experience .ws-intro-band-label { color:#e4e0ff; }
+.workshop-experience .ws-intro-band-label i,
+.workshop-experience .ws-intro-statement em { color:#d7ff3f; }
+.workshop-experience .ws-intro-index { color:#d0caff; }
+.workshop-experience .ws-method,
+.workshop-experience .ws-outcomes,
+.workshop-experience .ws-agenda,
+.workshop-experience .ws-audience { background:#f7f8fc; }
+.workshop-experience .ws-build {
+  background:linear-gradient(180deg,#e9eaff 0%,#f3f1ff 100%);
+}
+.workshop-experience .ws-display,
+.workshop-experience .ws-method-card h3,
+.workshop-experience .ws-build-aside h3,
+.workshop-experience .ws-demo-heading h3,
+.workshop-experience .ws-section-heading h2,
+.workshop-experience .ws-agenda-heading h2,
+.workshop-experience .ws-outcomes-intro h2,
+.workshop-experience .ws-audience-heading h2,
+.workshop-experience .ws-faq-heading h2 { color:#17152d; }
+.workshop-experience .ws-display em,
+.workshop-experience .ws-demo-heading h3 em,
+.workshop-experience .ws-section-heading h2 em,
+.workshop-experience .ws-agenda-heading h2 em,
+.workshop-experience .ws-outcomes-intro h2 em,
+.workshop-experience .ws-audience-heading h2 em,
+.workshop-experience .ws-faq-heading h2 em { color:#6245e8; }
+.workshop-experience .ws-index,
+.workshop-experience .ws-section-aside { color:#5c5879; }
+.workshop-experience .ws-lead,
+.workshop-experience .ws-method-card p,
+.workshop-experience .ws-build-aside p { color:#57556e; }
+.workshop-experience .ws-method-card {
+  border:1px solid #d8d5ed;
+  border-radius:14px;
+  background:#fff;
+  box-shadow:0 8px 0 #e4e1f4;
+}
+.workshop-experience .ws-method-card:hover { border-color:#8b79ee; box-shadow:0 14px 35px #4932a51c; }
+.workshop-experience .ws-method-card-top svg { color:#6245e8; }
+.workshop-experience .ws-method-note { color:#6245e8; }
+.workshop-experience .ws-method-caption b { color:#3020a8; }
+.workshop-experience .ws-build-feature { overflow:hidden; border:1px solid #d8d5ed; border-radius:18px; box-shadow:0 18px 55px #3020a817; }
+.workshop-experience .ws-build-aside { background:#fff; }
+.workshop-experience .ws-build-stack span { border-color:#d6d1ef; background:#f4f1ff; color:#4b3a9e; }
+.workshop-experience .ws-board { border:2px solid #bdb2ff; border-radius:16px; box-shadow:0 22px 55px #3020a826; }
+.workshop-experience .ws-board-logo { border-radius:9px; }
+.workshop-experience .ws-task-card { border-radius:10px; }
+.workshop-experience .ws-board-add > button { border-radius:8px; }
+.workshop-experience .ws-challenge-strip { border:1px solid #d2c9fa; border-radius:16px; background:linear-gradient(120deg,#fff,#f0edff 65%,#e7faff); }
+.workshop-experience .ws-challenge-heading h3 em { color:#6245e8; }
+.workshop-experience .ws-challenge-ideas span { border-color:#d6d0ee; background:#fff; }
+.workshop-experience .ws-challenge-ideas b { color:#6245e8; }
+.workshop-experience .ws-concept-note { border-color:#cfc8ed; }
+.workshop-experience .ws-concept-note > span { color:#6245e8; }
+.workshop-experience .ws-outcome-row { border-color:#d9d6ec; }
+.workshop-experience .ws-outcome-number,
+.workshop-experience .ws-outcome-row > svg { color:#6245e8; }
+.workshop-experience .ws-agenda-row { border-color:#d9d6ec; }
+.workshop-experience .ws-agenda-content > span,
+.workshop-experience .ws-agenda-time b { color:#6245e8; }
+.workshop-experience .ws-pathway { color:#fff; background:#19152f; }
+.workshop-experience .ws-pathway .ws-index,
+.workshop-experience .ws-pathway .ws-lead { color:#c7c1e4; }
+.workshop-experience .ws-pathway .ws-display { color:#fff; }
+.workshop-experience .ws-pathway .ws-display em { color:#d7ff3f; }
+.workshop-experience .ws-pathway-item { border-color:#ffffff30; }
+.workshop-experience .ws-pathway-item h3 { color:#fff; }
+.workshop-experience .ws-pathway-item p,
+.workshop-experience .ws-pathway-status,
+.workshop-experience .ws-pathway-number { color:#c5c0e2; }
+.workshop-experience .ws-pathway-item.is-current { border-color:#d7ff3f; background:#30265b; }
+.workshop-experience .ws-pathway-item.is-current .ws-pathway-status { color:#d7ff3f; }
+.workshop-experience .ws-pathway-footnote { color:#c5c0e2; }
+.workshop-experience .ws-audience-card { border-radius:14px; }
+.workshop-experience .ws-audience-good { border-color:#d8d5ed; background:#fff; }
+.workshop-experience .ws-audience-setup { background:linear-gradient(145deg,#e8e2ff,#e4edff 65%,#ddfff2); }
+.workshop-experience .ws-audience-card h3 { color:#17152d; }
+.workshop-experience .ws-audience-card li { color:#57556e; }
+.workshop-experience .ws-ready-item { border-color:#d6d0ee; background:#fff; }
+.workshop-experience .ws-ready-item.is-ready { background:#edffd0; }
+.workshop-experience .ws-faq { background:#fff; }
+.workshop-experience .ws-faq-item summary { color:#17152d; }
+.workshop-experience .ws-faq-item p { color:#57556e; }
+.workshop-experience .ws-join { color:#fff; background:#21164f; }
+.workshop-experience .ws-join-gradient { background:radial-gradient(ellipse at 12% 90%,#3c64ff 0%,transparent 38%),radial-gradient(ellipse at 85% 20%,#a33bff 0%,transparent 40%),linear-gradient(125deg,#19132f,#3020a8 60%,#4f38d6); }
+.workshop-experience .ws-join-gradient::after { opacity:.08; }
+.workshop-experience .ws-join-top,
+.workshop-experience .ws-join-bottom { border-color:#ffffff35; color:#d1c9f5; }
+.workshop-experience .ws-join-kicker,
+.workshop-experience .ws-join-details { color:#d7ff3f; }
+.workshop-experience .ws-join h2 { color:#fff; }
+.workshop-experience .ws-join h2 em { color:#d7ff3f; }
+.workshop-experience .ws-join-copy p { color:#e0daf7; }
+.workshop-experience .ws-join-details b { color:#fff; }
+.workshop-experience .ws-button-dark { color:#17132e !important; background:#d7ff3f; }
+.workshop-experience .ws-button-dark:hover { background:#e5ff78; }
+.workshop-experience .ws-join-secondary { color:#e0d9ff; }
+.workshop-experience .ws-join-copy > span { color:#c4bce9; }
+.workshop-experience .ws-footer { border-color:#d8d5ed; color:#625a78; background:#f7f8fc; }
+.workshop-experience .ws-footer-brand { color:#3020a8; }
+.workshop-experience .ws-footer-brand span { color:#6245e8; }
+.workshop-experience .ws-reading-progress { background:linear-gradient(90deg,#d7ff3f,#38c8d8,#7c5cff,#ff6d9b); }
+@media(max-width:760px) {
+  .workshop-experience .ws-hero { background:radial-gradient(ellipse at 80% 15%,rgba(99,82,255,.5),transparent 38%),linear-gradient(150deg,#17132e,#3020a8); }
+  .workshop-experience .ws-pathway { background:#19152f; }
+}
