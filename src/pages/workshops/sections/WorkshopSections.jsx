@@ -1,3 +1,4 @@
+import React from "react";
 import { ArrowUpRight, Check, Clock3, Laptop2, Sparkles } from "lucide-react";
 import { agenda, faqs, method, outcomes, pathway } from "../data";
 
