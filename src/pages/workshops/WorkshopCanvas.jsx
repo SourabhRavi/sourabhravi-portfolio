@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   ArrowDown, ArrowRight, ArrowUpRight, Check, Code2, Laptop,
-  Layers3, Sparkles, Terminal, Zap
+  Sparkles, Terminal
 } from "lucide-react";
 import "./workshop-canvas.css";
 
@@ -75,7 +74,7 @@ function SectionStamp({ number, label, light = false }) {
 
 export default function WorkshopCanvas() {
   const root = useRef(null);
-  const reducedMotion = useReducedMotion();
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   useEffect(() => {
     if (!root.current || reducedMotion) return;
     const context = gsap.context(() => {
@@ -99,7 +98,7 @@ export default function WorkshopCanvas() {
 
   return (
     <main className="workshop-canvas" ref={root}>
-      <div className="wc-progress" aria-hidden="true"><motion.div initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} transition={{ duration: 1.2 }} /></div>
+      <div className="wc-progress" aria-hidden="true"><div /></div>
       <header className="wc-nav">
         <a className="wc-wordmark" href="/workshops/react-launchpad" aria-label="Workshop home"><span>W</span><b>WORKSHOP<br/>SERIES / 01</b></a>
         <div className="wc-nav-note"><i/> OPEN FOR COLLEGE COLLABORATIONS</div>
