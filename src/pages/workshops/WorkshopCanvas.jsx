@@ -23,51 +23,70 @@ const columns = [
 function BoardPlayground() {
   const [tasks, setTasks] = useState(starterTasks);
   const [title, setTitle] = useState("");
-  const [filter, setFilter] = useState("");
-  const moveTask = (id, status) => setTasks((current) => current.map((task) => task.id === id ? { ...task, status } : task));
+  const [notice, setNotice] = useState("");
+  const moveTask = (id, status) => {
+    setTasks((current) => current.map((task) => task.id === id ? { ...task, status } : task));
+    const next = columns.find((column) => column.key === status);
+    setNotice(next ? `Moved to ${next.label.toLowerCase()}.` : "Task updated.");
+  };
   const addTask = (event) => {
     event.preventDefault();
-    if (!title.trim()) return;
-    setTasks((current) => [...current, { id: Date.now(), title: title.trim(), tag: "YOUR IDEA", status: "todo" }]);
+    const cleanTitle = title.trim();
+    if (!cleanTitle) return;
+    setTasks((current) => [...current, { id: Date.now(), title: cleanTitle, tag: "YOUR TASK", status: "todo" }]);
     setTitle("");
+    setNotice("Task added. Give it a go!");
   };
-  const visibleTasks = tasks.filter((task) => task.title.toLowerCase().includes(filter.toLowerCase()));
+  const resetBoard = () => {
+    setTasks(starterTasks);
+    setTitle("");
+    setNotice("Demo reset. Try it again!");
+  };
   return (
-    <div className="wc-board" aria-label="Interactive preview of the workshop project board">
+    <div className="wc-board" aria-label="Interactive BuildBoard demo">
       <div className="wc-board-top">
-        <div className="wc-board-brand"><span className="wc-board-mark">B</span><div><strong>buildboard</strong><small>YOUR FIRST REACT PRODUCT</small></div></div>
-        <label className="wc-board-search"><span>⌕</span><input value={filter} onChange={(e) => setFilter(e.target.value)} placeholder="Find a task..." aria-label="Search tasks" /></label>
-        <span className="wc-board-live"><i /> LIVE DEMO</span>
+        <div className="wc-board-brand"><span className="wc-board-mark">B</span><div><strong>BuildBoard</strong><small>A TINY PROJECT BOARD</small></div></div>
+        <div className="wc-board-demo-label"><i/> TRY IT YOURSELF</div>
+        <button className="wc-board-reset" type="button" onClick={resetBoard}>Reset demo ↺</button>
+      </div>
+      <div className="wc-board-guide" aria-label="How to try the demo">
+        <span><b>1</b> Add a task</span><i>→</i><span><b>2</b> Move it along</span><i>→</i><span><b>3</b> Watch the board update</span>
       </div>
       <form className="wc-add-task" onSubmit={addTask}>
-        <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Add a task to your board..." aria-label="New task title" maxLength={70} />
-        <button type="submit" disabled={!title.trim()}><span>ADD TASK</span><ArrowRight size={16}/></button>
+        <label htmlFor="wc-new-task">What do you want to get done?</label>
+        <div className="wc-add-task-controls">
+          <input id="wc-new-task" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. Build my first component" maxLength={70} />
+          <button type="submit" disabled={!title.trim()}>Add task <ArrowRight size={16}/></button>
+        </div>
       </form>
       <div className="wc-board-columns">
         {columns.map((column) => (
-          <section className={`wc-board-column wc-column-${column.color}`} key={column.key}>
-            <header><span className="wc-column-dot"/><span>{column.label}</span><b>{visibleTasks.filter((task) => task.status === column.key).length.toString().padStart(2, "0")}</b></header>
+          <section className={`wc-board-column wc-column-${column.color}`} key={column.key} aria-label={column.label}>
+            <header><span className="wc-column-dot"/><span>{column.key === "todo" ? "To do" : column.key === "doing" ? "In progress" : "Done"}</span><b>{tasks.filter((task) => task.status === column.key).length}</b></header>
             <div className="wc-task-list">
-              {visibleTasks.filter((task) => task.status === column.key).map((task) => (
-                <article className="wc-task" key={task.id}>
-                  <span className="wc-task-tag">{task.tag}</span><p>{task.title}</p>
-                  <div className="wc-task-foot"><span>#{String(task.id).slice(-3)}</span>
-                    <div className="wc-task-actions">
-                      {columns.filter((item) => item.key !== task.status).map((item) => <button key={item.key} onClick={() => moveTask(task.id, item.key)} aria-label={`Move ${task.title} to ${item.label}`} title={`Move to ${item.label}`}>→</button>)}
-                    </div>
-                  </div>
-                </article>
-              ))}
-              {visibleTasks.filter((task) => task.status === column.key).length === 0 && <div className="wc-empty">Nothing here. Yet.</div>}
+              {tasks.filter((task) => task.status === column.key).map((task) => {
+                const action = column.key === "todo"
+                  ? { label: "Start task", next: "doing" }
+                  : column.key === "doing"
+                    ? { label: "Mark as done", next: "done" }
+                    : { label: "Move back to To do", next: "todo" };
+                return (
+                  <article className="wc-task" key={task.id}>
+                    <span className="wc-task-tag">{task.tag}</span>
+                    <p>{task.title}</p>
+                    <button className="wc-task-action" type="button" onClick={() => moveTask(task.id, action.next)}>{action.label}<ArrowRight size={14}/></button>
+                  </article>
+                );
+              })}
+              {tasks.filter((task) => task.status === column.key).length === 0 && <div className="wc-empty">Your next task could go here.</div>}
             </div>
           </section>
         ))}
       </div>
-      <div className="wc-board-bottom"><span><span className="wc-board-check">✓</span> Changes happen in your browser</span><span>{tasks.length} TASKS <i>·</i> 3 STATES</span></div>
+      <div className="wc-board-feedback" role="status" aria-live="polite"><span className="wc-board-check">✓</span>{notice || "Your changes happen right here, instantly."}<span className="wc-board-count">{tasks.length} {tasks.length === 1 ? "task" : "tasks"}</span></div>
     </div>
   );
 }
-
 function SectionStamp({ number, label, light = false }) {
   return <div className={`wc-stamp ${light ? "wc-stamp-light" : ""}`}><span>{number}</span><b>{label}</b><i /></div>;
 }
