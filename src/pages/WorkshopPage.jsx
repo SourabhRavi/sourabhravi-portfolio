@@ -107,7 +107,7 @@ function ExperienceSection() {
         </button>)}
         <div className="wl-chapter-nav-foot"><span>SELECT A MOMENT</span><span>0{active+1} / 03</span></div>
       </div>
-      <motion.div className="wl-chapter-visual" style={{y:chapterY,rotateX:chapterTilt}}>
+      <div className="wl-chapter-visual">
         <div className="wl-visual-top"><span>FIELD NOTES / REACT LAUNCH</span><span>LIVE LEARNING SYSTEM <i/></span></div>
         <AnimatePresence mode="wait">
           <motion.div className={"wl-chapter-scene scene-"+active} key={active} initial={{opacity:0,y:24,filter:"blur(8px)"}} animate={{opacity:1,y:0,filter:"blur(0px)"}} exit={{opacity:0,y:-16,filter:"blur(5px)"}} transition={{duration:.45,ease:[.22,1,.36,1]}}>
@@ -140,7 +140,7 @@ function BuildBoard() {
         </div></div>)}</div>
       <div className="wl-board-bottom"><span>TRY IT: ADD A TASK. MOVE IT. WATCH THE BOARD RESPOND.</span><span>STATE → UI <b>✳</b></span></div>
     </motion.div>
-    <motion.div className="wl-build-foot" initial={{opacity:0,y:22}} whileInView={{opacity:1,y:0}} viewport={{once:true,amount:.3}} transition={{duration:.6}}> <span>THE FIRST MILESTONE</span><p>Create, edit, search, filter and save tasks. Then add one feature that makes the board yours.</p><span className="wl-build-stamp">REACT + VITE<br/>LOCAL STORAGE</span></div>
+    <motion.div className="wl-build-foot" initial={{opacity:0,y:22}} whileInView={{opacity:1,y:0}} viewport={{once:true,amount:.3}} transition={{duration:.6}}> <span>THE FIRST MILESTONE</span><p>Create, edit, search, filter and save tasks. Then add one feature that makes the board yours.</p><span className="wl-build-stamp">REACT + VITE<br/>LOCAL STORAGE</span></motion.div>
   </section>;
 }
 
