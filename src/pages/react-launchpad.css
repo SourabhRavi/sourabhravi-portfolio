@@ -1046,3 +1046,5 @@
  .rl-story-controls,.rl-bento-story>article{will-change:auto!important}
  .rl-bento-story>article:before{transition:none!important}
 }
+
+.rl-bento-story>article>.rl-bento-selected{position:absolute!important;}
