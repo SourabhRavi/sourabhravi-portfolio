@@ -57,58 +57,67 @@ export default function ReactLaunchpadPage() {
   const progressRef = useRef(null);
   const [expandedSeries, setExpandedSeries] = useState(0);
 
-  // A single visual choreography: hero composition settles, then its accent
-  // carries into the first chapter. Scroll reveals are sequenced by section.
+  // One choreographed motion system: the hero assembles on entry,
+  // then its layers settle together as the visitor scrolls into the story.
   useEffect(() => {
     const root = pageRef.current;
     if (!root || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const ctx = gsap.context(() => {
       const intro = gsap.timeline({ defaults: { ease: "power3.out" } });
-      intro.from(".rl-kicker", { y: 10, autoAlpha: 0, duration: .35 })
-        .from(".rl-overline", { y: 10, autoAlpha: 0, duration: .35 }, "-=.18")
-        .from(".rl-hero h1", { y: 22, autoAlpha: 0, duration: .55 }, "-=.12")
-        .from(".rl-hero-subtitle,.rl-hero-description", { y: 10, autoAlpha: 0, stagger: .08, duration: .35 }, "-=.2")
-        .from(".rl-hero-actions,.rl-hero-facts", { y: 8, autoAlpha: 0, duration: .32 }, "-=.15")
-        .from(".rl-hero-art", { y: 16, autoAlpha: 0, duration: .5 }, "-=.25");
+      intro.from(".rl-kicker", { y: 12, autoAlpha: 0, duration: .4 })
+        .from(".rl-overline", { y: 12, autoAlpha: 0, duration: .35 }, "-=.2")
+        .from(".rl-hero h1", { y: 34, autoAlpha: 0, duration: .7 }, "-=.12")
+        .from(".rl-hero-subtitle,.rl-hero-description", { y: 14, autoAlpha: 0, stagger: .1, duration: .42 }, "-=.28")
+        .from(".rl-hero-actions,.rl-hero-facts", { y: 12, autoAlpha: 0, stagger: .08, duration: .38 }, "-=.18")
+        .from(".rl-hero-art", { y: 28, scale: .96, autoAlpha: 0, duration: .72 }, "-=.3")
+        .from(".rl-hero-bottom", { autoAlpha: 0, y: 8, duration: .3 }, "-=.25");
 
-      // Scroll choreography: the hero artwork converges gently as the story moves
-      // from the headline into the product. Scrub keeps it tied to scroll position.
       const hero = root.querySelector(".rl-hero");
       if (hero && window.matchMedia("(min-width: 761px)").matches) {
-        const copy = hero.querySelector(".rl-hero-copy");
-        const mainPane = hero.querySelector(".rl-pane-main");
-        const sidePane = hero.querySelector(".rl-pane-side");
-        const glowOne = hero.querySelector(".rl-glow-one");
-        const glowTwo = hero.querySelector(".rl-glow-two");
-        gsap.timeline({
+        const story = gsap.timeline({
           scrollTrigger: {
             trigger: hero,
             start: "top top",
-            end: "bottom top",
-            scrub: 0.75,
+            end: "bottom 18%",
+            scrub: 1.1,
             invalidateOnRefresh: true
           }
-        })
-          .to(copy, { y: -34, ease: "none" }, 0)
-          .to(mainPane, { y: 26, x: 12, rotate: -1.1, scale: 0.985, ease: "none" }, 0)
-          .to(sidePane, { y: -24, x: -18, rotate: 1.4, ease: "none" }, 0)
-          .to(glowOne, { x: 34, y: -20, scale: 1.08, ease: "none" }, 0)
-          .to(glowTwo, { x: -28, y: 18, scale: 0.94, ease: "none" }, 0);
+        });
+        story
+          .to(".rl-hero-copy", { y: -22, ease: "none" }, 0)
+          .to(".rl-pane-main", { x: 0, y: 0, rotate: 0, scale: 1.035, ease: "none" }, 0)
+          .to(".rl-pane-side", { x: 0, y: 0, rotate: 0, scale: 1.015, ease: "none" }, 0)
+          .to(".rl-chip-a", { x: 10, y: -12, ease: "none" }, 0)
+          .to(".rl-chip-b", { x: -8, y: 10, ease: "none" }, 0)
+          .to(".rl-glow-one", { x: -24, y: 34, scale: 1.12, ease: "none" }, 0)
+          .to(".rl-glow-two", { x: 28, y: -18, scale: .96, ease: "none" }, 0);
       }
 
-      // Keep the section reveals understated; the hero carries the main motion.
-
-      [".rl-intro-layout", ".rl-outcomes-heading", ".rl-outcome-explorer",
-       ".rl-agenda-heading", ".rl-agenda-layout", ".rl-series-heading",
-       ".rl-series-layout", ".rl-logistics-grid", ".rl-close .rl-section-wrap"]
-        .forEach(selector => {
-          const nodes = gsap.utils.toArray(selector, root);
-          nodes.forEach(node => gsap.fromTo(node,
-            { y: 22, autoAlpha: 0 },
-            { y: 0, autoAlpha: 1, duration: .65, ease: "power2.out",
-              scrollTrigger: { trigger: node, start: "top 84%", once: true } }
-          ));
+      // A shared reveal rhythm carries the visual from section to section.
+      // Cards enter in one direction and stop; no perpetual or random motion.
+      const revealTargets = [
+        ".rl-intro-layout", ".rl-outcomes-heading", ".rl-outcome-explorer",
+        ".rl-agenda-heading", ".rl-agenda-layout", ".rl-series-heading",
+        ".rl-series-layout", ".rl-logistics-grid", ".rl-close .rl-section-wrap"
+      ];
+      revealTargets.forEach(selector => {
+        gsap.utils.toArray(selector, root).forEach(node => {
+          gsap.fromTo(node,
+            { y: 26, autoAlpha: 0 },
+            { y: 0, autoAlpha: 1, duration: .68, ease: "power3.out",
+              scrollTrigger: { trigger: node, start: "top 82%", once: true } }
+          );
         });
+      });
+      const cards = gsap.utils.toArray(".rl-bento-story > article", root);
+      if (cards.length) {
+        gsap.fromTo(cards,
+          { y: 28, autoAlpha: 0, scale: .985 },
+          { y: 0, autoAlpha: 1, scale: 1, duration: .62, stagger: .11,
+            ease: "power3.out",
+            scrollTrigger: { trigger: ".rl-bento-story", start: "top 78%", once: true } }
+        );
+      }
       requestAnimationFrame(() => ScrollTrigger.refresh());
     }, root);
     return () => ctx.revert();
