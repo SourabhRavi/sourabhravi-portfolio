@@ -239,7 +239,7 @@ export default function ReactLaunchpadPage() {
             <article className="rl-bento-method rl-tilt-card"><span className="rl-card-index">02 / THE METHOD</span><div className="rl-bento-method-copy"><h3>See it.<br/>Build it.<br/><em>Make it yours.</em></h3><p>Observe a real interaction, build it together, then take the wheel.</p></div><div className="rl-method-steps"><span>SEE</span><b>→</b><span>BUILD</span><b>→</b><span>MAKE</span></div><div className="rl-bento-signal" aria-hidden="true"><span/><span/><span/><span/><span/></div></article>
             <article className="rl-bento-concepts rl-tilt-card"><span className="rl-card-index">03 / THE TOOLKIT</span><div className="rl-concept-pills">{["JSX","Components","Props","useState","Events","Forms","Lists","localStorage"].map(x=><span key={x}>{x}</span>)}</div><h3>Small concepts.<br/>Visible payoff.</h3><p>Every new tool unlocks something you can see.</p></article>
             <article className="rl-bento-time rl-tilt-card"><span className="rl-card-index">04 / THE FORMAT</span><strong>180<span>min</span></strong><p>One focused, hands-on session.</p><div className="rl-time-ring">3<br/><small>HOURS</small></div><div className="rl-time-pulse" aria-hidden="true"/></article>
-          </div></div>
+          </div>
         </div>
       </section>
 
