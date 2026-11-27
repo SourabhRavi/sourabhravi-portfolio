@@ -61,6 +61,8 @@ export default function ReactLaunchpadPage(){
   const reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if(reduce)return;
   const ctx=gsap.context(()=>{
+   gsap.to(".wk-progress",{scaleX:1,ease:"none",scrollTrigger:{trigger:el,start:"top top",end:"bottom bottom",scrub:true}});
+
    const hero=el.querySelector(".wk-hero");
    gsap.timeline({scrollTrigger:{trigger:hero,start:"top top",end:"bottom top",scrub:1.15}})
     .to(".wk-hero-type",{yPercent:-18,scale:.92,opacity:.28,ease:"none"},0)
