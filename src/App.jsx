@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import React from "react";
+import WorkshopCanvas from "./pages/workshops/WorkshopCanvas.jsx";
 import {
   ArrowDownRight,
   ArrowRight,
@@ -306,7 +307,7 @@ function ContactLinks() {
   );
 }
 
-export default function App() {
+function PortfolioApp() {
   const rootRef = useRef(null);
   usePortfolioMotion(rootRef);
 
@@ -889,4 +890,10 @@ export default function App() {
       </footer>
     </div>
   );
+}
+
+
+export default function App() {
+  if (window.location.pathname.replace(/\\/$/, "") === "/workshops/react-launchpad") return <WorkshopCanvas />;
+  return <PortfolioApp />;
 }
