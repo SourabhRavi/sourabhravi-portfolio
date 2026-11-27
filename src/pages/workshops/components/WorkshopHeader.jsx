@@ -17,8 +17,8 @@ export default function WorkshopHeader() {
   return (
     <header className="ws-header">
       <a className="ws-brand" href="/" aria-label="Back to portfolio">
-        <span className="ws-brand-mark">W<span>.</span></span>
-        <span className="ws-brand-label">WORKSHOP<br />FIELD NOTES</span>
+        <span className="ws-brand-mark">SR<span>✳</span></span>
+        <span className="ws-brand-label">WORKSHOPS<br />LEARN BY BUILDING</span>
       </a>
 
       <div className="ws-header-edition">
