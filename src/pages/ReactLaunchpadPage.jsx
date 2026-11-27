@@ -55,69 +55,42 @@ export default function ReactLaunchpadPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pageRef = useRef(null);
   const progressRef = useRef(null);
-  const heroArtRef = useRef(null);
   const [expandedSeries, setExpandedSeries] = useState(0);
 
-  // Coordinated motion: scrub composited transforms only, never layout geometry.
+  // Motion is deliberately restrained: one entrance sequence, then quiet scroll reveals.
   useEffect(() => {
     const root = pageRef.current;
-    if (!root) return;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!root || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const ctx = gsap.context(() => {
-      if (reduced) return;
-      const hero = root.querySelector(".rl-hero");
-      const scene = root.querySelector(".rl-hero-grid");
-      const opening = gsap.timeline({defaults:{ease:"power4.out"},delay:.1});
-      opening
-        .from(".rl-kicker",{y:18,autoAlpha:0,duration:.6})
-        .from(".rl-overline",{y:20,autoAlpha:0,duration:.5},"-=.35")
-        .from(".rl-hero h1",{y:52,autoAlpha:0,filter:"blur(12px)",duration:1.05},"-=.2")
-        .from(".rl-hero-subtitle,.rl-hero-description",{y:18,autoAlpha:0,stagger:.12,duration:.65},"-=.45")
-        .from(".rl-hero-actions>*",{y:14,autoAlpha:0,stagger:.1,duration:.55},"-=.3")
-        .from(".rl-hero-facts>*",{y:10,autoAlpha:0,stagger:.06,duration:.4},"-=.2")
-        .fromTo(".rl-pane-main",{clipPath:"inset(14% 18% 14% 18% round 28px)",scale:.82,rotate:-8},{clipPath:"inset(0% 0% 0% 0% round 5px)",scale:1,rotate:0,duration:1.15,ease:"expo.out"},.25)
-        .from(".rl-pane-side",{x:95,y:52,rotate:16,autoAlpha:0,duration:1.05,ease:"back.out(1.2)"},"-=.8")
-        .from(".rl-floating-chip",{scale:.65,autoAlpha:0,y:20,stagger:.14,duration:.65,ease:"back.out(1.7)"},"-=.6")
-        .from(".rl-hero-bottom",{y:12,autoAlpha:0,duration:.45},"-=.2");
-
-      if(hero&&scene){
-        const mm=gsap.matchMedia();
-        mm.add("(min-width: 900px) and (prefers-reduced-motion: no-preference)",()=>{
-          const story=gsap.timeline({scrollTrigger:{trigger:hero,pin:scene,start:"top top+=76",end:"+=700",scrub:1,anticipatePin:1,invalidateOnRefresh:true}});
-          story.to(".rl-hero-copy",{xPercent:-14,autoAlpha:.16,filter:"blur(3px)",ease:"none"},0)
-            .to(".rl-pane-main",{scale:1.1,rotate:1.5,xPercent:-4,ease:"none"},0)
-            .to(".rl-pane-side",{xPercent:120,yPercent:12,rotate:18,autoAlpha:.35,ease:"none"},0)
-            .to(".rl-glass-orb",{scale:1.4,xPercent:-8,yPercent:8,ease:"none"},0)
-            .to(".rl-chip-a",{x:-35,y:-65,rotate:-8,ease:"none"},0)
-            .to(".rl-chip-b",{x:45,y:55,rotate:9,ease:"none"},0)
-            .to(".rl-hero-art",{scale:1.04,xPercent:4,ease:"none"},0);
-          return ()=>story.scrollTrigger?.kill();
-        });
-      }
-      const bento=root.querySelector(".rl-bento");
-      if(bento)gsap.fromTo(gsap.utils.toArray(".rl-bento>article",bento),
-        {y:75,rotateX:-14,rotateY:5,scale:.88,autoAlpha:0},
-        {y:0,rotateX:0,rotateY:0,scale:1,autoAlpha:1,stagger:.12,ease:"power3.out",
-         scrollTrigger:{trigger:bento,start:"top 78%",end:"top 30%",scrub:.85,invalidateOnRefresh:true}});
-      gsap.utils.toArray(".rl-section-eyebrow,.rl-intro-layout,.rl-agenda-heading,.rl-series-heading,.rl-logistics-grid,.rl-outcomes-heading,.rl-outcomes-note,.rl-close .rl-section-wrap>*",root)
-        .forEach((node,i)=>gsap.fromTo(node,{y:26,autoAlpha:0},{y:0,autoAlpha:1,duration:.7,delay:(i%3)*.04,ease:"power3.out",scrollTrigger:{trigger:node,start:"top 88%",toggleActions:"play none none reverse"}}));
-      gsap.utils.toArray(".rl-agenda-item,.rl-series-item",root).forEach((node,i)=>gsap.fromTo(node,{x:i%2?16:-16,autoAlpha:0},{x:0,autoAlpha:1,duration:.5,ease:"power3.out",scrollTrigger:{trigger:node,start:"top 92%",toggleActions:"play none none reverse"}}));
-      gsap.to(".rl-series-orb",{rotate:110,scale:1.1,ease:"none",scrollTrigger:{trigger:".rl-series",start:"top bottom",end:"bottom top",scrub:1}});
-      gsap.to(".rl-close-orb",{yPercent:20,scale:1.12,ease:"none",scrollTrigger:{trigger:".rl-close",start:"top bottom",end:"bottom top",scrub:1}});
-      requestAnimationFrame(()=>ScrollTrigger.refresh());
-    },root);
-    return()=>ctx.revert();
+      const intro = gsap.timeline({ defaults: { ease: "power3.out" } });
+      intro.from(".rl-kicker", { y: 12, autoAlpha: 0, duration: .45 })
+        .from(".rl-overline", { y: 12, autoAlpha: 0, duration: .4 }, "-=.25")
+        .from(".rl-hero h1", { y: 24, autoAlpha: 0, duration: .65 }, "-=.18")
+        .from(".rl-hero-subtitle,.rl-hero-description", { y: 12, autoAlpha: 0, stagger: .08, duration: .45 }, "-=.3")
+        .from(".rl-hero-actions,.rl-hero-facts", { y: 10, autoAlpha: 0, duration: .4 }, "-=.2")
+        .from(".rl-hero-art", { y: 18, autoAlpha: 0, duration: .65 }, "-=.35");
+      gsap.utils.toArray(".rl-section-eyebrow,.rl-intro-layout,.rl-outcomes-heading,.rl-agenda-heading,.rl-series-heading,.rl-logistics-grid,.rl-close .rl-section-wrap>*", root)
+        .forEach(node => gsap.from(node, {
+          y: 16, autoAlpha: 0, duration: .55, ease: "power2.out",
+          scrollTrigger: { trigger: node, start: "top 88%", toggleActions: "play none none none" }
+        }));
+      gsap.from(".rl-bento-story>article", {
+        y: 18, autoAlpha: 0, stagger: .07, duration: .55, ease: "power2.out",
+        scrollTrigger: { trigger: ".rl-bento-story", start: "top 82%", toggleActions: "play none none none" }
+      });
+      requestAnimationFrame(() => ScrollTrigger.refresh());
+    }, root);
+    return () => ctx.revert();
   }, []);
 
   useEffect(() => {
-    const root=pageRef.current, stage=root?.querySelector(".rl-outcome-stage");
-    if(!stage||window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-    const ctx=gsap.context(()=>{
-      gsap.fromTo(".rl-stage-content>*",{y:20,autoAlpha:0},{y:0,autoAlpha:1,duration:.52,stagger:.065,ease:"power3.out"});
-      gsap.fromTo(".rl-stage-core",{scale:.68,rotate:-18},{scale:1,rotate:0,duration:.75,ease:"back.out(1.5)"});
-      gsap.fromTo(".rl-stage-float",{scale:.5,autoAlpha:0,y:18},{scale:1,autoAlpha:1,y:0,duration:.58,stagger:.1,ease:"back.out(1.7)"});
-    },stage);return()=>ctx.revert();
-  },[activeOutcome]);
+    const stage = pageRef.current?.querySelector(".rl-outcome-stage");
+    if (!stage) return;
+    stage.classList.remove("rl-stage-updated");
+    // Force a single animation restart after the selected milestone changes.
+    void stage.offsetWidth;
+    stage.classList.add("rl-stage-updated");
+  }, [activeOutcome]);
 
   useEffect(() => {
     const root = pageRef.current;
@@ -152,19 +125,6 @@ export default function ReactLaunchpadPage() {
     return () => { window.removeEventListener("scroll", onScroll); if (frame) cancelAnimationFrame(frame); };
   }, []);
   useEffect(() => {
-    const art = heroArtRef.current;
-    if (!art || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const onMove = event => {
-      const rect = art.getBoundingClientRect();
-      art.style.setProperty("--rl-pointer-x", ((event.clientX - rect.left) / rect.width - 0.5) * 10 + "px");
-      art.style.setProperty("--rl-pointer-y", ((event.clientY - rect.top) / rect.height - 0.5) * 10 + "px");
-    };
-    const onLeave = () => { art.style.setProperty("--rl-pointer-x", "0px"); art.style.setProperty("--rl-pointer-y", "0px"); };
-    art.addEventListener("pointermove", onMove, { passive: true });
-    art.addEventListener("pointerleave", onLeave);
-    return () => { art.removeEventListener("pointermove", onMove); art.removeEventListener("pointerleave", onLeave); };
-  }, []);
-  useEffect(() => {
     const root = pageRef.current;
     if (!root || !("IntersectionObserver" in window)) return;
     const links = [...root.querySelectorAll(".rl-header nav a[href^='#']")];
@@ -177,28 +137,6 @@ export default function ReactLaunchpadPage() {
     }, { rootMargin: "-22% 0px -68% 0px", threshold: 0 });
     sections.forEach(section => observer.observe(section));
     return () => observer.disconnect();
-  }, []);
-  useEffect(() => {
-    const root = pageRef.current;
-    if (!root || window.matchMedia("(hover: none), (prefers-reduced-motion: reduce)").matches) return;
-    const cards = [...root.querySelectorAll(".rl-tilt-card")];
-    const cleanups = cards.map(card => {
-      const move = event => {
-        const rect = card.getBoundingClientRect();
-        const x = (event.clientX - rect.left) / rect.width - .5;
-        const y = (event.clientY - rect.top) / rect.height - .5;
-        card.style.setProperty("--rl-tilt-x", (x * 3.5) + "deg");
-        card.style.setProperty("--rl-tilt-y", (-y * 3.5) + "deg");
-      };
-      const reset = () => {
-        card.style.setProperty("--rl-tilt-x", "0deg");
-        card.style.setProperty("--rl-tilt-y", "0deg");
-      };
-      card.addEventListener("pointermove", move, { passive: true });
-      card.addEventListener("pointerleave", reset);
-      return () => { card.removeEventListener("pointermove", move); card.removeEventListener("pointerleave", reset); };
-    });
-    return () => cleanups.forEach(cleanup => cleanup());
   }, []);
   return <div className="react-launchpad-page" ref={pageRef}>
     <div className="rl-scroll-progress" ref={progressRef} aria-hidden="true"/>
@@ -217,7 +155,7 @@ export default function ReactLaunchpadPage() {
               <div className="rl-hero-actions"><a className="rl-button-primary" href="#outcomes">Explore the workshop <ArrowUpRight size={16}/></a><a className="rl-text-cta" href="#agenda">See the session <ArrowDown size={15}/></a></div>
               <div className="rl-hero-facts"><span><b>180</b> minutes</span><i/><span><b>01</b> product</span><i/><span><b>Zero</b> React required</span></div>
             </div>
-            <div className="rl-hero-art" ref={heroArtRef}>
+            <div className="rl-hero-art">
               <div className="rl-gradient-pane rl-pane-main"><span className="rl-pane-no">01 / MAKE</span><div className="rl-glass-orb"/><div className="rl-pane-caption"><b>BuildBoard</b><span>Ideas into action.</span></div></div>
               <div className="rl-gradient-pane rl-pane-side"><span>02 / MOVE</span><div className="rl-side-streak"/></div>
               <div className="rl-floating-chip rl-chip-a"><Sparkles size={14}/> Learn by building</div><div className="rl-floating-chip rl-chip-b"><Zap size={14}/> React foundations</div>
@@ -265,7 +203,7 @@ export default function ReactLaunchpadPage() {
           <div className="rl-agenda-heading"><h2>A clear path<br/><em>to the build.</em></h2><p>Open any session stop to see what happens inside that block.</p></div>
           <div className="rl-agenda-layout">
             <div className="rl-agenda-list">{agenda.map((item,index)=><button key={item.time} className={activeAgenda===index?"rl-agenda-item is-active":"rl-agenda-item"} onClick={()=>setActiveAgenda(index)}><span className="rl-agenda-time">{item.time}</span><span className="rl-agenda-title">{item.title}</span><span className="rl-agenda-duration">{item.duration}</span><ChevronDown size={15}/></button>)}</div>
-            <article className="rl-agenda-detail"><span>SESSION BLOCK / {String(activeAgenda+1).padStart(2,"0")}</span><div className="rl-agenda-detail-time">{agenda[activeAgenda].time}</div><h3>{agenda[activeAgenda].title}</h3><p>{agenda[activeAgenda].detail}</p><div className="rl-agenda-progress"><i style={{width:`${((activeAgenda+1)/agenda.length)*100}%`}}/></div><div className="rl-agenda-detail-foot"><span>WORKSHOP 01</span><span>{agenda[activeAgenda].duration}</span></div></article>
+            <article className="rl-agenda-detail" key={activeAgenda}><span>SESSION BLOCK / {String(activeAgenda+1).padStart(2,"0")}</span><div className="rl-agenda-detail-time">{agenda[activeAgenda].time}</div><h3>{agenda[activeAgenda].title}</h3><p>{agenda[activeAgenda].detail}</p><div className="rl-agenda-progress"><i style={{width:`${((activeAgenda+1)/agenda.length)*100}%`}}/></div><div className="rl-agenda-detail-foot"><span>WORKSHOP 01</span><span>{agenda[activeAgenda].duration}</span></div></article>
           </div>
         </div>
       </section>
@@ -276,7 +214,7 @@ export default function ReactLaunchpadPage() {
           <div className="rl-series-heading"><h2>Start with a board.<br/><em>Grow into a product.</em></h2><p>BuildBoard evolves as the workshops progress. Each session is a milestone, not a prerequisite trap.</p></div>
           <div className="rl-series-layout">
             <div className="rl-series-list">{series.map((item,index)=><button key={item[0]} className={expandedSeries===index?"rl-series-item is-active":"rl-series-item"} onClick={()=>setExpandedSeries(index)}><span>{item[0]}</span><b>{item[1]}</b>{item[3]&&<i>{item[3]}</i>}<ArrowUpRight size={16}/></button>)}</div>
-            <article className="rl-series-detail"><div className="rl-series-orb">0{expandedSeries+1}</div><span>THE NEXT MILESTONE</span><h3>{series[expandedSeries][1]}</h3><p>{series[expandedSeries][2]}</p><div>RVS REACT LAUNCHPAD <i>·</i> WORKSHOP SERIES</div></article>
+            <article className="rl-series-detail" key={expandedSeries}><div className="rl-series-orb">0{expandedSeries+1}</div><span>THE NEXT MILESTONE</span><h3>{series[expandedSeries][1]}</h3><p>{series[expandedSeries][2]}</p><div>RVS REACT LAUNCHPAD <i>·</i> WORKSHOP SERIES</div></article>
           </div>
         </div>
       </section>
