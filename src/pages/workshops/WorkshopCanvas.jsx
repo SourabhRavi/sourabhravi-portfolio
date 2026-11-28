@@ -127,6 +127,40 @@ export default function WorkshopCanvas() {
       gsap.to(".wc-hero-orbit span:nth-child(2)", { scale: 1.35, duration: 2.3, ease: "sine.inOut", yoyo: true, repeat: -1 });
       gsap.to(".wc-hero-orbit span:nth-child(3)", { scale: 1.7, duration: 1.5, ease: "sine.inOut", yoyo: true, repeat: -1 });
       gsap.to(".wc-hero-art", { y: -24, ease: "none", scrollTrigger: { trigger: ".wc-hero", start: "top top", end: "bottom top", scrub: 1 } });
+
+      // A single, coherent action → state → render sequence in the intro.
+      const introScene = root.current.querySelector(".wc-intro-scene");
+      if (introScene) {
+        const introFlow = introScene.querySelector(".wc-intro-flow");
+        gsap.fromTo(introScene, { y: 42, rotateX: 3, autoAlpha: 0 }, {
+          y: 0, rotateX: 0, autoAlpha: 1, ease: "power3.out",
+          scrollTrigger: { trigger: introScene, start: "top 82%", end: "top 42%", scrub: 0.7 }
+        });
+        gsap.fromTo(introScene.querySelectorAll(".wc-intro-action, .wc-intro-state"), { y: 18, autoAlpha: 0 }, {
+          y: 0, autoAlpha: 1, stagger: 0.14, ease: "power2.out",
+          scrollTrigger: { trigger: introScene, start: "top 78%", end: "top 45%", scrub: 0.6 }
+        });
+        if (introFlow) gsap.fromTo(introFlow, { scaleX: 0 }, {
+          scaleX: 1, transformOrigin: "left center", ease: "none",
+          scrollTrigger: { trigger: introScene, start: "top 72%", end: "top 35%", scrub: 0.5 }
+        });
+      }
+
+      // Keep the BuildBoard grid atmospheric: only the decorative layer drifts.
+      gsap.to(".wc-build-grid", {
+        yPercent: 16, ease: "none",
+        scrollTrigger: { trigger: ".wc-build", start: "top bottom", end: "bottom top", scrub: 0.8 }
+      });
+
+      // Progress follows the concepts and the agenda, not the content cards themselves.
+      gsap.fromTo(".wc-concept-progress i", { scaleY: 0 }, {
+        scaleY: 1, transformOrigin: "top center", ease: "none",
+        scrollTrigger: { trigger: ".wc-concept-grid", start: "top 70%", end: "bottom 45%", scrub: 0.65 }
+      });
+      gsap.fromTo(".wc-agenda-progress i", { scaleY: 0 }, {
+        scaleY: 1, transformOrigin: "top center", ease: "none",
+        scrollTrigger: { trigger: ".wc-timeline", start: "top 72%", end: "bottom 40%", scrub: 0.7 }
+      });
     }, root);
     return () => context.revert();
   }, [reducedMotion]);
@@ -165,11 +199,20 @@ export default function WorkshopCanvas() {
         <div className="wc-hero-bottom"><span>SCROLL TO GET THE BLUEPRINT</span><span>↓</span><span>BUILT FOR CURIOUS BTECH STUDENTS</span></div>
       </section>
 
-      <section className="wc-intro wc-reveal-group">
+      <section className="wc-intro wc-reveal-group" id="why-react">
         <div className="wc-intro-side"><SectionStamp number="01" label="THE WHY"/><span>LESS WATCHING.<br/>MORE BUILDING.</span></div>
-        <h2 className="wc-reveal">React clicks when<br/>you <em>make it move.</em></h2>
-        <p className="wc-reveal">You already know the web can do more than display a page. In this workshop, you'll make a small product respond to people: add work, change its state, find tasks, and keep your progress after refresh.</p>
-        <div className="wc-intro-badge wc-reveal"><span>THE TAKEAWAY</span><b>A working project.<br/>A clearer mental model.</b><i>✳</i></div>
+        <div className="wc-intro-copy">
+          <h2 className="wc-reveal">React clicks when<br/>you <em>make it move.</em></h2>
+          <p className="wc-reveal">You already know the web can do more than display a page. Here, a small product responds to people: add work, change its state, find tasks, and keep progress after refresh.</p>
+          <div className="wc-intro-badge wc-reveal"><span>THE TAKEAWAY</span><b>A working project.<br/>A clearer mental model.</b><i>✳</i></div>
+        </div>
+        <div className="wc-intro-scene" aria-label="A visual sequence from user action to interface update">
+          <div className="wc-intro-scene-head"><span>ONE CLICK</span><span>→</span><span>NEW STATE</span></div>
+          <div className="wc-intro-flow" aria-hidden="true"><i/><i/><i/></div>
+          <div className="wc-intro-action"><span className="wc-intro-action-icon">＋</span><div><b>Add a task</b><small>USER ACTION</small></div><span className="wc-intro-arrow">↗</span></div>
+          <div className="wc-intro-state"><div className="wc-intro-state-top"><span><i/> BOARD UPDATED</span><b>01</b></div><div className="wc-intro-task"><i/><span>Build my first component</span><b>TO DO</b></div><div className="wc-intro-state-foot"><span>STATE</span><span className="wc-intro-state-line"/><span>RENDER</span></div></div>
+          <p className="wc-intro-scene-caption">A small interaction. A real React mental model.</p>
+        </div>
       </section>
 
       <section className="wc-build" id="build">
@@ -185,6 +228,7 @@ export default function WorkshopCanvas() {
       <section className="wc-outcomes wc-reveal-group">
         <div className="wc-outcomes-heading"><SectionStamp number="03" label="WHAT YOU LEARN" light/><h2 className="wc-reveal">Concepts you'll<br/><em>actually use.</em></h2><p className="wc-reveal">No slide-deck marathon. Each concept appears because the product needs it, then you use it straight away.</p></div>
         <div className="wc-concept-grid">
+          <div className="wc-concept-progress" aria-hidden="true"><i/></div>
           {[["01","JSX + components","Turn a screen into reusable pieces."],["02","Props + composition","Pass data and build UI from parts."],["03","State + events","Make the interface react to actions."],["04","Controlled forms","Handle user input properly."],["05","Lists + keys","Render changing collections reliably."],["06","Derived state","Search and filter without duplicating data."],["07","localStorage","Keep the board after a refresh."]].map(([n,title,body])=><article className="wc-concept wc-reveal" key={n}><span>{n}</span><div><h3>{title}</h3><p>{body}</p></div><ArrowUpRight size={17}/></article>)}
         </div>
       </section>
@@ -192,6 +236,7 @@ export default function WorkshopCanvas() {
       <section className="wc-agenda" id="workshop">
         <div className="wc-agenda-head wc-reveal-group"><SectionStamp number="04" label="THE SESSION"/><h2 className="wc-line-reveal">180 minutes.<br/><em>One big leap.</em></h2><p>A paced, checkpoint-based session. You'll have time to understand, build, reset and show what you made.</p><div className="wc-agenda-total"><b>03:00</b><span>HOURS TOTAL<br/>INCLUDING A SHORT BREAK</span></div></div>
         <div className="wc-timeline">
+          <div className="wc-agenda-progress" aria-hidden="true"><i/></div>
           {[["00:00","00:15","Meet the product","See the finished board. Understand the goal before opening the editor."],["00:15","00:40","Components, JSX + props","Build the first pieces and connect them."],["00:40","01:05","State + events","Make the board respond to clicks and changes."],["01:05","01:15","Reset break","Ten minutes away from the screen."],["01:15","01:45","Forms + task flow","Create tasks and wire up user input."],["01:45","02:10","Search + derived state","Filter the board without duplicating state."],["02:10","02:35","Save it with localStorage","Refresh without losing the work."],["02:35","02:50","Mini challenge","Add a small feature of your own."],["02:50","03:00","Demo + recap","Share the build and connect the dots."]].map(([start,end,title,detail],i)=><article className="wc-time-row wc-reveal" key={start}><span className="wc-time">{start}<small>– {end}</small></span><span className="wc-time-node">{i===3?<span>Ⅱ</span>:String(i+1).padStart(2,"0")}</span><div><h3>{title}</h3><p>{detail}</p></div><span className="wc-time-duration">{i===3?"BREAK":i===8?"WRAP":"BUILD"}</span></article>)}
         </div>
       </section>
