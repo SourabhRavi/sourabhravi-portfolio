@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import React from "react";
+import WorkshopCanvas from "./pages/workshops/WorkshopCanvas.jsx";
 import {
   ArrowDownRight,
   ArrowRight,
@@ -107,6 +108,11 @@ function Header() {
             {label}
           </a>
         ))}
+        <a
+          href="/workshops/react-launchpad"
+          onClick={() => setOpen(false)}>
+          Workshops
+        </a>
         <a className="nav-cta" href="#contact" onClick={() => setOpen(false)}>
           Let's talk <ArrowUpRight size={15} />
         </a>
@@ -306,7 +312,7 @@ function ContactLinks() {
   );
 }
 
-export default function App() {
+function PortfolioApp() {
   const rootRef = useRef(null);
   usePortfolioMotion(rootRef);
 
@@ -889,4 +895,10 @@ export default function App() {
       </footer>
     </div>
   );
+}
+
+
+export default function App() {
+  if (window.location.pathname === "/workshops/react-launchpad" || window.location.pathname === "/workshops/react-launchpad/") return <WorkshopCanvas />;
+  return <PortfolioApp />;
 }
