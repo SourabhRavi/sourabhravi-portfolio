@@ -146,3 +146,83 @@
  .wc-board-feedback{gap:7px}
  .wc-board-count{white-space:normal;text-align:right;max-width:78px}
 }
+
+
+/* Purposeful section motion + BuildBoard's quiet blueprint grid */
+.wc-intro{grid-template-columns:.48fr 1fr 1fr;gap:clamp(22px,3.5vw,54px);align-items:center;overflow:hidden}
+.wc-intro-copy{min-width:0;position:relative;z-index:1}
+.wc-intro-copy h2{max-width:650px}
+.wc-intro-copy>p{max-width:440px}
+.wc-intro-copy .wc-intro-badge{grid-column:auto;justify-self:start;margin-top:30px;min-width:min(255px,100%)}
+.wc-intro-scene{position:relative;min-width:0;padding:clamp(20px,2.6vw,34px);border:1px solid #d9dcef;border-radius:18px;background:linear-gradient(145deg,#fbfbff 0%,#f1f0ff 58%,#eef8f5 100%);box-shadow:0 24px 60px #333b7010;perspective:900px;transform-origin:center;will-change:transform,opacity}
+.wc-intro-scene:before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(circle at 15% 15%,#c9c2ff50,transparent 38%),radial-gradient(circle at 90% 90%,#9fe5d333,transparent 36%)}
+.wc-intro-scene-head,.wc-intro-state-top,.wc-intro-state-foot{position:relative;display:flex;align-items:center;justify-content:space-between;gap:12px;font:8px var(--mono);letter-spacing:.07em;color:#777f96}
+.wc-intro-scene-head span:nth-child(2){color:#8371f5;font-size:15px}
+.wc-intro-flow{position:relative;display:flex;align-items:center;gap:0;height:23px;margin:17px 0 13px;transform-origin:left center}
+.wc-intro-flow:before{content:"";height:1px;position:absolute;left:5px;right:5px;background:linear-gradient(90deg,#8b7af4,#72cdb7)}
+.wc-intro-flow i{position:relative;width:7px;height:7px;border:2px solid #8c7cf4;background:#f7f7ff;border-radius:50%;z-index:1}
+.wc-intro-flow i:nth-child(2){margin:auto;border-color:#75cbb5}
+.wc-intro-flow i:last-child{border-color:#75cbb5}
+.wc-intro-action{position:relative;display:flex;align-items:center;gap:12px;padding:15px 14px;background:#fff;border:1px solid #e8e7f4;border-radius:11px;box-shadow:0 9px 22px #333b700a}
+.wc-intro-action-icon{display:grid;place-items:center;width:31px;height:31px;border-radius:9px;background:#eeeaff;color:#7968e9;font:21px var(--body)}
+.wc-intro-action div{display:grid;gap:4px;min-width:0}
+.wc-intro-action b{font:600 12px var(--display);color:#25283a}
+.wc-intro-action small{font:7px var(--mono);letter-spacing:.06em;color:#9298a9}
+.wc-intro-arrow{margin-left:auto;color:#8b7af4;font-size:15px}
+.wc-intro-state{position:relative;margin:12px 0 0 18px;padding:13px;background:#ffffffc9;border:1px solid #e1e6f0;border-radius:10px;box-shadow:0 12px 28px #333b7009}
+.wc-intro-state-top{font-size:7px}
+.wc-intro-state-top span{display:flex;align-items:center;gap:6px;color:#4d9e86}
+.wc-intro-state-top i{width:5px;height:5px;border-radius:50%;background:#6bc6a7}
+.wc-intro-state-top>b{color:#a0a5b4;font-weight:400}
+.wc-intro-task{display:flex;align-items:center;gap:8px;padding:11px 0 9px;font:9px var(--body);color:#4c5368}
+.wc-intro-task>i{width:6px;height:6px;border-radius:2px;background:#8d7cf4;flex-shrink:0}
+.wc-intro-task>b{margin-left:auto;padding:5px 6px;border-radius:4px;background:#f0edff;color:#7968e9;font:6px var(--mono);white-space:nowrap}
+.wc-intro-state-foot{padding-top:9px;border-top:1px solid #eceef4;font-size:7px}
+.wc-intro-state-line{height:2px;flex:1;background:linear-gradient(90deg,#8c7cf4 70%,#d5d9e9 70%)}
+.wc-intro-scene-caption{position:relative;margin:16px 0 0;font:8px var(--mono);color:#7c8497;letter-spacing:.025em}
+.wc-build{position:relative;isolation:isolate;overflow:hidden}
+.wc-build-grid{position:absolute;inset:-12% -4%;z-index:-1;pointer-events:none;opacity:.32;background-image:linear-gradient(to right,#a4a6a0 1px,transparent 1px),linear-gradient(to bottom,#a4a6a0 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(180deg,transparent 0%,#000 13%,#000 84%,transparent 100%);will-change:transform}
+.wc-build:after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 65% 35%,#f7f5edb8,transparent 58%)}
+.wc-build-head,.wc-demo-wrap,.wc-build-bottom{position:relative;z-index:1}
+.wc-build-title h2 em{display:inline-block;text-shadow:0 7px 28px #5368f21a}
+.wc-demo-wrap{transition:box-shadow .35s ease,border-color .35s ease}
+.wc-demo-wrap:hover{box-shadow:14px 14px 0 #c9c7bd;border-color:#b8b9c7}
+.wc-concept-grid{position:relative;padding-left:20px}
+.wc-concept-progress{position:absolute;top:0;bottom:0;left:0;width:2px;background:#ffffff25;overflow:hidden}
+.wc-concept-progress i{display:block;width:100%;height:100%;background:var(--acid);transform:scaleY(0);transform-origin:top}
+.wc-concept{transition:background .25s ease,padding .25s ease}
+.wc-concept:hover{background:#ffffff0b;padding-left:22px}
+.wc-timeline{position:relative}
+.wc-agenda-progress{position:absolute;top:10px;bottom:14px;left:calc(100px + 14px);width:2px;background:#dfe1e7;overflow:hidden;pointer-events:none}
+.wc-agenda-progress i{display:block;width:100%;height:100%;background:var(--blue);transform:scaleY(0);transform-origin:top}
+.wc-time-node{position:relative;z-index:1;background:var(--white)}
+.wc-time-row{transition:background .25s ease}
+.wc-time-row:hover{background:#f7f8fb}
+.wc-next-path>div{transition:transform .25s ease,color .25s ease}
+.wc-next-path>div:hover{transform:translateY(-4px)}
+@media(max-width:1050px){
+ .wc-intro{grid-template-columns:.5fr 1fr 1fr;gap:24px}
+ .wc-intro-scene{padding:20px}
+ .wc-intro-state{margin-left:8px}
+ .wc-agenda-progress{left:calc(88px + 14px)}
+}
+@media(max-width:720px){
+ .wc-intro{grid-template-columns:1fr;gap:25px;align-items:start}
+ .wc-intro-copy{display:contents}
+ .wc-intro-copy h2{order:2}
+ .wc-intro-copy>p{order:3}
+ .wc-intro-copy .wc-intro-badge{order:5;margin-top:0}
+ .wc-intro-scene{order:4;width:100%;max-width:520px;margin:0 auto;padding:23px}
+ .wc-intro-scene-head{font-size:8px}
+ .wc-intro-action{padding:14px}
+ .wc-intro-state{margin-left:18px}
+ .wc-intro-scene-caption{font-size:8px}
+ .wc-build-grid{background-size:30px 30px;opacity:.24}
+ .wc-concept-grid{padding-left:14px}
+ .wc-concept:hover{padding-left:17px}
+ .wc-agenda-progress{left:calc(57px + 10px)}
+}
+@media(prefers-reduced-motion:reduce){
+ .wc-intro-scene,.wc-demo-wrap,.wc-concept,.wc-time-row,.wc-next-path>div{transition:none!important;will-change:auto}
+ .wc-build-grid{transform:none!important}
+}
