@@ -186,6 +186,47 @@ export default function ReactLaunchpadPage() {
           };
         });
       }
+      // BuildBoard cards resolve into a connected composition as the section enters.
+      const buildSection = root.querySelector(".rl-intro");
+      const buildCards = gsap.utils.toArray(".rl-bento-story > article", root);
+      if (buildSection && buildCards.length && window.matchMedia("(min-width: 761px)").matches) {
+        const buildFlow = gsap.timeline({ scrollTrigger: {
+          trigger: buildSection, start: "top 68%", end: "bottom 52%",
+          scrub: .9, invalidateOnRefresh: true
+        }});
+        buildFlow
+          .fromTo(".rl-intro-layout h2", { x: -24, autoAlpha: .55 }, { x: 0, autoAlpha: 1, ease: "none" }, 0)
+          .fromTo(".rl-intro-layout > div", { x: 20, autoAlpha: .55 }, { x: 0, autoAlpha: 1, ease: "none" }, 0)
+          .fromTo(".rl-story-controls", { y: 18, autoAlpha: .5 }, { y: 0, autoAlpha: 1, ease: "none" }, .12);
+      }
+
+      // Agenda rows enter in a measured sequence; a progress spine tracks scroll.
+      const agendaSection = root.querySelector(".rl-agenda");
+      const agendaRows = gsap.utils.toArray(".rl-agenda-item", root);
+      if (agendaSection && agendaRows.length) {
+        gsap.fromTo(agendaRows, { x: -16, autoAlpha: .35 }, {
+          x: 0, autoAlpha: 1, stagger: .05, duration: .58, ease: "power2.out",
+          scrollTrigger: { trigger: agendaSection, start: "top 72%", once: true }
+        });
+        const agendaList = root.querySelector(".rl-agenda-list");
+        if (agendaList) gsap.fromTo(agendaList, { "--rl-agenda-reveal": 0 }, {
+          "--rl-agenda-reveal": 1, ease: "none",
+          scrollTrigger: { trigger: agendaSection, start: "top 68%", end: "bottom 62%", scrub: .7 }
+        });
+        gsap.fromTo(".rl-agenda-detail", { y: 22, scale: .99, autoAlpha: 0 }, {
+          y: 0, scale: 1, autoAlpha: 1, duration: .7, ease: "power3.out",
+          scrollTrigger: { trigger: agendaSection, start: "top 70%", once: true }
+        });
+      }
+
+      // The roadmap arrives as one calm wave, then remains still for reading.
+      const roadmap = root.querySelector(".rl-series");
+      const roadmapItems = gsap.utils.toArray(".rl-series-item", root);
+      if (roadmap && roadmapItems.length) gsap.fromTo(roadmapItems, { y: 18, autoAlpha: .4 }, {
+        y: 0, autoAlpha: 1, stagger: .065, duration: .58, ease: "power2.out",
+        scrollTrigger: { trigger: roadmap, start: "top 76%", once: true }
+      });
+
       requestAnimationFrame(() => ScrollTrigger.refresh());
     }, root);
     return () => {
@@ -193,6 +234,16 @@ export default function ReactLaunchpadPage() {
       ctx.revert();
     };
   }, []);
+
+  // Animate only the agenda detail that changed. Keep the parent panel fixed.
+  useEffect(() => {
+    const detail = pageRef.current?.querySelector(".rl-agenda-detail-content");
+    if (!detail || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    gsap.fromTo(detail, { y: 10, autoAlpha: 0, filter: "blur(2px)" }, {
+      y: 0, autoAlpha: 1, filter: "blur(0px)", duration: .3, ease: "power2.out", clearProps: "filter"
+    });
+    return () => gsap.killTweensOf(detail);
+  }, [activeAgenda]);
 
   // The milestone artwork is driven by its selected scene class. Avoid
   // restarting an animation on every hidden artwork layer.
