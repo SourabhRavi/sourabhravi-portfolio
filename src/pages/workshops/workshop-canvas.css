@@ -226,3 +226,9 @@
  .wc-intro-scene,.wc-demo-wrap,.wc-concept,.wc-time-row,.wc-next-path>div{transition:none!important;will-change:auto}
  .wc-build-grid{transform:none!important}
 }
+
+/* Mobile keeps the copy as one semantic block; no grid auto-placement surprises. */
+@media(max-width:720px){
+ .wc-intro-copy{display:block}
+ .wc-intro-copy h2,.wc-intro-copy>p,.wc-intro-copy .wc-intro-badge{order:initial}
+}
