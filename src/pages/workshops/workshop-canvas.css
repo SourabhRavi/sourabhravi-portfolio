@@ -232,3 +232,8 @@
  .wc-intro-copy{display:block}
  .wc-intro-copy h2,.wc-intro-copy>p,.wc-intro-copy .wc-intro-badge{order:initial}
 }
+
+/* Align the scrubbed agenda rail exactly through the numbered timeline nodes. */
+.wc-agenda-progress{left:calc(75px + 16px + 11px)}
+@media(max-width:1050px){.wc-agenda-progress{left:calc(75px + 16px + 11px)}}
+@media(max-width:720px){.wc-agenda-progress{left:calc(57px + 10px + 10px)}}
