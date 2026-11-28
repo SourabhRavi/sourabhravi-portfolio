@@ -216,6 +216,7 @@ export default function WorkshopCanvas() {
       </section>
 
       <section className="wc-build" id="build">
+        <div className="wc-build-grid" aria-hidden="true"/>
         <div className="wc-build-head wc-reveal-group">
           <SectionStamp number="02" label="THE BUILD"/>
           <div className="wc-build-title"><span className="wc-overline">MEET YOUR WORKSHOP PROJECT</span><h2 className="wc-line-reveal">This is <em>BuildBoard.</em></h2><p>A project board inspired by the tools real teams use. Familiar enough to understand. Rich enough to teach you React.</p></div>
